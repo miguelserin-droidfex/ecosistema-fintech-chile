@@ -1,0 +1,37 @@
+name: Actualizar Radar Fintech Chile
+
+on:
+  schedule:
+    - cron: '0 12 15 * *'  # 15 de cada mes a las 12:00 UTC (9:00 AM Chile)
+  workflow_dispatch:        # También se puede correr manualmente
+
+jobs:
+  actualizar-radar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install anthropic requests
+
+      - name: Correr actualización de radar
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/actualizar_radar.py
+
+      - name: Commit y push de nuevos scores
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scores.json
+          git diff --staged --quiet || git commit -m "Radar actualizado automaticamente - $(date +'%B %Y')"
+          git push
