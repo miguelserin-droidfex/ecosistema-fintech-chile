@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecosistema Financiero Chile · Abril 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --fg:#0f1a0f;
+  --fg2:#3a4a3a;
+  --fg3:#7a8a7a;
+  --fg4:#b0bcb0;
+  --bg:#ffffff;
+  --bg2:#f6f8f5;
+  --bg3:#edf0ea;
+  --bg4:#e0e8dc;
+  --green:#2d9e26;
+  --green-d:#1f7219;
+  --green-l:#4ac243;
+  --green-x:#e6f5e4;
+  --green-xx:#f0faf0;
+  --border:#dde8d8;
+  --border2:#c8d8c4;
+  --color-background-primary:#ffffff;
+  --color-background-secondary:#f6f8f5;
+  --color-text-primary:#0f1a0f;
+  --color-text-secondary:#3a4a3a;
+  --color-text-tertiary:#7a8a7a;
+  --color-border-tertiary:#dde8d8;
+  --color-border-secondary:#c8d8c4;
+  --border-radius-lg:8px;
+  --border-radius-md:5px;
+  --font-body:'Inter',system-ui,-apple-system,sans-serif;
+}
+@media(prefers-color-scheme:dark){:root{
+  --color-background-primary:#0d1a0d;
+  --color-background-secondary:#142014;
+  --color-background-accent:#1a2e1a;
+  --color-text-primary:#e8f5e8;
+  --color-text-secondary:#a8c8a8;
+  --color-text-tertiary:#5a8a5a;
+  --color-border-tertiary:#1e3a1e;
+  --color-border-secondary:#2a4a2a;
+  --color-accent:#54d949;
+  --color-accent-light:#40c035;
+}}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#fff;color:var(--fg);line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}
+.page-wrap{max-width:1280px;margin:0 auto;padding:1.25rem 1.5rem 4rem}
+input,select,textarea,button{font-family:inherit}
+.wrap{padding:.75rem 0}
+.dash-header{
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px 20px;
+  margin-bottom:1.5rem;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  background:#fff;
+}
+.dash-title{font-size:13px;font-weight:700;color:var(--fg);letter-spacing:-.1px}.dash-sub{font-size:10px;color:var(--fg3);margin-top:3px;letter-spacing:.01em}
+.dash-stats{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.ds{display:flex;flex-direction:column;align-items:center}
+.ds-n{font-size:24px;font-weight:800;line-height:1;color:var(--green)}.ds-l{font-size:9px;font-weight:600;color:var(--fg3);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+.ds-div{width:1px;height:30px;background:var(--border)}
+.top-nav{display:flex;margin-bottom:1.5rem;border-bottom:2px solid var(--bg3);flex-wrap:wrap}
+.tn{font-size:12px;font-weight:600;padding:10px 16px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--fg3);cursor:pointer;margin-bottom:-2px;white-space:nowrap;transition:color .15s,border-color .15s}
+.tn:hover{color:var(--fg)}.tn.active{color:var(--green);font-weight:800;border-bottom-color:var(--green)}
+.section{display:none}.section.active{display:block}
+.seg-nav{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1rem}
+.sb{font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--border);background:#fff;color:var(--fg2);cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;transition:all .1s}
+.sb .cnt{font-size:9px;padding:1px 5px;border-radius:99px;font-weight:500}.sb.active{font-weight:600}.sb:hover{background:var(--bg2)}
+.mbar{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:1rem;padding:10px 14px;background:var(--bg2);border-radius:8px;border:1px solid var(--border)}
+.sw{flex:1;min-width:120px}.sw input{width:100%;font-size:12px;font-weight:500;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--fg);outline:none;transition:border-color .12s}
+.sw input:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green-x)}
+.frow{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.fp{font-size:11px;padding:3px 9px;border-radius:99px;border:1px solid var(--border);background:#fff;color:var(--fg2);cursor:pointer;white-space:nowrap;transition:all .1s}
+.fp:hover{background:var(--bg2)}.fp.active{font-weight:600}
+.rb{font-size:11px;padding:3px 9px;border-radius:99px;border:1px solid var(--border);background:#fff;color:var(--fg3);cursor:pointer}
+.rb:hover{color:var(--fg)}
+.sep{font-size:10px;color:var(--fg3);padding:0 2px}
+.sfw{position:relative;display:inline-block}
+.sfb{font-size:11px;padding:3px 9px;border-radius:99px;border:1px solid var(--border);background:#fff;color:var(--fg2);cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.sfb.ha{font-weight:600;border-color:var(--green-d);color:var(--green-d)}
+.chv{display:inline-block;width:0;height:0;border-left:3px solid transparent;border-right:3px solid transparent;border-top:3px solid currentColor}
+.sdd{display:none;position:absolute;top:calc(100% + 4px);left:0;z-index:300;background:#fff;border:1px solid var(--border);border-radius:var(--border-radius-lg);padding:5px;min-width:220px;max-height:260px;overflow-y:auto;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.sdd.open{display:block}
+.sopt{display:flex;align-items:center;gap:7px;padding:5px 7px;border-radius:var(--border-radius-md);cursor:pointer;font-size:11px}
+.sopt:hover{background:var(--bg2)}.sopt input{width:13px;height:13px;cursor:pointer;accent-color:#378ADD;flex-shrink:0}
+.sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.clrs{font-size:10px;color:var(--fg3);padding:3px 7px;cursor:pointer;border-top:0.5px solid var(--color-border-tertiary);margin-top:3px;display:block;text-align:center}
+.stats-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.stat{background:var(--bg2);border-radius:7px;padding:8px 14px;min-width:60px;border:1px solid var(--border)}
+.stat-n{font-size:20px;font-weight:800;line-height:1;color:var(--green)}.stat-l{font-size:9px;font-weight:600;color:var(--fg3);margin-top:3px;text-transform:uppercase;letter-spacing:.06em}
+.nb{font-size:11px;font-weight:500;color:var(--fg2);background:var(--bg2);padding:10px 14px;margin-bottom:1rem;border-left:3px solid var(--nbc,var(--green));border-radius:0 6px 6px 0}
+.leg{display:flex;gap:10px;flex-wrap:wrap;font-size:10px;color:var(--fg2);margin-bottom:.75rem;align-items:center}
+.ldot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:3px;vertical-align:middle}
+.tw{overflow-x:auto;border-radius:8px;border:1px solid var(--border);overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:8px 12px;font-size:10px;font-weight:700;color:var(--fg3);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;background:var(--bg2);text-transform:uppercase;letter-spacing:.07em}
+th:hover{color:var(--green)}.si{font-size:9px;margin-left:2px;opacity:.35}.th.srt .si{opacity:1}
+td{padding:7px 12px;border-bottom:1px solid var(--border);vertical-align:middle;background:#fff;font-size:12px}
+tr:hover td{background:var(--bg2)}
+.badge{font-size:9px;padding:2px 6px;border-radius:99px;font-weight:500;white-space:nowrap}
+.bl{background:#E1F5EE;color:#085041}.be{background:#EEEDFE;color:#3C3489}.ba{background:#FCEBEB;color:#791F1F}
+.reg-cmf{font-size:9px;padding:2px 5px;border-radius:99px;font-weight:500;background:#EEF4FF;color:#185FA5;white-space:nowrap}
+.reg-uaf{font-size:9px;padding:2px 5px;border-radius:99px;font-weight:500;background:#FFF4E5;color:#633806;white-space:nowrap}
+.reg-no{font-size:10px;color:var(--fg3)}
+.stag{font-size:9px;padding:2px 5px;border-radius:99px;font-weight:500;white-space:nowrap}
+.note{font-size:10px;color:var(--fg3);margin-top:1px}
+.empty{padding:2rem;text-align:center;color:var(--fg3);font-size:12px}
+/* GLOSARIO */
+.glos-layout{display:grid;grid-template-columns:200px 1fr;gap:1rem;align-items:start}
+@media(max-width:600px){.glos-layout{grid-template-columns:1fr}}
+.glos-seg-list{background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;position:sticky;top:1rem}
+.gsl-item{padding:8px 12px;font-size:11px;cursor:pointer;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:7px;transition:background .1s}
+.gsl-item:last-child{border-bottom:none}.gsl-item:hover,.gsl-item.active{background:var(--bg2)}.gsl-item.active{font-weight:600}
+.gsl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.glos-seg-title{font-size:14px;font-weight:600;margin-bottom:5px;display:flex;align-items:center;gap:8px}
+.glos-seg-desc{font-size:11px;color:var(--fg2);line-height:1.6;margin-bottom:1rem}
+.sub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px}
+.sub-card{background:#fff;border:1px solid var(--border);border-radius:7px;padding:12px 14px;border-left:3px solid var(--sc);transition:box-shadow .12s}.sub-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.sub-title{font-size:12px;font-weight:600;margin-bottom:3px}.sub-desc{font-size:11px;color:var(--fg2);line-height:1.5}
+.sub-diff{font-size:10px;color:var(--fg3);margin-top:4px;font-style:italic;line-height:1.4}
+.sub-ex{font-size:10px;color:var(--fg3);margin-top:4px}
+.ex-tag{display:inline-block;font-size:9px;padding:1px 5px;border-radius:99px;margin-right:2px;margin-top:2px;background:var(--bg2);color:var(--fg2)}
+/* RADAR */
+.radar-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:1rem;padding:12px 16px;background:var(--bg2);border-radius:8px;border:1px solid var(--border)}
+.radar-last{font-size:11px;font-weight:700;color:var(--fg)}.radar-src{font-size:10px;color:var(--fg3);margin-top:2px}
+.pulse{width:7px;height:7px;border-radius:50%;background:#1D9E75;animation:rp 2s ease-in-out infinite;flex-shrink:0}
+@keyframes rp{0%,100%{opacity:1}50%{opacity:.3}}
+.rastreos-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:4px 10px;border-radius:6px;background:var(--green-xx);color:var(--green-d);border:1px solid var(--border2);margin-bottom:1rem}
+.bubble-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.sbc{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px 16px;border-left:3px solid var(--sc);transition:border-color .12s,box-shadow .12s}.sbc:hover{box-shadow:0 2px 8px rgba(0,0,0,.06);border-color:var(--border2)}
+.sbc-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px}.sbc-ttl{font-size:12px;font-weight:600;flex:1}
+.sbc-avg{font-size:10px;padding:2px 7px;border-radius:99px;font-weight:500}
+.bl-list{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;padding:2px}
+.bl-wrap{position:relative;display:inline-flex;flex-direction:column;align-items:center;gap:2px}
+.bl-link{display:inline-flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;cursor:pointer}
+.bl-link:hover .bl-circle{transform:scale(1.1)}
+.bl-circle{border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .15s}
+.bl-lbl{font-size:8px;font-weight:500;text-align:center;padding:2px;line-height:1.1;overflow:hidden;word-break:break-word;pointer-events:none}
+.bl-name{font-size:9px;color:var(--fg3);text-align:center;max-width:54px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bl-sc{font-size:8px;font-weight:500;text-align:center}.bl-delta{font-size:9px;text-align:center;line-height:1.2;min-height:12px}
+.bl-tooltip{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);z-index:500;background:#fff;border:1px solid var(--border);border-radius:var(--border-radius-md);padding:8px 10px;font-size:11px;min-width:175px;max-width:230px;box-shadow:0 4px 16px rgba(0,0,0,0.14);white-space:normal;pointer-events:none}
+.bl-wrap:hover .bl-tooltip{display:block}
+.bl-tt-name{font-size:12px;font-weight:600;margin-bottom:3px}
+.bl-tt-bar{display:flex;align-items:center;gap:6px;margin:4px 0}
+.bl-tt-bg{flex:1;height:3px;background:var(--color-border-tertiary);border-radius:2px;overflow:hidden}
+.bl-tt-fill{height:100%;border-radius:2px}
+.bl-tt-news{font-size:10px;color:var(--fg2);border-top:0.5px solid var(--color-border-tertiary);padding-top:4px;margin-top:3px;line-height:1.5}
+.bl-tt-hist{margin-top:6px;border-top:0.5px solid var(--color-border-tertiary);padding-top:5px}
+.bl-tt-hist-title{font-size:9px;color:var(--fg3);margin-bottom:4px;font-weight:500}
+.tt-hbars{display:flex;align-items:flex-end;gap:3px;height:32px}
+.tt-hcol{display:flex;flex-direction:column;align-items:center;gap:1px;flex:1;min-width:0}
+.tt-hval{font-size:7px;font-weight:600;text-align:center}
+.tt-hbar{width:100%;border-radius:2px 2px 0 0;min-height:2px}
+.tt-hdate{font-size:7px;color:var(--fg3);text-align:center;margin-top:2px;white-space:nowrap;max-width:30px;overflow:hidden;text-overflow:ellipsis}
+.bl-tt-cta{font-size:9px;color:#1D9E75;margin-top:4px;font-weight:500}
+.radar-legend{font-size:10px;color:var(--fg3);margin-top:1rem;text-align:right}
+.du{color:var(--green-d);font-weight:700}.dd{color:#c0392b;font-weight:700}.de{color:var(--fg4)}
+/* HISTORIAL */
+.hbar{display:flex;flex-wrap:wrap;gap:7px;align-items:center;padding:8px 12px;background:var(--bg2);border-radius:var(--border-radius-md);margin-bottom:.75rem}
+.hbar .sw{flex:1;min-width:140px}.hbar .sw input{width:100%;font-size:12px;font-weight:500;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--fg);outline:none;transition:border-color .12s}
+.hbar .sw input:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green-x)}
+.hfb{font-size:11px;padding:3px 9px;border-radius:99px;border:1px solid var(--border);background:#fff;color:var(--fg2);cursor:pointer;white-space:nowrap;transition:all .1s}
+.hfb:hover{background:var(--bg2)}.hfb.on{background:#e8f5e8;color:var(--green-d);border-color:var(--green-d);font-weight:600}
+.hsum{font-size:10px;color:var(--fg3);white-space:nowrap}
+.hsegs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.5rem}
+.hsb{font-size:10px;padding:3px 9px;border-radius:99px;border:1px solid var(--border);background:#fff;color:var(--fg2);cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;transition:all .1s}
+.hsb:hover{background:var(--bg2)}.hsb.on{font-weight:600}
+.hsubs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:.75rem}
+.hssb{font-size:10px;padding:2px 8px;border-radius:99px;border:1px solid var(--border);background:#fff;color:var(--fg2);cursor:pointer;white-space:nowrap;transition:all .1s}
+.hssb:hover{background:var(--bg2)}.hssb.on{font-weight:600}
+/* GRÁFICO */
+.hchart-box{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:1.25rem}
+.hchart-hdr{display:flex;align-items:center;gap:8px;margin-bottom:.75rem;flex-wrap:wrap}
+.hchart-title{font-size:12px;font-weight:600;flex:1}
+.hchart-sel-count{font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;background:var(--green-xx);color:var(--green-d);border:1px solid var(--border2)}
+.hchart-actions{display:flex;gap:6px}
+.hchart-btn{font-size:10px;padding:3px 10px;border-radius:99px;border:1px solid var(--border);background:#fff;color:var(--fg3);cursor:pointer;white-space:nowrap;transition:all .1s}
+.hchart-btn:hover{color:var(--fg);background:var(--bg2)}
+.hchart-search-row{display:flex;gap:8px;align-items:center;margin-bottom:.5rem;flex-wrap:wrap}
+.hchart-srch{font-size:11px;padding:5px 8px;border-radius:var(--border-radius-md);border:1px solid var(--border);background:var(--bg2);color:var(--fg);width:220px;outline:none}
+.hchart-srch:focus{border-color:#378ADD}
+.hchart-hint{font-size:10px;color:var(--fg3)}
+.hchart-legend{display:flex;flex-wrap:wrap;gap:5px;font-size:10px;margin-bottom:.5rem}
+.hcl-item{display:flex;align-items:center;gap:4px;padding:2px 7px;border-radius:99px;cursor:pointer;border:0.5px solid transparent;transition:opacity .15s}
+.hcl-item:hover{opacity:.75}.hcl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.hcl-name{max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px}
+.hchart-pills{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:.75rem;max-height:86px;overflow-y:auto}
+.hcp{font-size:10px;padding:2px 8px;border-radius:99px;border:1px solid var(--border);background:#fff;color:var(--fg2);cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;transition:all .1s}
+.hcp:hover{background:var(--bg2)}.hcp.sel{font-weight:600}
+.hcp .hcp-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.hcanvas-wrap{width:100%;height:280px;background:var(--bg2);border-radius:6px;border:1px solid var(--border);overflow:hidden;position:relative}
+.hcanvas-wrap canvas{width:100%;height:100%;display:block}
+.hnodata{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:11px;color:var(--fg3);text-align:center;line-height:1.6;pointer-events:none;width:80%}
+/* Tooltip flotante canvas */
+#chart-tooltip{position:absolute;pointer-events:none;display:none;background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 13px;font-size:11px;box-shadow:0 4px 20px rgba(0,0,0,.12);min-width:160px;max-width:260px;z-index:200;line-height:1.5;max-height:320px;overflow-y:auto}
+.ctt-emp{font-size:12px;font-weight:700;margin-bottom:2px}
+.ctt-rastreo{font-size:10px;color:var(--fg3);margin-bottom:6px}
+.ctt-score-row{display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.ctt-bar-bg{flex:1;height:4px;background:var(--color-border-secondary);border-radius:2px;overflow:hidden}
+.ctt-bar-fill{height:100%;border-radius:2px}.ctt-score-val{font-size:13px;font-weight:700;min-width:28px;text-align:right}
+.ctt-delta{font-size:10px}.ctt-seg{font-size:10px;color:var(--fg3);margin-top:3px}
+/* TABLA */
+.htable-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:.5rem}
+.htable-title{font-size:11px;font-weight:600;color:var(--fg2)}.htable-info{font-size:10px;color:var(--fg3)}
+.htable-pagination{display:flex;align-items:center;gap:6px}
+.hpag-btn{font-size:11px;padding:3px 10px;border-radius:99px;border:1px solid var(--border);background:#fff;color:var(--fg2);cursor:pointer;white-space:nowrap;transition:background .15s}
+.hpag-btn:hover:not(:disabled){background:var(--bg2)}.hpag-btn:disabled{opacity:.4;cursor:not-allowed}
+.hpag-info{font-size:10px;color:var(--fg3);white-space:nowrap}
+/* SUGERENCIAS */
+.sug-layout{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:640px){.sug-layout{grid-template-columns:1fr}}
+.sug-form{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:20px}
+.sug-form h3{font-size:14px;font-weight:600;margin-bottom:5px}
+.sug-form p{font-size:11px;color:var(--fg2);margin-bottom:16px;line-height:1.6}
+.sug-field{margin-bottom:11px}
+.sug-label{font-size:11px;font-weight:500;color:var(--fg2);display:block;margin-bottom:4px}
+.sug-input,.sug-select,.sug-textarea{width:100%;font-size:12px;padding:7px 10px;border-radius:var(--border-radius-md);border:1px solid var(--border);background:#fff;color:var(--fg);outline:none;transition:border-color .15s}
+.sug-input:focus,.sug-select:focus,.sug-textarea:focus{border-color:#378ADD}
+.sug-textarea{resize:vertical;min-height:80px;font-family:inherit}
+.sug-submit{width:100%;padding:9px;font-size:12px;font-weight:600;border-radius:var(--border-radius-md);border:none;background:var(--green-d);color:#fff;cursor:pointer;margin-top:5px;transition:background .15s}
+.sug-submit:hover{background:#003d26}.sug-submit:disabled{background:#999;cursor:not-allowed}
+.sug-info{background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px}
+.sug-info h3{font-size:14px;font-weight:600;margin-bottom:10px}
+.sug-ii{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:11px}
+.sug-ii:last-child{border-bottom:none}.sug-ii-icon{font-size:17px;flex-shrink:0;margin-top:1px}
+.sug-ii-text{color:var(--fg2);line-height:1.5}
+.sug-ii-text strong{color:var(--fg);display:block;margin-bottom:2px;font-size:12px}
+.sug-ok{background:var(--green-xx);border:1px solid var(--border2);border-radius:6px;padding:10px 12px;font-size:12px;font-weight:600;color:var(--green-d);margin-top:10px;display:none}
+.sug-err{background:#FCEBEB;border:0.5px solid #E24B4A;border-radius:var(--border-radius-md);padding:10px 12px;font-size:12px;color:#791F1F;margin-top:10px;display:none}
+</style>
+</head>
+<body>
+<div class="page-wrap"><div class="wrap">
+<div class="dash-header">
+  <div style="display:flex;align-items:center;gap:14px">
+    <div style="display:flex;align-items:center;gap:10px">
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="13" cy="13" r="12" stroke="#2d9e26" stroke-width="1.5" fill="none" opacity=".3"/>
+      <circle cx="13" cy="13" r="8" stroke="#2d9e26" stroke-width="1.5" fill="none" opacity=".5"/>
+      <circle cx="13" cy="13" r="4" stroke="#2d9e26" stroke-width="1.5" fill="none"/>
+      <circle cx="13" cy="13" r="1.8" fill="#2d9e26"/>
+      <line x1="13" y1="13" x2="20" y2="6" stroke="#2d9e26" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span style="font-size:17px;font-weight:800;letter-spacing:-.5px;color:var(--fg)">AFEX</span>
+  </div>
+    <div style="width:1px;height:28px;background:rgba(255,255,255,.3)"></div>
+    <div><div class="dash-title">Ecosistema Financiero Chile</div><div class="dash-sub">Verificado &middot; Abril 2026 &middot; Fuentes: CMF &middot; UAF &middot; Galileo/Fundaci&oacute;n Galileo &middot; Chile Fintech Forum</div></div>
+  </div>
+  <div class="dash-stats">
+    <div class="ds"><div class="ds-n" id="cnt-total">&mdash;</div><div class="ds-l">Empresas</div></div>
+    <div class="ds-div"></div><div class="ds"><div class="ds-n">12</div><div class="ds-l">Segmentos</div></div>
+    <div class="ds-div"></div><div class="ds"><div class="ds-n" id="cnt-local">&mdash;</div><div class="ds-l">Locales</div></div>
+    <div class="ds-div"></div><div class="ds"><div class="ds-n" id="cnt-foreign">&mdash;</div><div class="ds-l">Extranjeras</div></div>
+  </div>
+</div>
+<div class="top-nav">
+  <button class="tn active" data-tab="eco">Ecosistema verificado</button>
+  <button class="tn" data-tab="glos">Glosario</button>
+  <button class="tn" data-tab="radar">Ruido medi&aacute;tico</button>
+  <button class="tn" data-tab="hist">Historial de rastreos</button>
+  <button class="tn" data-tab="sug">Sugerencias</button>
+</div>
+<div class="section active" id="sec-eco">
+  <div class="seg-nav" id="seg-nav"></div>
+  <div class="mbar"><div class="sw"><input type="text" id="msrch" placeholder="Buscar empresa en cualquier segmento..."></div><div class="frow" id="mfrow"></div><button class="rb" id="reset-all">&#8635; Resetear todo</button></div>
+  <div id="seg-content"></div>
+</div>
+<div class="section" id="sec-glos">
+  <div class="glos-layout"><div class="glos-seg-list" id="glos-seg-list"></div><div id="glos-content"></div></div>
+</div>
+<div class="section" id="sec-radar">
+  <div class="radar-toolbar">
+    <div><div class="radar-last" id="radar-last-update">&Uacute;ltima actualizaci&oacute;n: Abril 2026</div><div class="radar-src">Fuentes: FinteChile &middot; Chile Fintech Forum &middot; DF/Mercurio &middot; LinkedIn &middot; Instagram &middot; App stores</div></div>
+  </div>
+  <div id="rastreos-badge-cont"></div>
+  <div class="bubble-grid" id="bubble-grid"></div>
+  <div class="radar-legend">Score base = 2 &middot; M&aacute;ximo = 10 &middot; &#9650;&#9660; variaci&oacute;n vs rastreo anterior &middot; Hover = detalle &middot; Click = buscar en Google</div>
+  <div style="font-size:10px;color:var(--fg3);margin-top:6px;text-align:right;font-style:italic">
+    Al actualizar el radar del mismo mes, los scores se <strong>pisan</strong> (no se acumulan). Cada mes tiene un rastreo propio.
+  </div>
+</div>
+<div class="section" id="sec-hist">
+  <div class="hbar">
+    <div class="sw"><input type="text" id="hsrch" placeholder="Buscar empresa..."></div>
+    <div id="hrastreo-btns" style="display:flex;gap:5px;flex-wrap:wrap"></div>
+    <span class="hsum" id="hsum"></span>
+    <button class="rb" id="hreset">&#8635; Limpiar</button>
+  </div>
+  <div class="hsegs" id="hsegs"></div>
+  <div class="hsubs" id="hsubs"></div>
+  <div class="hchart-box">
+    <div class="hchart-hdr">
+      <span class="hchart-title">Evoluci&oacute;n hist&oacute;rica del score por empresa</span>
+      <span id="hchart-sel-count" class="hchart-sel-count" style="display:none"></span>
+      <div class="hchart-actions">
+        <button class="hchart-btn" onclick="selectAllFiltered()">Marcar todas</button>
+        <button class="hchart-btn" onclick="clearSelection()">Desmarcar todas</button>
+      </div>
+    </div>
+    <div class="hchart-search-row">
+      <input class="hchart-srch" id="hchart-srch" placeholder="Buscar empresa en la lista...">
+      <span class="hchart-hint">Click en pill para marcar/desmarcar &middot; Hover sobre gr&aacute;fico para ver detalle &middot; Click en fila de tabla</span>
+    </div>
+    <div class="hchart-pills" id="hchart-pills"></div>
+    <div class="hchart-legend" id="hchart-legend"></div>
+    <div class="hcanvas-wrap" id="hcanvas-wrap">
+      <div class="hnodata" id="hnodata">Selecciona una o m&aacute;s empresas de la lista, o usa los filtros de segmento para seleccionar un grupo</div>
+      <canvas id="hcanvas" style="display:none"></canvas>
+      <div id="chart-tooltip"></div>
+    </div>
+  </div>
+  <div class="htable-header">
+    <span class="htable-title">Tabla de rastreos</span>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <span class="htable-info" id="htable-info"></span>
+      <div class="htable-pagination">
+        <button class="hpag-btn" id="hpag-prev" onclick="changePage(-1)" disabled>&#8592; Anterior</button>
+        <span class="hpag-info" id="hpag-info"></span>
+        <button class="hpag-btn" id="hpag-next" onclick="changePage(1)">Siguiente &#8594;</button>
+      </div>
+    </div>
+  </div>
+  <div class="tw" id="htable"></div>
+</div>
+<div class="section" id="sec-sug">
+  <div class="sug-layout">
+    <div class="sug-form">
+      <h3>Enviar sugerencia o alcance</h3>
+      <p>&#191;Falta una empresa? &#191;Hay un dato incorrecto? &#191;Quieres solicitar una baja o dar contexto adicional? Las sugerencias recibidas son evaluadas y se incorporan en la pr&oacute;xima actualizaci&oacute;n del ecosistema.</p>
+      <div class="sug-field"><label class="sug-label">Tipo de sugerencia</label>
+        <select class="sug-select" id="sug-tipo">
+          <option value="Nueva empresa">&#10133; Nueva empresa</option>
+          <option value="Corrección de dato">&#9998;&#65039; Correcci&oacute;n de dato</option>
+          <option value="Solicitar baja">&#10060; Solicitar baja</option>
+          <option value="Corrección de score">&#128225; Correcci&oacute;n de score</option>
+          <option value="Otro alcance">&#128172; Otro alcance</option>
+        </select>
+      </div>
+      <div class="sug-field"><label class="sug-label">Empresa o instituci&oacute;n</label><input class="sug-input" type="text" id="sug-emp" placeholder="Nombre de la empresa..."></div>
+      <div class="sug-field"><label class="sug-label">Segmento sugerido (opcional)</label>
+        <select class="sug-select" id="sug-seg">
+          <option value="">&mdash; Sin especificar &mdash;</option>
+          <option>Payments &amp; Remittances</option><option>Banking Institutions &amp; CMF</option><option>Lending</option>
+          <option>Insurtech</option><option>Crypto</option><option>Wealth Management</option>
+          <option>Open Finance / Digital Banking</option><option>EFM</option><option>PropTech</option>
+          <option>PFM</option><option>TIB&amp;F</option><option>Crowdfunding</option>
+        </select>
+      </div>
+      <div class="sug-field"><label class="sug-label">Descripci&oacute;n / alcance</label><textarea class="sug-textarea" id="sug-desc" placeholder="Describe el cambio, la empresa nueva o el alcance que quieres dar..."></textarea></div>
+      <div class="sug-field"><label class="sug-label">Tu nombre o correo (opcional)</label><input class="sug-input" type="text" id="sug-contacto" placeholder="Para que podamos dar seguimiento..."></div>
+      <button class="sug-submit" id="sug-btn" onclick="submitSug()">Enviar sugerencia</button>
+      <div class="sug-ok" id="sug-ok">&#9989; Sugerencia enviada correctamente. Ser&aacute; evaluada e incorporada en la pr&oacute;xima actualizaci&oacute;n.</div>
+      <div class="sug-err" id="sug-err">&#9888;&#65039; Error al enviar. Por favor intenta nuevamente en unos minutos.</div>
+    </div>
+    <div class="sug-info">
+      <h3>&#191;C&oacute;mo funciona?</h3>
+      <div class="sug-ii"><span class="sug-ii-icon">&#10133;</span><div class="sug-ii-text"><strong>Nueva empresa</strong>Prop&oacute;n empresas del ecosistema fintech chileno que no est&eacute;n en el dashboard.</div></div>
+      <div class="sug-ii"><span class="sug-ii-icon">&#9998;</span><div class="sug-ii-text"><strong>Correcci&oacute;n de dato</strong>&#191;Detectaste un error en el segmento, subcategor&iacute;a, origen o estado de una empresa?</div></div>
+      <div class="sug-ii"><span class="sug-ii-icon">&#128225;</span><div class="sug-ii-text"><strong>Correcci&oacute;n de score</strong>&#191;Crees que el score de una empresa no refleja su actividad real? D&iacute;nos por qu&eacute;.</div></div>
+      <div class="sug-ii"><span class="sug-ii-icon">&#10060;</span><div class="sug-ii-text"><strong>Solicitar baja</strong>Si una empresa ya no opera, fue adquirida o fusionada, av&iacute;sanos para actualizar su estado.</div></div>
+      <div class="sug-ii"><span class="sug-ii-icon">&#8987;</span><div class="sug-ii-text"><strong>Proceso de actualizaci&oacute;n</strong>Todas las sugerencias son evaluadas e incorporadas en la pr&oacute;xima actualizaci&oacute;n. El formulario abre tu cliente de correo si el env&iacute;o autom&aacute;tico no est&aacute; configurado.</div></div>
+    </div>
+  </div>
+</div>
+</div></div>
+<script>
+const SUBCOL={"International Remittances":"#1D9E75","Cross-border Payments":"#7F77DD","Payment Gateway":"#185FA5","Acquiring / POS":"#D85A30","Digital Wallet / Prepaid":"#BA7517","Payment Initiation":"#0F6E56","Recurring Payments":"#639922","Cash Collection":"#854F0B","Payment Infrastructure":"#5F5E5A","BaaS / Card Issuance":"#993556","FX / Corporate Exchange":"#3B6D11","B2B Specialized Payments":"#993C1D","Money Transfers (UAF)":"#D85A30","BNPL":"#639922","Factoring / Discounting":"#D85A30","SME Credit":"#185FA5","Consumer Credit":"#BA7517","Crowdfunding / Debt":"#993C1D","Auto Finance":"#854F0B","Life & Benefits Insurtech":"#D85A30","Auto Insurtech":"#BA7517","Comparison Insurtech":"#0F6E56","Home & Pet Insurtech":"#854F0B","B2B Insurtech":"#993556","Crypto Exchange":"#F59E0B","Crypto Payments":"#639922","Crypto Infrastructure":"#5F5E5A","Crypto Tax":"#D85A30","Investment Funds":"#1D9E75","Wealth Management":"#185FA5","Trading / Brokers":"#7F77DD","Alternative Investments":"#639922","Banking API Aggregator":"#1D9E75","Open Finance Provider":"#7F77DD","Digital / Neo Bank":"#185FA5","Corporate Financial Mgmt":"#185FA5","B2B Collections & Payments":"#D85A30","HR & Payroll":"#7E5CB5","Electronic Invoicing":"#0F6E56","ERP / Accounting":"#639922","Treasury & Liquidity":"#BA7517","Recurring Payments EFM":"#993C1D","Personal Finance (PFM)":"#1D9E75","Credit Scoring":"#BA7517","Financial Education":"#0F6E56","Real Estate Investment":"#639922","Property Management":"#185FA5","Construction / Development":"#854F0B","Real Estate Marketplace":"#D85A30","Real Estate Crowdfunding":"#993C1D","PropTech Intelligence":"#5F5E5A","Financial Cybersecurity":"#D85A30","Regtech / Compliance":"#185FA5","Core Banking / BaaS Infra":"#7F77DD","Digital Identity":"#639922","API Banking":"#0F6E56","AI for Enterprise":"#5F5E5A","Donation Crowdfunding":"#1D9E75","Investment Crowdfunding":"#BA7517","Debt Crowdfunding":"#D85A30","Local Private Bank":"#185FA5","Foreign Bank":"#7F77DD","State Bank":"#0F6E56","Local Bank Abroad":"#5F5E5A","Credit Union":"#BA7517","Prepaid Issuer (CMF)":"#993556","Payment Operator (CMF)":"#D85A30","Credit Card Issuer (CMF)":"#639922"};
+function sc(s){return SUBCOL[s]||"#888"}
+const LINE_COLORS=["#185FA5","#1D9E75","#D85A30","#993556","#F59E0B","#7F77DD","#639922","#854F0B","#5F5E5A","#993C1D","#BA7517","#3B6D11","#0F6E56","#7E5CB5","#E24B4A","#06b6d4"];
+const BASE_APR={"Global66":9,"CurrencyBird":7,"Vita Wallet":8,"Fintoc":8,"Tenpo":9,"Klap":7,"Transbank":6,"Reveniu":7,"Mach":6,"ProntoPaga":6,"Retorna":4,"Flow":5,"Neat":6,"Mercado Pago":8,"D-local":7,"Kushki":6,"Wise":6,"Western Union Chile":4,"Pomelo":8,"Bamboo Payment":5,"Monnet":7,"XTransfer":7,"Stripe":8,"Visa":7,"Mastercard":7,"Getnet by Santander":5,"Verifone":4,"ACI Worldwide":5,"CLAI Payments Technologies":4,"Evertec":5,"Afex Transferencias y Cambios":7,"Afex Agencia de Valores":7,"Xepelin":9,"Cumplo":5,"Maxxa":7,"Galgo":7,"Levannta":7,"Fingo":4,"Wibond":5,"Cordada":5,"Tanner":5,"Betterfly":9,"Jooycar":6,"ComparaOnline":5,"Klare":5,"Gokei":5,"Selyt":4,"Osigu":6,"Klimber":5,"Buda.com":6,"Cryptomarket":5,"Orionx":5,"Koywe":6,"LedgiFi":5,"Binance":7,"Bithoner":4,"Fintual":9,"LarrainVial":7,"Racional":6,"Capitaria":5,"Xcala":5,"Alps":4,"Khipu":7,"Floid":6,"Tenpo Bank":9,"Prometeo":5,"Nu (Nubank)":8,"Revolut":8,"Lulo Bank":4,"Tapp":5,"Chipax":7,"Nubox":6,"Gosocket":6,"Clay":7,"Colektia":5,"Duemint":5,"Buk":8,"Valkimia":5,"Billvy":4,"Shinkansen":5,"Houm":8,"Toctoc":6,"Fractional.cl":5,"Homespotter":5,"Assetplan":4,"Destacame":6,"AgentPiggy":4,"Infocheck":4,"Hackmetrix":6,"Modyo":7,"Regcheq":5,"Truora":6,"Novopayment":6,"Wird":5,"Snap Compliance":5,"Jumio":6,"LexisNexis Risk Solutions":5,"Onyra by L&T":4,"TransUnion":6,"Equifax":6,"Ionix":5,"Cybertrust":4,"Sinaptica Innovation":4,"Active I.T":3,"Kibernum":5,"WyeWorks":4,"TIVIT":5,"Veritran":5,"Banco de Chile":7,"BCI":8,"Santander Chile":6,"Scotiabank Chile":5,"Banco del Estado":7,"It\u00e1u Chile":6,"Banco Falabella":5,"Banco Ripley":5,"Banco Bice":6,"Coopeuch":5,"Banco BTG Pactual":5,"BBVA Chile":5,"Banco Consorcio":4};
+function genMar(a){const m={};Object.entries(a).forEach(([k,v])=>{m[k]=Math.max(1,Math.min(10,Math.floor((v-0.5)*2)/2));});return m;}
+const SKEY='fintech_radar_v15';
+let HIST=[];
+function loadData(){
+  try{const d=localStorage.getItem(SKEY);if(d)HIST=JSON.parse(d).rastreos||[];}catch(e){HIST=[];}
+  if(!HIST.length){HIST=[{fecha:'2026-03',label:'Marzo 2026',scores:genMar(BASE_APR)},{fecha:'2026-04',label:'Abril 2026',scores:{...BASE_APR}}];savH();}
+  updMeta();
+}
+function savH(){try{localStorage.setItem(SKEY,JSON.stringify({rastreos:HIST}));}catch(e){}}
+function updMeta(){
+  const n=HIST.length,last=HIST[n-1];
+  document.getElementById('radar-last-update').textContent='Última actualización: '+last.label;
+  document.getElementById('rastreos-badge-cont').innerHTML='<div class="rastreos-badge">📡 '+n+' rastreo'+(n>1?'s':'')+ ' acumulado'+(n>1?'s':'')+' · Hover sobre burbujas para ver historial</div>';
+}
+function curS(){return HIST.length?HIST[HIST.length-1].scores:{...BASE_APR};}
+function prevS(){return HIST.length>=2?HIST[HIST.length-2].scores:null;}
+function empHist(n){return HIST.map(r=>({label:r.label,score:r.scores[n]||2}));}
+window.saveNewRadarScan=function(label,ns){
+  // Si ya existe un rastreo de este mes, PISA (no acumula). Si es mes nuevo, agrega.
+  const fecha=new Date().toISOString().substring(0,7);
+  const labelKey=label.trim().toLowerCase();
+  const existIdx=HIST.findIndex(r=>r.label.trim().toLowerCase()===labelKey||r.fecha===fecha);
+  if(existIdx>=0){
+    // Pisar: merge de scores, el nuevo score REEMPLAZA al anterior para esa empresa
+    HIST[existIdx]={fecha:HIST[existIdx].fecha,label:HIST[existIdx].label,scores:{...HIST[existIdx].scores,...ns}};
+    savH();updMeta();renderRadar();refreshHist();
+    alert('✅ Rastreo "'+label+'" ACTUALIZADO (scores pisados). Total rastreos: '+HIST.length+'.');
+  } else {
+    // Rastreo nuevo: parte desde el último estado conocido + cambios
+    HIST.push({fecha,label,scores:{...curS(),...ns}});
+    savH();updMeta();renderRadar();refreshHist();
+    alert('✅ Nuevo rastreo "'+label+'" guardado. Total rastreos: '+HIST.length+'.');
+  }
+};
+</script><script>
+const SEGS={"Payments & Remittances": {"color": "#1D9E75", "note": "Verificadas vigentes. CMF = regulada por la CMF. UAF = registrada en la Unidad de Análisis Financiero. El guión indica que no aplica ese registro.", "noteC": "#1D9E75", "sF": true, "hasDualReg": true, "cols": ["Empresa", "Origen", "Subcategoría", "CMF", "UAF", "Estado"], "data": [{"n": "Global66", "o": "Local", "sub": "International Remittances", "reg": "both", "st": "vigente", "nota": "US$3.700M transaccionados 2025; supervisada CMF bajo Ley Fintech; busca licencia bancaria internacional"}, {"n": "CurrencyBird", "o": "Local", "sub": "International Remittances", "reg": "uaf", "st": "vigente", "nota": "Envíos a más de 170 países"}, {"n": "Retorna", "o": "Local", "sub": "International Remittances", "reg": "none", "st": "vigente", "nota": "Chile→Venezuela/Colombia/Perú/España/EEUU"}, {"n": "GiroFacil", "o": "Local", "sub": "International Remittances", "reg": "none", "st": "vigente", "nota": "Activa"}, {"n": "Quick Express", "o": "Local", "sub": "International Remittances", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Arcadi", "o": "Local", "sub": "International Remittances", "reg": "uaf", "st": "vigente", "nota": "Web activa; caso TDLC 2025"}, {"n": "More Chile / More Giros", "o": "Local", "sub": "International Remittances", "reg": "uaf", "st": "vigente", "nota": "App activa; sanción administrativa UAF 2023"}, {"n": "Remesas Chile", "o": "Local", "sub": "International Remittances", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Nizzo Capital", "o": "Local", "sub": "International Remittances", "reg": "none", "st": "vigente", "nota": "Remesas y cambio de divisas; web e Instagram activos"}, {"n": "Wise", "o": "Extranjera", "sub": "International Remittances", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF; creciendo en Chile"}, {"n": "Western Union Chile", "o": "Extranjera", "sub": "International Remittances", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF; red física y digital"}, {"n": "Ria Chile", "o": "Extranjera", "sub": "International Remittances", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF; red global"}, {"n": "MoneyGram", "o": "Extranjera", "sub": "International Remittances", "reg": "cmf", "st": "vigente", "nota": "Registrada CMF; red de agentes activa"}, {"n": "Remitee", "o": "Extranjera", "sub": "International Remittances", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Remitex", "o": "Extranjera", "sub": "International Remittances", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Transfermate Chile", "o": "Extranjera", "sub": "International Remittances", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Uno Money Transfers Chile", "o": "Extranjera", "sub": "International Remittances", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Fonmoney Chile", "o": "Extranjera", "sub": "International Remittances", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "PayPal", "o": "Extranjera", "sub": "International Remittances", "reg": "none", "st": "vigente", "nota": "Opera digitalmente en Chile sin registro CMF/UAF"}, {"n": "Chileexpress", "o": "Local", "sub": "Money Transfers (UAF)", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF; red logística nacional"}, {"n": "Servipag", "o": "Local", "sub": "Money Transfers (UAF)", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF; referente de recaudación en Chile"}, {"n": "Duemint", "o": "Local", "sub": "Money Transfers (UAF)", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF; también en segmento EFM"}, {"n": "Pagos Latam Chile", "o": "Local", "sub": "Money Transfers (UAF)", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Ultra Payments", "o": "Local", "sub": "Money Transfers (UAF)", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Intercash Chile", "o": "Local", "sub": "Money Transfers (UAF)", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Lupa Giros y Finanzas", "o": "Local", "sub": "Money Transfers (UAF)", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Giros y Remesas", "o": "Local", "sub": "Money Transfers (UAF)", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "World Exchange", "o": "Local", "sub": "Money Transfers (UAF)", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Xpay", "o": "Local", "sub": "Money Transfers (UAF)", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Moneteca Pagos", "o": "Local", "sub": "Money Transfers (UAF)", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Afex Transferencias y Cambios", "o": "Local", "sub": "FX / Corporate Exchange", "reg": "uaf", "st": "vigente", "nota": "Casa de cambio registrada UAF; app 1.662 reseñas 4,6★"}, {"n": "Afex Agencia de Valores", "o": "Local", "sub": "FX / Corporate Exchange", "reg": "cmf", "st": "vigente", "nota": "Agencia de valores regulada CMF; FX corporativo; sponsor Chile Fintech Forum 2026"}, {"n": "Tu Cambio", "o": "Local", "sub": "FX / Corporate Exchange", "reg": "uaf", "st": "vigente", "nota": "Casa de cambio digital; registrada UAF"}, {"n": "Global Exchange Chile", "o": "Local", "sub": "FX / Corporate Exchange", "reg": "uaf", "st": "vigente", "nota": "Cambio de divisas para viajeros; registrada UAF"}, {"n": "Ebury Partners Chile", "o": "Extranjera", "sub": "FX / Corporate Exchange", "reg": "uaf", "st": "vigente", "nota": "FX corporativo; registrada UAF"}, {"n": "Vita Wallet", "o": "Local", "sub": "Cross-border Payments", "reg": "none", "st": "vigente", "nota": "Más de 300k usuarios; 6 países; sponsor Chile Fintech Forum 2026"}, {"n": "Andeanwide", "o": "Local", "sub": "Cross-border Payments", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF; pagos internacionales B2B"}, {"n": "Bitnexo", "o": "Local", "sub": "Cross-border Payments", "reg": "none", "st": "vigente", "nota": "Pagos B2B vía crypto"}, {"n": "D-local", "o": "Extranjera", "sub": "Cross-border Payments", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF; pagos locales para plataformas globales"}, {"n": "Ebanx", "o": "Extranjera", "sub": "Cross-border Payments", "reg": "none", "st": "vigente", "nota": "Pagos locales Latam; alianza con XTransfer 2024"}, {"n": "Bamboo Payment", "o": "Extranjera", "sub": "Cross-border Payments", "reg": "none", "st": "vigente", "nota": "PayIn/PayOut transfronterizo"}, {"n": "Payoneer", "o": "Extranjera", "sub": "Cross-border Payments", "reg": "none", "st": "vigente", "nota": "Freelancers y empresas"}, {"n": "Liquido", "o": "Extranjera", "sub": "Cross-border Payments", "reg": "none", "st": "vigente", "nota": "Activa en Chile"}, {"n": "Wava", "o": "Extranjera", "sub": "Cross-border Payments", "reg": "none", "st": "vigente", "nota": "App para Tiendanube lanzada feb 2026"}, {"n": "4ON Payments", "o": "Extranjera", "sub": "Cross-border Payments", "reg": "none", "st": "vigente", "nota": "Cross-border; miembro asociación fintech 2025"}, {"n": "TeamQuality", "o": "Extranjera", "sub": "Cross-border Payments", "reg": "none", "st": "vigente", "nota": "Trabaja con Visa; web copyright 2026"}, {"n": "PVS Chile", "o": "Extranjera", "sub": "Cross-border Payments", "reg": "none", "st": "vigente", "nota": "Trajo PIX a Chile 2024; QR Argentino sep 2025"}, {"n": "XTransfer", "o": "Extranjera", "sub": "Cross-border Payments", "reg": "none", "st": "vigente", "nota": "Líder global pagos B2B comercio exterior; platinum sponsor Chile Fintech Forum 2026"}, {"n": "Fintoc", "o": "Local", "sub": "Payment Initiation", "reg": "none", "st": "vigente", "nota": "Duplicó volumen 2025; expansión Latam; black sponsor Chile Fintech Forum 2026"}, {"n": "Etpay", "o": "Local", "sub": "Payment Initiation", "reg": "none", "st": "adquirida", "nota": "Adquirida por Monnet Payments (nov 2025)"}, {"n": "Klap", "o": "Local", "sub": "Acquiring / POS", "reg": "none", "st": "vigente", "nota": "POS y QR; ISWITCH es su subsidiaria"}, {"n": "Transbank", "o": "Local", "sub": "Acquiring / POS", "reg": "cmf", "st": "vigente", "nota": "Registrada CMF; 5° mejor adquirente región 2025"}, {"n": "Geopagos", "o": "Extranjera", "sub": "Acquiring / POS", "reg": "none", "st": "vigente", "nota": "SoftPOS; experience sponsor Chile Fintech Forum 2026"}, {"n": "Sumup", "o": "Extranjera", "sub": "Acquiring / POS", "reg": "none", "st": "vigente", "nota": "mPOS para pymes"}, {"n": "Getnet by Santander", "o": "Extranjera", "sub": "Acquiring / POS", "reg": "none", "st": "vigente", "nota": "Adquirente del Grupo Santander; gold sponsor Chile Fintech Forum 2026"}, {"n": "Verifone", "o": "Extranjera", "sub": "Acquiring / POS", "reg": "none", "st": "vigente", "nota": "Líder global en terminales POS; experience sponsor Chile Fintech Forum 2026"}, {"n": "Flow", "o": "Local", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "Tarifa 0,99% + IVA"}, {"n": "Virtualpos", "o": "Local", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "Chile y Latam"}, {"n": "BciPagos", "o": "Local", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "División de BCI"}, {"n": "ProntoPaga", "o": "Local", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "Recaudación y dispersión regional; diamond sponsor Chile Fintech Forum 2026"}, {"n": "PágaloAsí", "o": "Local", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "Pasarela desde 2016; activa oct 2024"}, {"n": "U-Payments", "o": "Local", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "51-200 empleados; web activa"}, {"n": "QuikiPay", "o": "Local", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "Multi-moneda"}, {"n": "API Pay", "o": "Local", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "Sitio apipay.cl activo"}, {"n": "Zippy Pay", "o": "Local", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "Miembro FinteChile"}, {"n": "Stripe", "o": "Extranjera", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "Líder global en pasarelas de pago; experience sponsor Chile Fintech Forum 2026"}, {"n": "Kushki", "o": "Extranjera", "sub": "Payment Gateway", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF; Latam"}, {"n": "Payu", "o": "Extranjera", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "Activa"}, {"n": "Lyra", "o": "Extranjera", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "Activa"}, {"n": "Monnet", "o": "Extranjera", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "Adquirió ETpay nov 2025"}, {"n": "Paynau", "o": "Extranjera", "sub": "Payment Gateway", "reg": "none", "st": "vigente", "nota": "Activa en Latam"}, {"n": "Localpayment", "o": "Extranjera", "sub": "Payment Gateway", "reg": "uaf", "st": "vigente", "nota": "Registrada UAF"}, {"n": "Mach", "o": "Local", "sub": "Digital Wallet / Prepaid", "reg": "none", "st": "vigente", "nota": "Producto de BCI"}, {"n": "CencoPay", "o": "Local", "sub": "Digital Wallet / Prepaid", "reg": "none", "st": "vigente", "nota": "Billetera Cencosud; QR en Jumbo, Santa Isabel y Easy"}, {"n": "Fpay", "o": "Local", "sub": "Digital Wallet / Prepaid", "reg": "none", "st": "adquirida", "nota": "Adquirida por Haulmer (oct 2025)"}, {"n": "Tenpo", "o": "Local", "sub": "Digital Wallet / Prepaid", "reg": "cmf", "st": "vigente", "nota": "Licencia bancaria ene 2026 → Tenpo Bank; más de 2M de usuarios"}, {"n": "Bipay", "o": "Local", "sub": "Digital Wallet / Prepaid", "reg": "none", "st": "vigente", "nota": "34,6% de transacciones de transporte en Machalí feb 2026"}, {"n": "Dale (Coopeuch)", "o": "Local", "sub": "Digital Wallet / Prepaid", "reg": "none", "st": "vigente", "nota": "Billetera fintech de Coopeuch"}, {"n": "Mercado Pago", "o": "Extranjera", "sub": "Digital Wallet / Prepaid", "reg": "cmf", "st": "vigente", "nota": "Registrada CMF como emisor de prepago; gold sponsor Chile Fintech Forum 2026"}, {"n": "Prex", "o": "Extranjera", "sub": "Digital Wallet / Prepaid", "reg": "cmf", "st": "vigente", "nota": "Registrada CMF como emisor de prepago"}, {"n": "Venti Pay", "o": "Local", "sub": "BNPL", "reg": "none", "st": "vigente", "nota": "BNPL; comercios activos en TikTok abr 2026"}, {"n": "Reveniu", "o": "Local", "sub": "Recurring Payments", "reg": "none", "st": "vigente", "nota": "Top fintech Chile 2025"}, {"n": "Neat", "o": "Local", "sub": "Recurring Payments", "reg": "none", "st": "vigente", "nota": "Arriendo, gastos comunes, educación"}, {"n": "Cardda", "o": "Local", "sub": "Recurring Payments", "reg": "none", "st": "vigente", "nota": "Tarjetas corporativas y cobros recurrentes"}, {"n": "Sencillito", "o": "Local", "sub": "Cash Collection", "reg": "none", "st": "vigente", "nota": "Red física; referenciada por dLocal y Nuvei"}, {"n": "Paycash", "o": "Extranjera", "sub": "Cash Collection", "reg": "none", "st": "vigente", "nota": "Red de efectivo"}, {"n": "Vessi", "o": "Local", "sub": "Payment Infrastructure", "reg": "none", "st": "vigente", "nota": "10 años en el mercado; socio de BancoEstado"}, {"n": "Devetel", "o": "Local", "sub": "Payment Infrastructure", "reg": "none", "st": "vigente", "nota": "Plataformas para retail y telefonía"}, {"n": "ICPayment", "o": "Local", "sub": "Payment Infrastructure", "reg": "none", "st": "vigente", "nota": "Se expandió a Colombia 2023"}, {"n": "Con Qué Pago", "o": "Local", "sub": "Payment Infrastructure", "reg": "none", "st": "vigente", "nota": "Hub de medios de pago"}, {"n": "Safesigner", "o": "Local", "sub": "Payment Infrastructure", "reg": "none", "st": "vigente", "nota": "Gold sponsor Chile Fintech Forum 2026"}, {"n": "ACI Worldwide", "o": "Extranjera", "sub": "Payment Infrastructure", "reg": "none", "st": "vigente", "nota": "Líder global en infraestructura de pagos; classic sponsor Chile Fintech Forum 2026"}, {"n": "CLAI Payments Technologies", "o": "Extranjera", "sub": "Payment Infrastructure", "reg": "none", "st": "vigente", "nota": "Procesamiento de pagos B2B; gold sponsor Chile Fintech Forum 2026"}, {"n": "Evertec", "o": "Extranjera", "sub": "Payment Infrastructure", "reg": "none", "st": "vigente", "nota": "Procesador de pagos líder en Latam; gold sponsor Chile Fintech Forum 2026"}, {"n": "Visa", "o": "Extranjera", "sub": "Payment Infrastructure", "reg": "none", "st": "vigente", "nota": "Red global de pagos; experience sponsor Chile Fintech Forum 2026"}, {"n": "Mastercard", "o": "Extranjera", "sub": "Payment Infrastructure", "reg": "none", "st": "vigente", "nota": "Red global de pagos; experience sponsor Chile Fintech Forum 2026"}, {"n": "Fiserv", "o": "Extranjera", "sub": "Payment Infrastructure", "reg": "none", "st": "vigente", "nota": "Proveedor global de infraestructura de pagos"}, {"n": "PMIAmericas", "o": "Extranjera", "sub": "Payment Infrastructure", "reg": "cmf", "st": "vigente", "nota": "Registrada CMF"}, {"n": "Pomelo", "o": "Extranjera", "sub": "BaaS / Card Issuance", "reg": "none", "st": "vigente", "nota": "Serie B US$40M 2024"}, {"n": "Dock", "o": "Extranjera", "sub": "BaaS / Card Issuance", "reg": "none", "st": "vigente", "nota": "BaaS Latam"}, {"n": "Parku", "o": "Local", "sub": "B2B Specialized Payments", "reg": "none", "st": "vigente", "nota": "Pagos de estacionamiento; diamond sponsor Chile Fintech Forum 2026"}, {"n": "AgendaPro", "o": "Local", "sub": "B2B Specialized Payments", "reg": "none", "st": "vigente", "nota": "Gestión y cobros para pymes"}, {"n": "Pago46", "o": "Local", "sub": "B2B Specialized Payments", "reg": "none", "st": "vigente", "nota": "Activa"}, {"n": "Ativo", "o": "Local", "sub": "B2B Specialized Payments", "reg": "none", "st": "vigente", "nota": "Pagos B2B"}]}, "Banking Institutions & CMF": {"color": "#185FA5", "note": "Instituciones reguladas por la CMF bajo la Ley General de Bancos. Todas tienen regulación CMF por definición.", "noteC": "#185FA5", "sF": true, "hasDualReg": false, "hasCmfOnly": true, "cols": ["Institución", "Origen", "Tipo", "Estado"], "data": [{"n": "Banco de Chile", "o": "Local", "sub": "Local Private Bank", "st": "vigente", "nota": "Uno de los dos bancos más grandes de Chile"}, {"n": "BCI", "o": "Local", "sub": "Local Private Bank", "st": "vigente", "nota": "Banco de Crédito e Inversiones"}, {"n": "Scotiabank Chile", "o": "Extranjera", "sub": "Local Private Bank", "st": "vigente", "nota": "Clasificación Fitch A+ dic 2025"}, {"n": "Banco Security", "o": "Local", "sub": "Local Private Bank", "st": "vigente", "nota": "Banca corporativa y alto patrimonio"}, {"n": "Banco Bice", "o": "Local", "sub": "Local Private Bank", "st": "vigente", "nota": "BICE Connect sponsor Chile Fintech Forum 2026"}, {"n": "HSBC Bank Chile", "o": "Extranjera", "sub": "Local Private Bank", "st": "vigente", "nota": "Banca corporativa internacional"}, {"n": "Santander Chile", "o": "Extranjera", "sub": "Local Private Bank", "st": "vigente", "nota": "Filial del Grupo Santander España"}, {"n": "Itaú Chile", "o": "Extranjera", "sub": "Local Private Bank", "st": "vigente", "nota": "Filial del Grupo Itaú Brasil"}, {"n": "Banco Falabella", "o": "Local", "sub": "Local Private Bank", "st": "vigente", "nota": "Banco retail del Grupo Falabella"}, {"n": "Banco Ripley", "o": "Local", "sub": "Local Private Bank", "st": "vigente", "nota": "Banco retail del Grupo Ripley"}, {"n": "Banco Consorcio", "o": "Local", "sub": "Local Private Bank", "st": "vigente", "nota": "Grupo Consorcio"}, {"n": "Banco BTG Pactual", "o": "Extranjera", "sub": "Local Private Bank", "st": "vigente", "nota": "Filial BTG Brasil; banca de inversión"}, {"n": "BBVA Chile", "o": "Extranjera", "sub": "Local Private Bank", "st": "vigente", "nota": "Subsidiaria de BBVA España"}, {"n": "Banco Internacional", "o": "Local", "sub": "Local Private Bank", "st": "vigente", "nota": "Vigente"}, {"n": "Banco del Estado", "o": "Local", "sub": "State Bank", "st": "vigente", "nota": "Único banco estatal de Chile; platinum sponsor Chile Fintech Forum 2026"}, {"n": "Banco do Brasil", "o": "Extranjera", "sub": "Foreign Bank", "st": "vigente", "nota": "Sucursal; clientes corporativos"}, {"n": "JP Morgan Chile", "o": "Extranjera", "sub": "Foreign Bank", "st": "vigente", "nota": "Sucursal; banca de inversión"}, {"n": "Banco Nación Argentina", "o": "Extranjera", "sub": "Foreign Bank", "st": "vigente", "nota": "Sucursal activa en Chile"}, {"n": "Bank of China Chile", "o": "Extranjera", "sub": "Foreign Bank", "st": "vigente", "nota": "Financiamiento del comercio bilateral"}, {"n": "China Construction Bank Chile", "o": "Extranjera", "sub": "Foreign Bank", "st": "vigente", "nota": "Sucursal activa"}, {"n": "MFG Bank", "o": "Extranjera", "sub": "Foreign Bank", "st": "vigente", "nota": "Registrado CMF; activo"}, {"n": "BCI Miami", "o": "Local", "sub": "Local Bank Abroad", "st": "vigente", "nota": "Filial de BCI en EEUU"}, {"n": "BancoEstado Nueva York", "o": "Local", "sub": "Local Bank Abroad", "st": "vigente", "nota": "Oficina de representación en EEUU"}, {"n": "Itaú Nueva York", "o": "Extranjera", "sub": "Local Bank Abroad", "st": "vigente", "nota": "Oficina de Itaú Chile en EEUU"}, {"n": "Coopeuch", "o": "Local", "sub": "Credit Union", "st": "vigente", "nota": "Cooperativa más grande de Chile"}, {"n": "Oriencoop", "o": "Local", "sub": "Credit Union", "st": "vigente", "nota": "Activa; región del Maule"}, {"n": "Detacoop", "o": "Local", "sub": "Credit Union", "st": "vigente", "nota": "Activa"}, {"n": "Ahorrocoop", "o": "Local", "sub": "Credit Union", "st": "vigente", "nota": "Activa"}, {"n": "Lautaro Rosas", "o": "Local", "sub": "Credit Union", "st": "vigente", "nota": "Activa; Valparaíso"}, {"n": "Coocretal", "o": "Local", "sub": "Credit Union", "st": "vigente", "nota": "Activa"}, {"n": "CAPUAL", "o": "Local", "sub": "Credit Union", "st": "vigente", "nota": "Activa"}, {"n": "Tenpo Payment S.A.", "o": "Local", "sub": "Prepaid Issuer (CMF)", "st": "vigente", "nota": "Vehículo regulatorio de Tenpo → licencia bancaria ene 2026"}, {"n": "Mercado Pago emisora", "o": "Extranjera", "sub": "Prepaid Issuer (CMF)", "st": "vigente", "nota": "Vehículo regulatorio de Mercado Pago en Chile"}, {"n": "PREX Chile", "o": "Extranjera", "sub": "Prepaid Issuer (CMF)", "st": "vigente", "nota": "Tarjeta prepago PREX"}, {"n": "Fintual prepago", "o": "Local", "sub": "Prepaid Issuer (CMF)", "st": "vigente", "nota": "Vehículo prepago de Fintual"}, {"n": "Los Andes Tarjetas Prepago", "o": "Local", "sub": "Prepaid Issuer (CMF)", "st": "vigente", "nota": "Registrada CMF; activa"}, {"n": "Global Card", "o": "Local", "sub": "Prepaid Issuer (CMF)", "st": "vigente", "nota": "Registrada CMF; activa"}, {"n": "Metro Emisora Medios de Pago", "o": "Local", "sub": "Prepaid Issuer (CMF)", "st": "vigente", "nota": "Tarjeta Bip! y medios de pago del Metro de Santiago"}, {"n": "SUMP Chile Blue", "o": "Local", "sub": "Prepaid Issuer (CMF)", "st": "vigente", "nota": "Registrada CMF; activa"}, {"n": "Sociedad Emisora Los Héroes", "o": "Local", "sub": "Prepaid Issuer (CMF)", "st": "vigente", "nota": "Tarjeta Los Héroes; activa"}, {"n": "Digital Payments Prepago", "o": "Local", "sub": "Prepaid Issuer (CMF)", "st": "adquirida", "nota": "Operaba prepago Fpay; adquirida por Haulmer 2025"}, {"n": "Compañía Emisora Medios Digitales", "o": "Local", "sub": "Prepaid Issuer (CMF)", "st": "vigente", "nota": "Registrada CMF; activa"}, {"n": "Inversiones LP", "o": "Local", "sub": "Prepaid Issuer (CMF)", "st": "vigente", "nota": "Registrada CMF; activa"}, {"n": "Tricard S.A. (prepago)", "o": "Local", "sub": "Prepaid Issuer (CMF)", "st": "vigente", "nota": "Registrada CMF como emisor prepago"}, {"n": "Transbank S.A.", "o": "Local", "sub": "Payment Operator (CMF)", "st": "vigente", "nota": "Único operador de redes de tarjetas local"}, {"n": "ISWITCH S.A.", "o": "Local", "sub": "Payment Operator (CMF)", "st": "vigente", "nota": "Subsidiaria de Klap; procesador de transacciones"}, {"n": "Red Global S.A.", "o": "Local", "sub": "Payment Operator (CMF)", "st": "vigente", "nota": "Registrada CMF; activa"}, {"n": "FISO S.A.", "o": "Local", "sub": "Credit Card Issuer (CMF)", "st": "vigente", "nota": "Emisora de tarjeta de crédito no bancaria"}, {"n": "Tricard", "o": "Local", "sub": "Credit Card Issuer (CMF)", "st": "vigente", "nota": "Tarjeta multitienda; activa"}, {"n": "Solventa Tarjetas", "o": "Local", "sub": "Credit Card Issuer (CMF)", "st": "vigente", "nota": "Registrada CMF; activa"}, {"n": "Inversiones y Tarjetas", "o": "Local", "sub": "Credit Card Issuer (CMF)", "st": "vigente", "nota": "Registrada CMF; activa"}, {"n": "Créditos Organización y Finanzas", "o": "Local", "sub": "Credit Card Issuer (CMF)", "st": "vigente", "nota": "Registrada CMF; activa"}, {"n": "Sociedad de Créditos Comerciales", "o": "Local", "sub": "Credit Card Issuer (CMF)", "st": "vigente", "nota": "Registrada CMF; activa"}, {"n": "Sociedad Emisora de Tarjetas", "o": "Local", "sub": "Credit Card Issuer (CMF)", "st": "vigente", "nota": "Registrada CMF; activa"}]}, "Lending": {"color": "#D85A30", "note": "Plataformas de crédito verificadas.", "noteC": "#D85A30", "sF": true, "hasDualReg": false, "cols": ["Empresa", "Origen", "Subcategoría", "Estado"], "data": [{"n": "Xepelin", "o": "Local", "sub": "Factoring / Discounting", "st": "vigente", "nota": "Más de 6.000 clientes; US$600M financiados en 2024"}, {"n": "Cumplo", "o": "Local", "sub": "Crowdfunding / Debt", "st": "vigente", "nota": "Plataforma P2P lending pionera en Chile"}, {"n": "Maxxa", "o": "Local", "sub": "Factoring / Discounting", "st": "vigente", "nota": "Levantó US$10,6M; activo 2025; diamond sponsor Chile Fintech Forum 2026"}, {"n": "Tanner", "o": "Local", "sub": "Factoring / Discounting", "st": "vigente", "nota": "Grupo financiero + fintech"}, {"n": "RedCapital.cl", "o": "Local", "sub": "Crowdfunding / Debt", "st": "vigente", "nota": "P2P lending; activo"}, {"n": "Fingo", "o": "Local", "sub": "Consumer Credit", "st": "vigente", "nota": "Crédito digital para personas"}, {"n": "Galgo", "o": "Local", "sub": "Auto Finance", "st": "vigente", "nota": "Top 10 fintech Chile 2025"}, {"n": "Amicar", "o": "Local", "sub": "Auto Finance", "st": "vigente", "nota": "Marketplace de autos + financiamiento"}, {"n": "Creditú", "o": "Local", "sub": "Consumer Credit", "st": "vigente", "nota": "Crédito digital"}, {"n": "Wibond", "o": "Local", "sub": "BNPL", "st": "vigente", "nota": "Buy Now Pay Later"}, {"n": "Simpli", "o": "Local", "sub": "SME Credit", "st": "vigente", "nota": "Crédito PYME digital"}, {"n": "Mento", "o": "Local", "sub": "SME Credit", "st": "vigente", "nota": "Activo"}, {"n": "Belat", "o": "Local", "sub": "Factoring / Discounting", "st": "vigente", "nota": "Factoring digital"}, {"n": "Cordada", "o": "Local", "sub": "SME Credit", "st": "vigente", "nota": "Private credit; web activa 2025"}, {"n": "Fondo Esperanza", "o": "Local", "sub": "Consumer Credit", "st": "vigente", "nota": "Microcréditos para inclusión financiera"}, {"n": "Btrust", "o": "Local", "sub": "Factoring / Discounting", "st": "vigente", "nota": "Activo"}, {"n": "Progreso", "o": "Local", "sub": "Consumer Credit", "st": "vigente", "nota": "Activo"}, {"n": "Capitalexpress", "o": "Local", "sub": "Factoring / Discounting", "st": "vigente", "nota": "Activo"}, {"n": "Levannta", "o": "Local", "sub": "Factoring / Discounting", "st": "vigente", "nota": "Creció 4x en 2024; Top100 innovación 2025"}, {"n": "Faast", "o": "Local", "sub": "Factoring / Discounting", "st": "vigente", "nota": "Activo"}, {"n": "Temba", "o": "Local", "sub": "SME Credit", "st": "vigente", "nota": "Activo"}, {"n": "Ecapital", "o": "Local", "sub": "Factoring / Discounting", "st": "vigente", "nota": "Activo"}, {"n": "Enk", "o": "Local", "sub": "SME Credit", "st": "vigente", "nota": "Activo"}, {"n": "Capitalex", "o": "Local", "sub": "Factoring / Discounting", "st": "vigente", "nota": "Activo"}, {"n": "Kredito", "o": "Local", "sub": "Consumer Credit", "st": "vigente", "nota": "Top100 innovación 2025"}, {"n": "Mundialis", "o": "Local", "sub": "SME Credit", "st": "vigente", "nota": "Web activa"}, {"n": "Chita", "o": "Local", "sub": "Consumer Credit", "st": "vigente", "nota": "Activo"}, {"n": "Bolsa Emergente", "o": "Local", "sub": "Crowdfunding / Debt", "st": "vigente", "nota": "Activo"}, {"n": "Incofin", "o": "Local", "sub": "Consumer Credit", "st": "vigente", "nota": "Activo"}, {"n": "Grupo Tuemaquinas", "o": "Local", "sub": "SME Credit", "st": "vigente", "nota": "Activo"}, {"n": "Sasco SpA", "o": "Local", "sub": "SME Credit", "st": "vigente", "nota": "Activo"}, {"n": "Merite", "o": "Extranjera", "sub": "Factoring / Discounting", "st": "vigente", "nota": "Activa en Chile"}, {"n": "Koin", "o": "Extranjera", "sub": "BNPL", "st": "vigente", "nota": "BNPL Latam"}, {"n": "Klym", "o": "Extranjera", "sub": "SME Credit", "st": "vigente", "nota": "Activa en Chile"}, {"n": "Exponencial", "o": "Extranjera", "sub": "Consumer Credit", "st": "vigente", "nota": "Activa en Chile"}, {"n": "Complif", "o": "Extranjera", "sub": "SME Credit", "st": "vigente", "nota": "Activa en Chile"}]}, "Insurtech": {"color": "#993556", "note": "Seguros digitales verificados.", "noteC": "#993556", "sF": true, "hasDualReg": false, "cols": ["Empresa", "Origen", "Subcategoría", "Estado"], "data": [{"n": "Betterfly", "o": "Local", "sub": "Life & Benefits Insurtech", "st": "vigente", "nota": "Primer unicornio insurtech chileno"}, {"n": "Jooycar", "o": "Local", "sub": "Auto Insurtech", "st": "vigente", "nota": "Seguro telemático; premio EILA 2024"}, {"n": "ComparaOnline", "o": "Local", "sub": "Comparison Insurtech", "st": "vigente", "nota": "Corretaje digital; referenciado DF jul 2025"}, {"n": "Selyt", "o": "Local", "sub": "Life & Benefits Insurtech", "st": "vigente", "nota": "Seguros para trabajadores"}, {"n": "QuePlan.cl", "o": "Local", "sub": "Comparison Insurtech", "st": "vigente", "nota": "Comparador de salud"}, {"n": "Simplee", "o": "Local", "sub": "Life & Benefits Insurtech", "st": "vigente", "nota": "Miembro InsurtechChile"}, {"n": "Cactus", "o": "Local", "sub": "Life & Benefits Insurtech", "st": "vigente", "nota": "Activa"}, {"n": "Gerty", "o": "Local", "sub": "Life & Benefits Insurtech", "st": "vigente", "nota": "Activa"}, {"n": "Klare", "o": "Local", "sub": "B2B Insurtech", "st": "vigente", "nota": "Digitalización de seguros B2B; SeguroVisión 2025"}, {"n": "Noovo", "o": "Local", "sub": "Life & Benefits Insurtech", "st": "vigente", "nota": "Miembro InsurtechChile"}, {"n": "Seguro Listo", "o": "Local", "sub": "Comparison Insurtech", "st": "vigente", "nota": "Activa"}, {"n": "Safe Lemon", "o": "Local", "sub": "Home & Pet Insurtech", "st": "vigente", "nota": "Activa"}, {"n": "GarantiaSegura", "o": "Local", "sub": "B2B Insurtech", "st": "vigente", "nota": "Activa"}, {"n": "Gokei", "o": "Local", "sub": "Life & Benefits Insurtech", "st": "vigente", "nota": "Levantó US$200k 2023"}, {"n": "123Seguro", "o": "Local", "sub": "Comparison Insurtech", "st": "vigente", "nota": "Miembro InsurtechChile"}, {"n": "Jizo", "o": "Local", "sub": "Home & Pet Insurtech", "st": "vigente", "nota": "Activa"}, {"n": "Nico", "o": "Local", "sub": "Life & Benefits Insurtech", "st": "vigente", "nota": "Activa"}, {"n": "Boreal", "o": "Local", "sub": "Life & Benefits Insurtech", "st": "vigente", "nota": "Activa"}, {"n": "Exponencial", "o": "Local", "sub": "B2B Insurtech", "st": "vigente", "nota": "Activa"}, {"n": "Fidens", "o": "Local", "sub": "B2B Insurtech", "st": "vigente", "nota": "Elegida por BlockRisk; activa"}, {"n": "Osigu", "o": "Extranjera", "sub": "B2B Insurtech", "st": "vigente", "nota": "Top 10 insurtech Latam 2024"}, {"n": "Klimber", "o": "Extranjera", "sub": "B2B Insurtech", "st": "vigente", "nota": "IA aplicada a seguros; activa en Chile 2025"}, {"n": "WeeCompany", "o": "Extranjera", "sub": "Life & Benefits Insurtech", "st": "vigente", "nota": "Activa en Chile"}, {"n": "AhorraSeguros", "o": "Extranjera", "sub": "Comparison Insurtech", "st": "vigente", "nota": "Activa"}, {"n": "Activar", "o": "Extranjera", "sub": "Life & Benefits Insurtech", "st": "vigente", "nota": "Activa"}, {"n": "Rapihogar", "o": "Extranjera", "sub": "Home & Pet Insurtech", "st": "vigente", "nota": "Activa en Chile"}]}, "Crypto": {"color": "#F59E0B", "note": "Exchanges, pagos e infraestructura crypto.", "noteC": "#F59E0B", "sF": true, "hasDualReg": false, "cols": ["Empresa", "Origen", "Subcategoría", "Estado"], "data": [{"n": "Buda.com", "o": "Local", "sub": "Crypto Exchange", "st": "vigente", "nota": "Exchange pionero en Chile; guía tributaria 2025"}, {"n": "Cryptomarket", "o": "Local", "sub": "Crypto Exchange", "st": "vigente", "nota": "Activo"}, {"n": "Orionx", "o": "Local", "sub": "Crypto Exchange", "st": "vigente", "nota": "Activos digitales Latam; activo"}, {"n": "Koywe", "o": "Local", "sub": "Crypto Payments", "st": "vigente", "nota": "Pagos B2B vía crypto; black sponsor Chile Fintech Forum 2026"}, {"n": "PlussPay", "o": "Local", "sub": "Crypto Payments", "st": "vigente", "nota": "Activo"}, {"n": "Arch", "o": "Local", "sub": "Crypto Exchange", "st": "vigente", "nota": "Activo"}, {"n": "Ibitt", "o": "Local", "sub": "Crypto Exchange", "st": "vigente", "nota": "Activo"}, {"n": "Sugarblock", "o": "Local", "sub": "Crypto Infrastructure", "st": "vigente", "nota": "Activo"}, {"n": "DiboPay", "o": "Local", "sub": "Crypto Payments", "st": "vigente", "nota": "Activo"}, {"n": "Skipo", "o": "Local", "sub": "Crypto Payments", "st": "vigente", "nota": "Activo"}, {"n": "Yumit", "o": "Local", "sub": "Crypto Infrastructure", "st": "vigente", "nota": "Activo"}, {"n": "Weiten", "o": "Local", "sub": "Crypto Infrastructure", "st": "vigente", "nota": "Activo"}, {"n": "Bithoner", "o": "Local", "sub": "Crypto Infrastructure", "st": "vigente", "nota": "Infraestructura crypto; classic sponsor Chile Fintech Forum 2026"}, {"n": "LedgiFi", "o": "Local", "sub": "Crypto Tax", "st": "vigente", "nota": "Plataforma de impuestos crypto; blog activo mar 2026"}, {"n": "Binance", "o": "Extranjera", "sub": "Crypto Exchange", "st": "vigente", "nota": "Exchange global; activo en Chile"}, {"n": "Satoshi Tango", "o": "Extranjera", "sub": "Crypto Exchange", "st": "vigente", "nota": "Activo en Chile"}]}, "Wealth Management": {"color": "#06b6d4", "note": "Gestión de inversiones, fondos y patrimonio.", "noteC": "#06b6d4", "sF": true, "hasDualReg": false, "cols": ["Empresa", "Origen", "Subcategoría", "Estado"], "data": [{"n": "Fintual", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Más de 200k usuarios; AGF líder por número de clientes"}, {"n": "LarrainVial", "o": "Local", "sub": "Wealth Management", "st": "vigente", "nota": "4° gestora de fondos mutuos 2025"}, {"n": "Betterplan", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Activa"}, {"n": "Racional", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Top100 innovación 2025"}, {"n": "Capitaria", "o": "Local", "sub": "Trading / Brokers", "st": "vigente", "nota": "Broker online; activo"}, {"n": "Orionx", "o": "Local", "sub": "Trading / Brokers", "st": "vigente", "nota": "Activos digitales y trading"}, {"n": "Befx", "o": "Local", "sub": "Trading / Brokers", "st": "vigente", "nota": "Activo"}, {"n": "Tradeus", "o": "Local", "sub": "Trading / Brokers", "st": "vigente", "nota": "Activo"}, {"n": "Soyfocus", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Activo"}, {"n": "Scalex", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Activo"}, {"n": "Finka", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Activo"}, {"n": "MercadosG", "o": "Local", "sub": "Trading / Brokers", "st": "vigente", "nota": "Activo"}, {"n": "Axioma", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Activo"}, {"n": "Sigma", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Activo"}, {"n": "Holdo", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Activo"}, {"n": "Conomy", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Activo"}, {"n": "DVA", "o": "Local", "sub": "Wealth Management", "st": "vigente", "nota": "Activo"}, {"n": "Abaqus", "o": "Local", "sub": "Wealth Management", "st": "vigente", "nota": "Activo"}, {"n": "Self Capital", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Activo"}, {"n": "Relif", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Activo"}, {"n": "Traderpal", "o": "Local", "sub": "Trading / Brokers", "st": "vigente", "nota": "Activo"}, {"n": "Quants Capital", "o": "Local", "sub": "Wealth Management", "st": "vigente", "nota": "Activo"}, {"n": "Fintree", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Activo"}, {"n": "Alps", "o": "Local", "sub": "Investment Funds", "st": "vigente", "nota": "Plataforma de inversiones; classic sponsor Chile Fintech Forum 2026"}, {"n": "Xcala", "o": "Local", "sub": "Alternative Investments", "st": "vigente", "nota": "Activos alternativos"}, {"n": "Arkangeles", "o": "Extranjera", "sub": "Investment Funds", "st": "vigente", "nota": "Activo en Chile"}, {"n": "Tyba", "o": "Extranjera", "sub": "Investment Funds", "st": "vigente", "nota": "Activo en Chile"}, {"n": "Pepperstone", "o": "Extranjera", "sub": "Trading / Brokers", "st": "vigente", "nota": "Broker global; activo en Chile"}, {"n": "Trii", "o": "Extranjera", "sub": "Trading / Brokers", "st": "vigente", "nota": "Activo en Chile"}, {"n": "Mentum", "o": "Extranjera", "sub": "Wealth Management", "st": "vigente", "nota": "Activo en Chile"}, {"n": "Swiset", "o": "Extranjera", "sub": "Wealth Management", "st": "vigente", "nota": "Activo en Chile"}]}, "Open Finance / Digital Banking": {"color": "#0F6E56", "note": "Open Finance habilitado por la Ley Fintech. Tenpo Bank obtuvo la primera licencia bancaria nueva en Chile en más de una década (ene 2026).", "noteC": "#0F6E56", "sF": true, "hasDualReg": false, "cols": ["Empresa", "Origen", "Subcategoría", "Estado"], "data": [{"n": "Khipu", "o": "Local", "sub": "Banking API Aggregator", "st": "vigente", "nota": "Más de USD 300M transaccionados 2024; gold sponsor Chile Fintech Forum 2026"}, {"n": "Floid", "o": "Local", "sub": "Open Finance Provider", "st": "vigente", "nota": "API de open banking; black sponsor Chile Fintech Forum 2026"}, {"n": "Fapro", "o": "Local", "sub": "Open Finance Provider", "st": "vigente", "nota": "APIs financieras"}, {"n": "Boufin", "o": "Local", "sub": "Open Finance Provider", "st": "vigente", "nota": "Activo"}, {"n": "Datamart", "o": "Local", "sub": "Open Finance Provider", "st": "vigente", "nota": "Activo"}, {"n": "Prometeo", "o": "Extranjera", "sub": "Open Finance Provider", "st": "vigente", "nota": "API única para bancos de Latam"}, {"n": "Syncfy", "o": "Extranjera", "sub": "Open Finance Provider", "st": "vigente", "nota": "Activa"}, {"n": "Inswitch", "o": "Extranjera", "sub": "Open Finance Provider", "st": "vigente", "nota": "Activa"}, {"n": "Palenca", "o": "Extranjera", "sub": "Open Finance Provider", "st": "vigente", "nota": "Activa"}, {"n": "Finerio Connect", "o": "Extranjera", "sub": "Open Finance Provider", "st": "vigente", "nota": "Activa"}, {"n": "Afterbanks / Arcopay", "o": "Extranjera", "sub": "Open Finance Provider", "st": "vigente", "nota": "Activa"}, {"n": "OpenBankProject", "o": "Extranjera", "sub": "Open Finance Provider", "st": "vigente", "nota": "Activo"}, {"n": "Konsentus", "o": "Extranjera", "sub": "Open Finance Provider", "st": "vigente", "nota": "Activo"}, {"n": "Tenpo Bank", "o": "Local", "sub": "Digital / Neo Bank", "st": "vigente", "nota": "Licencia bancaria ene 2026; más de 2M de usuarios"}, {"n": "Mach", "o": "Local", "sub": "Digital / Neo Bank", "st": "vigente", "nota": "Neobanco de BCI"}, {"n": "Chek", "o": "Local", "sub": "Digital / Neo Bank", "st": "vigente", "nota": "App del Banco de Chile"}, {"n": "Clever", "o": "Local", "sub": "Digital / Neo Bank", "st": "vigente", "nota": "Activo"}, {"n": "Superdigital", "o": "Local", "sub": "Digital / Neo Bank", "st": "vigente", "nota": "Activo"}, {"n": "Tapp", "o": "Local", "sub": "Digital / Neo Bank", "st": "vigente", "nota": "Activo; experience sponsor Chile Fintech Forum 2026"}, {"n": "Nu (Nubank)", "o": "Extranjera", "sub": "Digital / Neo Bank", "st": "vigente", "nota": "Neobanco global con más de 100M de clientes; experience sponsor Chile Fintech Forum 2026"}, {"n": "Revolut", "o": "Extranjera", "sub": "Digital / Neo Bank", "st": "vigente", "nota": "Neobanco global; activo en Chile; experience sponsor Chile Fintech Forum 2026"}, {"n": "Lulo Bank", "o": "Extranjera", "sub": "Digital / Neo Bank", "st": "vigente", "nota": "Neobanco colombiano; experience sponsor Chile Fintech Forum 2026"}, {"n": "EFY Finance", "o": "Extranjera", "sub": "Digital / Neo Bank", "st": "vigente", "nota": "Activo en Chile"}]}, "EFM": {"color": "#185FA5", "note": "Enterprise Financial Management B2B. Nueva subcategoría HR & Payroll.", "noteC": "#185FA5", "sF": true, "hasDualReg": false, "cols": ["Empresa", "Origen", "Subcategoría", "Estado"], "data": [{"n": "Chipax", "o": "Local", "sub": "Treasury & Liquidity", "st": "vigente", "nota": "Líder B2B tesorería; top fintech Chile 2025"}, {"n": "Nubox", "o": "Local", "sub": "ERP / Accounting", "st": "vigente", "nota": "Software contable para pymes"}, {"n": "Bemmbo", "o": "Local", "sub": "B2B Collections & Payments", "st": "vigente", "nota": "Activo"}, {"n": "Openfactura", "o": "Local", "sub": "Electronic Invoicing", "st": "vigente", "nota": "Activo"}, {"n": "Rindegastos", "o": "Local", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Gestión de gastos corporativos"}, {"n": "Gosocket", "o": "Local", "sub": "Electronic Invoicing", "st": "vigente", "nota": "Líder en factura electrónica Latam"}, {"n": "Duemint", "o": "Local", "sub": "B2B Collections & Payments", "st": "vigente", "nota": "Cobranza automatizada; registrada UAF"}, {"n": "Toku", "o": "Local", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Activo"}, {"n": "Colektia", "o": "Local", "sub": "B2B Collections & Payments", "st": "vigente", "nota": "Cobranza digital"}, {"n": "Faaro", "o": "Local", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Activo"}, {"n": "Clyme", "o": "Local", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Activo"}, {"n": "Clay", "o": "Local", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Top fintech Chile Forbes 2024; gold sponsor Chile Fintech Forum 2026"}, {"n": "Laudus", "o": "Local", "sub": "ERP / Accounting", "st": "vigente", "nota": "ERP activo"}, {"n": "Kame ERP", "o": "Local", "sub": "ERP / Accounting", "st": "vigente", "nota": "ERP activo"}, {"n": "Charly.io", "o": "Local", "sub": "Treasury & Liquidity", "st": "vigente", "nota": "Activo"}, {"n": "Uwigo", "o": "Local", "sub": "B2B Collections & Payments", "st": "vigente", "nota": "Activo"}, {"n": "Encuadrado", "o": "Local", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Activo"}, {"n": "SmartCFO", "o": "Local", "sub": "Treasury & Liquidity", "st": "vigente", "nota": "Activo"}, {"n": "Puntopagos", "o": "Local", "sub": "B2B Collections & Payments", "st": "vigente", "nota": "Activo"}, {"n": "Upago", "o": "Local", "sub": "B2B Collections & Payments", "st": "vigente", "nota": "Activo"}, {"n": "Cobro Tech", "o": "Local", "sub": "B2B Collections & Payments", "st": "vigente", "nota": "Activo"}, {"n": "Libre DTE", "o": "Local", "sub": "Electronic Invoicing", "st": "vigente", "nota": "Activo"}, {"n": "FacturaChile", "o": "Local", "sub": "Electronic Invoicing", "st": "vigente", "nota": "Activo"}, {"n": "SBP", "o": "Local", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Activo"}, {"n": "Shinkansen", "o": "Local", "sub": "B2B Collections & Payments", "st": "vigente", "nota": "Socio de Neat; black sponsor Chile Fintech Forum 2026"}, {"n": "Finanzas 360", "o": "Local", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Activo"}, {"n": "Fintegram", "o": "Local", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Finalista Chile Fintech Forum 2025"}, {"n": "Zafepay", "o": "Local", "sub": "Recurring Payments EFM", "st": "vigente", "nota": "Pagos recurrentes para pymes; lanzada jul 2024"}, {"n": "Piriod", "o": "Local", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Sponsor Chile Fintech Forum 2026"}, {"n": "Audibots", "o": "Local", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "IA + Open Banking"}, {"n": "AlteraPay", "o": "Local", "sub": "Recurring Payments EFM", "st": "vigente", "nota": "Pagos QR y recurrentes"}, {"n": "Buk", "o": "Local", "sub": "HR & Payroll", "st": "vigente", "nota": "Software RRHH + nómina líder en Chile; más de 3.000 empresas clientes; gold sponsor Chile Fintech Forum 2026"}, {"n": "Valkimia", "o": "Local", "sub": "HR & Payroll", "st": "vigente", "nota": "Beneficios y bienestar financiero para empleados; classic sponsor Chile Fintech Forum 2026"}, {"n": "Billvy", "o": "Local", "sub": "B2B Collections & Payments", "st": "vigente", "nota": "Cobranza digital para empresas; classic sponsor Chile Fintech Forum 2026"}, {"n": "Moonflow", "o": "Extranjera", "sub": "B2B Collections & Payments", "st": "vigente", "nota": "Activa en Chile"}, {"n": "Destacame", "o": "Extranjera", "sub": "B2B Collections & Payments", "st": "vigente", "nota": "Programa educación financiera nov 2025"}, {"n": "Simetrik", "o": "Extranjera", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Activa"}, {"n": "Treinta", "o": "Extranjera", "sub": "ERP / Accounting", "st": "vigente", "nota": "Activa"}, {"n": "Idata", "o": "Extranjera", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Activa"}, {"n": "MO", "o": "Extranjera", "sub": "B2B Collections & Payments", "st": "vigente", "nota": "Activa"}, {"n": "Speedy Global", "o": "Extranjera", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Activa"}, {"n": "Kiban", "o": "Extranjera", "sub": "Corporate Financial Mgmt", "st": "vigente", "nota": "Activa"}]}, "PropTech": {"color": "#639922", "note": "Tecnología para el mercado inmobiliario. Houm alcanzó rentabilidad en feb 2026.", "noteC": "#639922", "sF": true, "hasDualReg": false, "cols": ["Empresa", "Origen", "Subcategoría", "Estado"], "data": [{"n": "Houm", "o": "Local", "sub": "Property Management", "st": "vigente", "nota": "Rentabilidad feb 2026; expansión regional"}, {"n": "Toctoc", "o": "Local", "sub": "Real Estate Marketplace", "st": "vigente", "nota": "Portal inmobiliario; datos de mercado 2024"}, {"n": "Assetplan", "o": "Local", "sub": "Property Management", "st": "vigente", "nota": "Activo"}, {"n": "Capitalizarme.com", "o": "Local", "sub": "Real Estate Investment", "st": "vigente", "nota": "Activo"}, {"n": "Fractional.cl", "o": "Local", "sub": "Real Estate Crowdfunding", "st": "vigente", "nota": "Inversión fraccionada; creciendo 2024"}, {"n": "Refy", "o": "Local", "sub": "Real Estate Marketplace", "st": "vigente", "nota": "Activo"}, {"n": "Hogarizate", "o": "Local", "sub": "Real Estate Marketplace", "st": "vigente", "nota": "Activo"}, {"n": "Wbuild", "o": "Local", "sub": "Construction / Development", "st": "vigente", "nota": "Activo; miembro del gremio proptech"}, {"n": "Reity", "o": "Local", "sub": "Real Estate Crowdfunding", "st": "vigente", "nota": "Activo"}, {"n": "Spacios", "o": "Local", "sub": "Property Management", "st": "vigente", "nota": "Activo; miembro del gremio proptech"}, {"n": "Lares", "o": "Local", "sub": "Real Estate Investment", "st": "vigente", "nota": "Activo"}, {"n": "Leasity", "o": "Local", "sub": "Property Management", "st": "vigente", "nota": "Activo"}, {"n": "Yelli.io", "o": "Local", "sub": "Property Management", "st": "vigente", "nota": "Activo"}, {"n": "Loogar", "o": "Local", "sub": "Real Estate Marketplace", "st": "vigente", "nota": "Activo"}, {"n": "Edipro", "o": "Local", "sub": "Construction / Development", "st": "vigente", "nota": "Activo"}, {"n": "Gen Proactivo", "o": "Local", "sub": "Real Estate Investment", "st": "vigente", "nota": "Activo"}, {"n": "Breal", "o": "Local", "sub": "Real Estate Crowdfunding", "st": "vigente", "nota": "Activo"}, {"n": "Wallstate", "o": "Local", "sub": "Real Estate Investment", "st": "vigente", "nota": "Activo"}, {"n": "DataNido", "o": "Local", "sub": "Real Estate Marketplace", "st": "vigente", "nota": "Datos del mercado inmobiliario"}, {"n": "Siena", "o": "Local", "sub": "Property Management", "st": "vigente", "nota": "Activo"}, {"n": "Axionate", "o": "Local", "sub": "Real Estate Investment", "st": "vigente", "nota": "Activo"}, {"n": "Legria", "o": "Local", "sub": "Real Estate Crowdfunding", "st": "vigente", "nota": "Referenciada en fuentes 2024"}, {"n": "Homespotter", "o": "Local", "sub": "PropTech Intelligence", "st": "vigente", "nota": "IA + big data inmobiliaria; prensa oct 2025"}, {"n": "Bheed", "o": "Local", "sub": "Real Estate Marketplace", "st": "vigente", "nota": "PropTech chilena; LinkedIn activo"}, {"n": "AiTerra", "o": "Extranjera", "sub": "Real Estate Marketplace", "st": "vigente", "nota": "Activa"}, {"n": "Opencasa", "o": "Extranjera", "sub": "Real Estate Marketplace", "st": "vigente", "nota": "Activa"}, {"n": "IF", "o": "Extranjera", "sub": "Real Estate Investment", "st": "vigente", "nota": "Activa"}]}, "PFM": {"color": "#BA7517", "note": "Gestión de finanzas personales y score crediticio.", "noteC": "#BA7517", "sF": true, "hasDualReg": false, "cols": ["Empresa", "Origen", "Subcategoría", "Estado"], "data": [{"n": "Destacame", "o": "Extranjera", "sub": "Credit Scoring", "st": "vigente", "nota": "Más de 4M de personas alcanzadas"}, {"n": "Rokin", "o": "Local", "sub": "Personal Finance (PFM)", "st": "vigente", "nota": "Activo"}, {"n": "Califix", "o": "Local", "sub": "Credit Scoring", "st": "vigente", "nota": "Activo"}, {"n": "AgentPiggy", "o": "Local", "sub": "Financial Education", "st": "vigente", "nota": "Ahorro y educación financiera para niños y jóvenes"}, {"n": "Infocheck", "o": "Local", "sub": "Credit Scoring", "st": "vigente", "nota": "Activo"}, {"n": "Patrimore", "o": "Local", "sub": "Personal Finance (PFM)", "st": "vigente", "nota": "Activo"}, {"n": "BrokerBot", "o": "Local", "sub": "Personal Finance (PFM)", "st": "vigente", "nota": "Activo"}, {"n": "U-zave", "o": "Local", "sub": "Personal Finance (PFM)", "st": "vigente", "nota": "Activo"}, {"n": "FinTelligence", "o": "Local", "sub": "Personal Finance (PFM)", "st": "vigente", "nota": "Activo"}, {"n": "Propital", "o": "Local", "sub": "Personal Finance (PFM)", "st": "vigente", "nota": "Activo"}, {"n": "Brolly", "o": "Local", "sub": "Personal Finance (PFM)", "st": "vigente", "nota": "Activo"}, {"n": "Quansa", "o": "Extranjera", "sub": "Personal Finance (PFM)", "st": "vigente", "nota": "Activa en Chile"}, {"n": "Fundación Capital", "o": "Extranjera", "sub": "Financial Education", "st": "vigente", "nota": "Activa en Chile"}, {"n": "Alfi", "o": "Extranjera", "sub": "Personal Finance (PFM)", "st": "vigente", "nota": "Activa"}, {"n": "Flevo", "o": "Extranjera", "sub": "Personal Finance (PFM)", "st": "vigente", "nota": "Activa"}, {"n": "Olumni", "o": "Extranjera", "sub": "Personal Finance (PFM)", "st": "vigente", "nota": "Activa"}, {"n": "Investopi", "o": "Extranjera", "sub": "Personal Finance (PFM)", "st": "vigente", "nota": "Activa"}, {"n": "Regum", "o": "Extranjera", "sub": "Credit Scoring", "st": "vigente", "nota": "Activa"}]}, "TIB&F": {"color": "#5F5E5A", "note": "Tecnología B2B para bancos y fintechs.", "noteC": "#5F5E5A", "sF": true, "hasDualReg": false, "cols": ["Empresa", "Origen", "Subcategoría", "Estado"], "data": [{"n": "Hackmetrix", "o": "Local", "sub": "Financial Cybersecurity", "st": "vigente", "nota": "Ciberseguridad para fintechs"}, {"n": "Modyo", "o": "Local", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Plataforma digital para banca; activa 2025"}, {"n": "Regcheq", "o": "Local", "sub": "Regtech / Compliance", "st": "vigente", "nota": "KYC/AML; activo"}, {"n": "Snap Compliance", "o": "Local", "sub": "Regtech / Compliance", "st": "vigente", "nota": "Activo"}, {"n": "Firmavirtual", "o": "Local", "sub": "Digital Identity", "st": "vigente", "nota": "Firma electrónica; activo"}, {"n": "Plutto", "o": "Local", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Activo"}, {"n": "Synaptic", "o": "Local", "sub": "API Banking", "st": "vigente", "nota": "Activo"}, {"n": "Rocketbot", "o": "Local", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "RPA para finanzas; activo"}, {"n": "Gesintel", "o": "Local", "sub": "Regtech / Compliance", "st": "vigente", "nota": "Activo"}, {"n": "Getxerpa", "o": "Local", "sub": "API Banking", "st": "vigente", "nota": "Activo"}, {"n": "Metriks", "o": "Local", "sub": "Financial Cybersecurity", "st": "vigente", "nota": "Activo"}, {"n": "Andes Blockchain", "o": "Local", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Blockchain financiero"}, {"n": "Biometrix", "o": "Local", "sub": "Digital Identity", "st": "vigente", "nota": "Activo"}, {"n": "Identyz", "o": "Local", "sub": "Digital Identity", "st": "vigente", "nota": "Activo"}, {"n": "Auna", "o": "Local", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Activo"}, {"n": "Tutenlabs", "o": "Local", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Activo"}, {"n": "Ceptinel", "o": "Local", "sub": "Financial Cybersecurity", "st": "vigente", "nota": "Activo"}, {"n": "Vulcanus", "o": "Local", "sub": "Financial Cybersecurity", "st": "vigente", "nota": "Activo"}, {"n": "Ailex", "o": "Local", "sub": "Regtech / Compliance", "st": "vigente", "nota": "Activo"}, {"n": "CoreDevX", "o": "Local", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Activo"}, {"n": "FintechLAB", "o": "Local", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Activo"}, {"n": "Sheriff", "o": "Local", "sub": "Financial Cybersecurity", "st": "vigente", "nota": "Activo"}, {"n": "Lonix", "o": "Local", "sub": "Regtech / Compliance", "st": "vigente", "nota": "Activo"}, {"n": "Wird", "o": "Local", "sub": "AI for Enterprise", "st": "vigente", "nota": "IA B2B chilena desde 2012; presente en 5 países"}, {"n": "Ionix", "o": "Local", "sub": "Digital Identity", "st": "vigente", "nota": "KYC y verificación de identidad digital; gold sponsor Chile Fintech Forum 2026"}, {"n": "Sinaptica Innovation", "o": "Local", "sub": "AI for Enterprise", "st": "vigente", "nota": "IA aplicada a procesos financieros; classic sponsor Chile Fintech Forum 2026"}, {"n": "Cybertrust", "o": "Local", "sub": "Financial Cybersecurity", "st": "vigente", "nota": "Ciberseguridad para instituciones financieras; classic sponsor Chile Fintech Forum 2026"}, {"n": "Active I.T", "o": "Local", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Servicios IT para banca; classic sponsor Chile Fintech Forum 2026"}, {"n": "Kibernum", "o": "Local", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "IT outsourcing para banca; classic sponsor Chile Fintech Forum 2026"}, {"n": "WyeWorks", "o": "Local", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Desarrollo de software para fintechs y banca; classic sponsor Chile Fintech Forum 2026"}, {"n": "Truora", "o": "Extranjera", "sub": "Digital Identity", "st": "vigente", "nota": "KYC/identidad; activa 2025; platinum sponsor Chile Fintech Forum 2026"}, {"n": "Novopayment", "o": "Extranjera", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Infraestructura BaaS; activa en Chile 2025"}, {"n": "SAP Fioneer", "o": "Extranjera", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Core financiero enterprise"}, {"n": "Veritran", "o": "Extranjera", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Plataforma digital para banca; platinum sponsor Chile Fintech Forum 2026"}, {"n": "Tapi", "o": "Extranjera", "sub": "API Banking", "st": "vigente", "nota": "Alianza con Neat 2024"}, {"n": "Rocket Code", "o": "Extranjera", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Activa"}, {"n": "GDS Link", "o": "Extranjera", "sub": "Regtech / Compliance", "st": "vigente", "nota": "Decisión crediticia"}, {"n": "Incode", "o": "Extranjera", "sub": "Digital Identity", "st": "vigente", "nota": "Biometría; activa"}, {"n": "Cincel", "o": "Extranjera", "sub": "Digital Identity", "st": "vigente", "nota": "Firma electrónica; activa en Chile"}, {"n": "Zenpli", "o": "Extranjera", "sub": "Regtech / Compliance", "st": "vigente", "nota": "Activa"}, {"n": "Worldsys", "o": "Extranjera", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Activa"}, {"n": "Coinscrap Finance", "o": "Extranjera", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Activa"}, {"n": "Transfero", "o": "Extranjera", "sub": "API Banking", "st": "vigente", "nota": "Activa"}, {"n": "Jumio", "o": "Extranjera", "sub": "Digital Identity", "st": "vigente", "nota": "KYC/AML global con IA; gold sponsor Chile Fintech Forum 2026"}, {"n": "LexisNexis Risk Solutions", "o": "Extranjera", "sub": "Regtech / Compliance", "st": "vigente", "nota": "Datos y cumplimiento normativo; gold sponsor Chile Fintech Forum 2026"}, {"n": "Onyra by L&T", "o": "Extranjera", "sub": "Regtech / Compliance", "st": "vigente", "nota": "Plataforma de compliance; gold sponsor Chile Fintech Forum 2026"}, {"n": "TransUnion", "o": "Extranjera", "sub": "Regtech / Compliance", "st": "vigente", "nota": "Buró de crédito global; platinum sponsor Chile Fintech Forum 2026"}, {"n": "Equifax", "o": "Extranjera", "sub": "Regtech / Compliance", "st": "vigente", "nota": "Buró de crédito y analytics financiero; platinum sponsor Chile Fintech Forum 2026"}, {"n": "TIVIT", "o": "Extranjera", "sub": "Core Banking / BaaS Infra", "st": "vigente", "nota": "Tecnología cloud para banca en Latam; classic sponsor Chile Fintech Forum 2026"}]}, "Crowdfunding": {"color": "#993C1D", "note": "Plataformas de financiamiento colectivo.", "noteC": "#993C1D", "sF": true, "hasDualReg": false, "cols": ["Empresa", "Origen", "Subcategoría", "Estado"], "data": [{"n": "Broota", "o": "Local", "sub": "Investment Crowdfunding", "st": "vigente", "nota": "Inversión en startups"}, {"n": "Desafio", "o": "Local", "sub": "Debt Crowdfunding", "st": "vigente", "nota": "Activo"}, {"n": "Uper", "o": "Local", "sub": "Investment Crowdfunding", "st": "vigente", "nota": "Activo"}, {"n": "DaleProfe", "o": "Local", "sub": "Donation Crowdfunding", "st": "vigente", "nota": "Educación"}, {"n": "Catapultame", "o": "Local", "sub": "Donation Crowdfunding", "st": "vigente", "nota": "Activo"}, {"n": "Inkoms", "o": "Extranjera", "sub": "Investment Crowdfunding", "st": "vigente", "nota": "Activa en Chile"}]}};
+</script><script>
+const GLOSARIO={"Payments & Remittances": {"color": "#1D9E75", "desc": "Segmento más grande del ecosistema. Abarca todo actor que mueve dinero entre personas, empresas o países.", "subs": [{"sub": "International Remittances", "color": "#1D9E75", "desc": "Envío de dinero P2P a través de fronteras.", "diff": "Las remesas son P2P; cross-border es B2B.", "ej": ["Global66", "CurrencyBird", "Wise", "Retorna"]}, {"sub": "Money Transfers (UAF)", "color": "#D85A30", "desc": "Entidades registradas en la UAF para operar transferencias.", "diff": "El registro UAF es obligatorio.", "ej": ["Chileexpress", "Servipag", "Duemint"]}, {"sub": "FX / Corporate Exchange", "color": "#3B6D11", "desc": "Compra y venta de divisas para empresas.", "diff": "Afex opera en ambas figuras: UAF y CMF.", "ej": ["Afex Transferencias y Cambios", "Afex Agencia de Valores"]}, {"sub": "Cross-border Payments", "color": "#7F77DD", "desc": "Procesamiento de pagos B2B entre empresas en distintos países.", "diff": "A diferencia de las remesas (P2P), cross-border es B2B.", "ej": ["XTransfer", "D-local", "Ebanx", "Vita Wallet"]}, {"sub": "Payment Gateway", "color": "#185FA5", "desc": "Intermediario tecnológico que conecta al comercio con todos los medios de pago.", "diff": "No mueven fondos propios.", "ej": ["Stripe", "Flow", "Virtualpos"]}, {"sub": "Acquiring / POS", "color": "#D85A30", "desc": "Empresas que procesan pagos con tarjeta en el punto de venta.", "diff": "Los adquirentes tienen licencia de las redes.", "ej": ["Transbank", "Klap", "Getnet by Santander"]}, {"sub": "Payment Initiation", "color": "#0F6E56", "desc": "Empresa que inicia transferencias bancarias directamente desde la cuenta del pagador.", "diff": "No intermedian fondos ni guardan saldo.", "ej": ["Fintoc", "Etpay", "Khipu"]}, {"sub": "Digital Wallet / Prepaid", "color": "#BA7517", "desc": "App que almacena saldo digital y/o vincula medios de pago.", "diff": "Las billeteras custodian saldo propio del usuario.", "ej": ["Mach", "CencoPay", "Tenpo", "Mercado Pago"]}, {"sub": "BNPL", "color": "#639922", "desc": "Buy Now Pay Later — cuotas sin interés donde la plataforma asume el riesgo.", "diff": "La plataforma asume el riesgo, no el comprador.", "ej": ["Venti Pay", "Wibond", "Koin"]}, {"sub": "Recurring Payments", "color": "#639922", "desc": "Plataformas que automatizan cobros recurrentes.", "diff": "Foco en cobros programados y automatizados.", "ej": ["Reveniu", "Neat", "Cardda"]}, {"sub": "Cash Collection", "color": "#854F0B", "desc": "Redes físicas donde los usuarios pagan en efectivo.", "diff": "Son el último kilómetro para usuarios sin cuenta bancaria.", "ej": ["Sencillito", "Paycash"]}, {"sub": "Payment Infrastructure", "color": "#5F5E5A", "desc": "Proveedores de tecnología subyacente. Solo B2B.", "diff": "Los usuarios finales no interactúan directamente.", "ej": ["ACI Worldwide", "Evertec", "Visa", "Mastercard"]}, {"sub": "BaaS / Card Issuance", "color": "#993556", "desc": "Banking-as-a-Service: infraestructura para emitir tarjetas sin licencia bancaria propia.", "diff": "Distinto de los emisores de prepago.", "ej": ["Pomelo", "Dock"]}, {"sub": "B2B Specialized Payments", "color": "#993C1D", "desc": "Soluciones de pago para verticales B2B específicos.", "diff": "Foco vertical específico.", "ej": ["Parku", "AgendaPro", "Pago46"]}]}, "Banking Institutions & CMF": {"color": "#185FA5", "desc": "Instituciones reguladas directamente por la CMF.", "subs": [{"sub": "Local Private Bank", "color": "#185FA5", "desc": "Bancos comerciales constituidos en Chile.", "diff": "Constituidos bajo la ley chilena.", "ej": ["Banco de Chile", "BCI", "Banco Falabella"]}, {"sub": "State Bank", "color": "#0F6E56", "desc": "Banco del Estado de Chile.", "diff": "Su misión incluye objetivos de política social.", "ej": ["Banco del Estado"]}, {"sub": "Foreign Bank", "color": "#7F77DD", "desc": "Bancos que operan en Chile a través de sucursales.", "diff": "Operan bajo regulación de su país de origen más CMF.", "ej": ["JP Morgan Chile", "Bank of China Chile"]}, {"sub": "Local Bank Abroad", "color": "#5F5E5A", "desc": "Bancos chilenos con oficinas en el exterior.", "diff": "Regulados en Chile pero operando en jurisdicciones extranjeras.", "ej": ["BCI Miami", "BancoEstado Nueva York"]}, {"sub": "Credit Union", "color": "#BA7517", "desc": "Cooperativas de ahorro y crédito.", "diff": "Las utilidades se distribuyen entre los socios.", "ej": ["Coopeuch", "Oriencoop"]}, {"sub": "Prepaid Issuer (CMF)", "color": "#993556", "desc": "Entidades autorizadas por la CMF para emitir instrumentos de pago prepago.", "diff": "Son los vehículos regulatorios detrás de las billeteras digitales.", "ej": ["Tenpo Payment S.A.", "Mercado Pago emisora"]}, {"sub": "Payment Operator (CMF)", "color": "#D85A30", "desc": "Entidades que operan redes de pago con tarjeta bajo licencia CMF.", "diff": "Los operadores gestionan la red; los adquirentes conectan los comercios.", "ej": ["Transbank S.A.", "ISWITCH S.A."]}, {"sub": "Credit Card Issuer (CMF)", "color": "#639922", "desc": "Entidades no bancarias autorizadas por la CMF para emitir tarjetas de crédito.", "diff": "Solo pueden emitir tarjetas de crédito.", "ej": ["FISO S.A.", "Tricard"]}]}, "Lending": {"color": "#D85A30", "desc": "Plataformas que otorgan crédito o facilitan el acceso a financiamiento.", "subs": [{"sub": "Factoring / Discounting", "color": "#D85A30", "desc": "Adelanto de liquidez sobre facturas pendientes.", "diff": "No es un préstamo: la empresa vende sus facturas a cambio de liquidez.", "ej": ["Xepelin", "Maxxa", "Levannta"]}, {"sub": "SME Credit", "color": "#185FA5", "desc": "Créditos de capital de trabajo para pymes.", "diff": "No requiere facturas.", "ej": ["Simpli", "Cordada", "Klym"]}, {"sub": "Consumer Credit", "color": "#BA7517", "desc": "Créditos personales digitales con aprobación rápida.", "diff": "Mayor riesgo que el crédito pyme.", "ej": ["Fingo", "Creditú", "Kredito"]}, {"sub": "BNPL", "color": "#639922", "desc": "Buy Now Pay Later.", "diff": "No hay contrato de crédito formal.", "ej": ["Wibond", "Koin"]}, {"sub": "Auto Finance", "color": "#854F0B", "desc": "Financiamiento especializado en compra de vehículos.", "diff": "Crédito vertical específico.", "ej": ["Galgo", "Amicar"]}, {"sub": "Crowdfunding / Debt", "color": "#993C1D", "desc": "Plataformas P2P de préstamo.", "diff": "La plataforma conecta prestamistas y prestatarios.", "ej": ["Cumplo", "RedCapital.cl"]}]}, "Insurtech": {"color": "#993556", "desc": "Tecnología aplicada al mercado de seguros.", "subs": [{"sub": "Life & Benefits Insurtech", "color": "#D85A30", "desc": "Plataformas digitales para seguros de vida, salud y beneficios.", "diff": "Betterfly fue pionera en Latam.", "ej": ["Betterfly", "Selyt", "Gokei"]}, {"sub": "Auto Insurtech", "color": "#BA7517", "desc": "Seguros de auto basados en tecnología y telemática.", "diff": "Telemática = precio por uso.", "ej": ["Jooycar"]}, {"sub": "Comparison Insurtech", "color": "#0F6E56", "desc": "Plataformas que comparan productos de seguros.", "diff": "El modelo de ingresos es la comisión de corretaje.", "ej": ["ComparaOnline", "QuePlan.cl", "123Seguro"]}, {"sub": "Home & Pet Insurtech", "color": "#854F0B", "desc": "Seguros digitales para hogar, arriendo y mascotas.", "diff": "Seguro embebido = cobertura ofrecida en el punto de venta.", "ej": ["Safe Lemon", "Jizo"]}, {"sub": "B2B Insurtech", "color": "#993556", "desc": "Soluciones tecnológicas para aseguradoras y corredores.", "diff": "No venden al consumidor final.", "ej": ["Klare", "Osigu", "Klimber"]}]}, "Crypto": {"color": "#F59E0B", "desc": "Exchanges de criptomonedas, plataformas de pagos crypto e infraestructura blockchain.", "subs": [{"sub": "Crypto Exchange", "color": "#F59E0B", "desc": "Plataforma de compra y venta de criptomonedas.", "diff": "Los exchanges centralizados tienen riesgo de custodia.", "ej": ["Buda.com", "Orionx", "Binance"]}, {"sub": "Crypto Payments", "color": "#639922", "desc": "Uso de crypto como vía de pago B2B.", "diff": "El usuario no necesita entender crypto.", "ej": ["Koywe", "PlussPay", "DiboPay"]}, {"sub": "Crypto Infrastructure", "color": "#5F5E5A", "desc": "Herramientas para desarrolladores y billeteras blockchain.", "diff": "B2B/B2D.", "ej": ["Sugarblock", "Bithoner", "Yumit"]}, {"sub": "Crypto Tax", "color": "#D85A30", "desc": "Plataformas que automatizan la declaración de impuestos para transacciones crypto.", "diff": "Vertical específico.", "ej": ["LedgiFi"]}]}, "Wealth Management": {"color": "#06b6d4", "desc": "Plataformas de inversión, fondos mutuos, asesoría patrimonial y trading.", "subs": [{"sub": "Investment Funds", "color": "#1D9E75", "desc": "Plataformas para invertir en fondos mutuos, ETFs u otros instrumentos regulados.", "diff": "Los robo-advisors pueden no ser AGF propias.", "ej": ["Fintual", "Betterplan", "Alps", "Racional"]}, {"sub": "Wealth Management", "color": "#185FA5", "desc": "Asesoría y gestión de portafolios para personas de alto patrimonio.", "diff": "Típicamente mayor inversión mínima.", "ej": ["LarrainVial", "DVA", "Mentum"]}, {"sub": "Trading / Brokers", "color": "#7F77DD", "desc": "Plataformas online para trading activo.", "diff": "Mayor apetito por el riesgo.", "ej": ["Capitaria", "Pepperstone", "Trii"]}, {"sub": "Alternative Investments", "color": "#639922", "desc": "Plataformas que democratizan el acceso a private equity y activos alternativos.", "diff": "Democratizan clases de activos históricamente restringidas.", "ej": ["Xcala", "Arkangeles"]}]}, "Open Finance / Digital Banking": {"color": "#0F6E56", "desc": "Proveedores de APIs bancarias habilitados por la Ley Fintech (2023).", "subs": [{"sub": "Banking API Aggregator", "color": "#1D9E75", "desc": "Plataformas con una API única que conecta a múltiples bancos chilenos.", "diff": "Los agregadores unifican el acceso.", "ej": ["Khipu", "Floid"]}, {"sub": "Open Finance Provider", "color": "#7F77DD", "desc": "Empresas tecnológicas que proveen la capa de infraestructura para Open Finance.", "diff": "Generalmente B2B.", "ej": ["Prometeo", "Syncfy", "Inswitch"]}, {"sub": "Digital / Neo Bank", "color": "#185FA5", "desc": "Banco o plataforma financiera 100% digital.", "diff": "Tenpo Bank obtuvo su licencia propia en ene 2026.", "ej": ["Tenpo Bank", "Nu (Nubank)", "Revolut", "Mach"]}]}, "EFM": {"color": "#185FA5", "desc": "Enterprise Financial Management B2B.", "subs": [{"sub": "Corporate Financial Mgmt", "color": "#185FA5", "desc": "Plataformas para gestionar las finanzas corporativas.", "diff": "Más holístico que las soluciones puntuales.", "ej": ["Chipax", "Rindegastos", "Clay"]}, {"sub": "B2B Collections & Payments", "color": "#D85A30", "desc": "Gestión automatizada de cuentas por cobrar y cobranza.", "diff": "Foco en el dinero que entra.", "ej": ["Bemmbo", "Colektia", "Billvy", "Duemint"]}, {"sub": "Electronic Invoicing", "color": "#0F6E56", "desc": "Plataformas para generar, enviar y gestionar DTE.", "diff": "Obligatorio en Chile desde 2003.", "ej": ["Gosocket", "Openfactura", "Libre DTE"]}, {"sub": "ERP / Accounting", "color": "#639922", "desc": "Software de gestión empresarial.", "diff": "Gestión integral versus soluciones puntuales.", "ej": ["Nubox", "Laudus", "Kame ERP"]}, {"sub": "Treasury & Liquidity", "color": "#BA7517", "desc": "Herramientas para gestión del flujo de caja en tiempo real.", "diff": "Herramientas nivel CFO.", "ej": ["Chipax", "SmartCFO", "Charly.io"]}, {"sub": "Recurring Payments EFM", "color": "#993C1D", "desc": "Plataformas para automatizar cobros recurrentes B2B.", "diff": "Foco en facturación empresarial.", "ej": ["Zafepay", "AlteraPay"]}, {"sub": "HR & Payroll", "color": "#7E5CB5", "desc": "Plataformas de RRHH con componente financiero.", "diff": "Foco en el capital humano y los beneficios ligados al salario.", "ej": ["Buk", "Valkimia"]}]}, "PropTech": {"color": "#639922", "desc": "Tecnología para el mercado inmobiliario.", "subs": [{"sub": "Real Estate Marketplace", "color": "#D85A30", "desc": "Portales online para comprar, vender o arrendar propiedades.", "diff": "Los marketplaces conectan; las plataformas de gestión operan.", "ej": ["Toctoc", "Refy", "Bheed"]}, {"sub": "Property Management", "color": "#185FA5", "desc": "Plataformas digitales que gestionan el ciclo completo del arriendo.", "diff": "Permanecen involucradas después de cerrar el trato.", "ej": ["Houm", "Assetplan", "Spacios"]}, {"sub": "Real Estate Investment", "color": "#639922", "desc": "Plataformas que habilitan la inversión individual en activos inmobiliarios.", "diff": "Las plataformas de inversión generan retornos.", "ej": ["Capitalizarme.com", "Lares", "Wallstate"]}, {"sub": "Real Estate Crowdfunding", "color": "#993C1D", "desc": "Plataformas de inversión colectiva.", "diff": "Propiedad fraccionada.", "ej": ["Fractional.cl", "Reity"]}, {"sub": "Construction / Development", "color": "#854F0B", "desc": "Tecnología para la construcción e desarrollo inmobiliario.", "diff": "Foco en el lado de la oferta.", "ej": ["Wbuild", "Edipro"]}, {"sub": "PropTech Intelligence", "color": "#5F5E5A", "desc": "Plataformas de IA y big data que proveen inteligencia de mercado.", "diff": "Data como servicio.", "ej": ["Homespotter", "DataNido"]}]}, "PFM": {"color": "#BA7517", "desc": "Personal Financial Management.", "subs": [{"sub": "Personal Finance (PFM)", "color": "#1D9E75", "desc": "Apps que ayudan a personas a controlar gastos y gestionar presupuestos.", "diff": "Orientadas a la asesoría y educación.", "ej": ["Rokin", "Patrimore", "U-zave"]}, {"sub": "Credit Scoring", "color": "#BA7517", "desc": "Plataformas que generan o mejoran el score crediticio usando datos alternativos.", "diff": "El scoring alternativo usa datos no tradicionales.", "ej": ["Destacame", "Califix", "Infocheck"]}, {"sub": "Financial Education", "color": "#0F6E56", "desc": "Plataformas de educación financiera.", "diff": "El objetivo es el cambio de comportamiento.", "ej": ["AgentPiggy", "Fundación Capital"]}]}, "TIB&F": {"color": "#5F5E5A", "desc": "Technology, Infrastructure, Banking & Finance.", "subs": [{"sub": "Financial Cybersecurity", "color": "#D85A30", "desc": "Soluciones de seguridad específicas para instituciones financieras.", "diff": "Seguridad vertical específica.", "ej": ["Hackmetrix", "Cybertrust", "Metriks"]}, {"sub": "Regtech / Compliance", "color": "#185FA5", "desc": "Automatización del cumplimiento regulatorio.", "diff": "Automatiza lo que requeriría un equipo de compliance.", "ej": ["Regcheq", "LexisNexis Risk Solutions", "TransUnion", "Equifax"]}, {"sub": "Core Banking / BaaS Infra", "color": "#7F77DD", "desc": "Los sistemas centrales sobre los que corren bancos y fintechs.", "diff": "Sin infraestructura de core banking, ningún producto financiero puede operar.", "ej": ["Modyo", "TIVIT", "Novopayment", "Kibernum"]}, {"sub": "Digital Identity", "color": "#639922", "desc": "Soluciones de KYC, biometría y firma electrónica.", "diff": "Obligación regulatoria: los bancos deben verificar la identidad.", "ej": ["Jumio", "Ionix", "Firmavirtual", "Truora"]}, {"sub": "API Banking", "color": "#0F6E56", "desc": "Middleware y plataformas de gestión de APIs.", "diff": "Permite Open Finance sin que los bancos construyan sus propias APIs.", "ej": ["Synaptic", "Getxerpa", "Tapi"]}, {"sub": "AI for Enterprise", "color": "#5F5E5A", "desc": "Plataformas de IA aplicadas a casos de uso financieros empresariales.", "diff": "IA horizontal aplicada a verticales financieros.", "ej": ["Wird", "Sinaptica Innovation", "Rocketbot"]}]}, "Crowdfunding": {"color": "#993C1D", "desc": "Plataformas de financiamiento colectivo.", "subs": [{"sub": "Investment Crowdfunding", "color": "#BA7517", "desc": "Plataformas donde múltiples inversionistas financian participaciones de capital en startups.", "diff": "Los inversionistas reciben equity.", "ej": ["Broota", "Uper", "Inkoms"]}, {"sub": "Debt Crowdfunding", "color": "#D85A30", "desc": "Plataformas P2P de deuda.", "diff": "Tratamiento regulatorio distinto al P2P de Lending bajo la Ley Fintech.", "ej": ["Desafio"]}, {"sub": "Donation Crowdfunding", "color": "#1D9E75", "desc": "Plataformas para recaudar donaciones.", "diff": "Sin retorno financiero.", "ej": ["DaleProfe", "Catapultame"]}]}};
+</script><script>
+// ─── EMP_INFO ─────────────────────────────────────────────────────────────────
+const EMP_INFO={};
+Object.entries(SEGS).forEach(([seg,v])=>v.data.forEach(d=>{EMP_INFO[d.n]={seg,sub:d.sub};}));
+
+// ─── ESTADO ───────────────────────────────────────────────────────────────────
+let aS="Payments & Remittances",aO="all",aReg="all",aQ="",aSubs=new Set(),sC=-1,sD=1;
+let activeGlosSeg=Object.keys(GLOSARIO)[0];
+let hSrch='',hRastreo='all',hSeg='all',hSub='all';
+let selEmps=new Set(),chartSrch='';
+let tblSortCol='rastreo',tblSortDir=1,tblPage=0;
+const PAGE_SIZE=200;
+let computedRows=[],chartPoints=[];
+
+// ─── TABS ─────────────────────────────────────────────────────────────────────
+function computeTotals(){
+  let t=0,l=0,f=0;
+  Object.values(SEGS).forEach(seg=>seg.data.forEach(d=>{t++;d.o==='Local'?l++:f++;}));
+  document.getElementById('cnt-total').textContent=t;
+  document.getElementById('cnt-local').textContent=l;
+  document.getElementById('cnt-foreign').textContent=f;
+}
+document.querySelectorAll('.tn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.tn').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const tab=b.dataset.tab;
+    document.getElementById('sec-'+tab).classList.add('active');
+    setTimeout(()=>{
+      if(tab==='glos')renderGlos();
+      if(tab==='radar')renderRadar();
+      if(tab==='hist')buildHist();
+    },0);
+  });
+});
+
+// ─── ECOSISTEMA ───────────────────────────────────────────────────────────────
+function buildNav(){
+  document.getElementById('seg-nav').innerHTML=Object.entries(SEGS).map(([k,v])=>{
+    const a=k===aS;
+    return`<button class="sb${a?' active':''}" data-seg="${k}" style="${a?`border-color:${v.color};color:${v.color}`:''}">
+      ${k}<span class="cnt" style="background:${v.color}20;color:${v.color}">${v.data.length}</span></button>`;
+  }).join('');
+  document.querySelectorAll('.sb').forEach(b=>b.addEventListener('click',()=>{
+    aS=b.dataset.seg;aO='all';aReg='all';aQ='';aSubs.clear();sC=-1;sD=1;
+    buildNav();buildFilters();renderContent();
+  }));
+}
+function buildFilters(){
+  const seg=SEGS[aS];let html='';
+  [['all','Todos','#378ADD','#185FA5'],['Local','Local','#1D9E75','#085041'],['Extranjera','Extranjera','#7F77DD','#3C3489']].forEach(([v,l,bc,tc])=>{
+    const a=aO===v;html+='<button class="fp'+(a?' active':'')+'" data-o="'+v+'" style="'+(a?'border-color:'+bc+';color:'+tc:'')+'">'+l+'</button>';
+  });
+  if(seg.hasDualReg){
+    html+=`<span class="sep">|</span>`;
+    [['all','Toda regulación','#888'],['cmf','Solo CMF','#185FA5'],['uaf','Solo UAF','#633806'],['both','CMF+UAF','#085041'],['none','Sin registro','#854F0B']].forEach(([v,l,c])=>{
+      const a=aReg===v;html+='<button class="fp'+(a?' active':'')+'" data-reg="'+v+'" style="'+(a?'border-color:'+c+';color:'+c:'')+'">'+l+'</button>';
+    });
+  }
+  if(seg.sF){
+    const subs=[...new Set(seg.data.map(d=>d.sub))];
+    if(subs.length>1){
+      const ha=aSubs.size>0;
+      const lbl=ha?(aSubs.size===1?[...aSubs][0]:`${aSubs.size} seleccionadas`):'Subcategoría';
+      html+=`<div class="sfw" id="sfw"><button class="sfb${ha?' ha':''}" id="sfbtn">${lbl} <span class="chv"></span></button><div class="sdd" id="sdd">${subs.map(s=>`<div class="sopt" data-sub="${s}"><input type="checkbox" ${aSubs.has(s)?'checked':''} data-sub="${s}"><span class="sdot" style="background:${sc(s)}"></span><span>${s}</span></div>`).join('')}<span class="clrs" id="clrs">Limpiar filtro</span></div></div>`;
+    }
+  }
+  const mf=document.getElementById('mfrow');
+  if(mf){
+    mf.innerHTML=html;
+    document.querySelectorAll('[data-o]').forEach(b=>b.addEventListener('click',()=>{aO=b.dataset.o;buildFilters();renderTable();}));
+    document.querySelectorAll('[data-reg]').forEach(b=>b.addEventListener('click',()=>{aReg=b.dataset.reg;buildFilters();renderTable();}));
+    const sfbtn=document.getElementById('sfbtn'),sdd=document.getElementById('sdd');
+    if(sfbtn&&sdd){
+      sfbtn.addEventListener('click',e=>{e.stopPropagation();sdd.classList.toggle('open');});
+      document.querySelectorAll('.sopt input').forEach(cb=>cb.addEventListener('change',e=>{e.stopPropagation();cb.checked?aSubs.add(cb.dataset.sub):aSubs.delete(cb.dataset.sub);buildFilters();renderTable();}));
+      document.querySelectorAll('.sopt').forEach(o=>o.addEventListener('click',e=>{if(e.target.tagName==='INPUT')return;const cb=o.querySelector('input');cb.checked=!cb.checked;cb.checked?aSubs.add(o.dataset.sub):aSubs.delete(o.dataset.sub);buildFilters();renderTable();}));
+      const clrs=document.getElementById('clrs');
+      if(clrs)clrs.addEventListener('click',e=>{e.stopPropagation();aSubs.clear();buildFilters();renderTable();});
+    }
+  }
+  document.getElementById('msrch').value=aQ;
+}
+document.addEventListener('click',e=>{const sfw=document.getElementById('sfw');if(sfw&&!sfw.contains(e.target)){const sdd=document.getElementById('sdd');if(sdd)sdd.classList.remove('open');}});
+document.getElementById('msrch').addEventListener('input',e=>{aQ=e.target.value;renderTable();});
+document.getElementById('reset-all').addEventListener('click',()=>{aO='all';aReg='all';aQ='';aSubs.clear();sC=-1;sD=1;buildFilters();renderTable();});
+function matchReg(d,f){if(f==='all')return true;if(f==='cmf')return d.reg==='cmf'||d.reg==='both';if(f==='uaf')return d.reg==='uaf'||d.reg==='both';if(f==='both')return d.reg==='both';if(f==='none')return d.reg==='none';return true;}
+function renderTable(){
+  const seg=SEGS[aS],sq=aQ.toLowerCase();
+  let rows=seg.data.filter(d=>{
+    return(aO==='all'||d.o===aO)&&(seg.hasDualReg?matchReg(d,aReg):true)&&(!aSubs.size||aSubs.has(d.sub))&&(!sq||d.n.toLowerCase().includes(sq)||d.sub.toLowerCase().includes(sq)||(d.nota&&d.nota.toLowerCase().includes(sq)));
+  });
+  if(sC>=0){const k=['n','o','sub','nota'][sC]||'n';rows=[...rows].sort((a,b)=>(a[k]||'').localeCompare(b[k]||'')*sD);}
+  const tot=rows.length,loc=rows.filter(r=>r.o==='Local').length,ext=rows.filter(r=>r.o==='Extranjera').length,acq=rows.filter(r=>r.st==='adquirida').length;
+  const cmfN=seg.hasDualReg?rows.filter(r=>r.reg==='cmf'||r.reg==='both').length:0;
+  const uafN=seg.hasDualReg?rows.filter(r=>r.reg==='uaf'||r.reg==='both').length:0;
+  const se=document.getElementById('sstats');
+  if(se)se.innerHTML=`<div class="stat"><div class="stat-n">${tot}</div><div class="stat-l">En segmento</div></div><div class="stat"><div class="stat-n">${loc}</div><div class="stat-l">Locales</div></div><div class="stat"><div class="stat-n">${ext}</div><div class="stat-l">Extranjeras</div></div>${acq?`<div class="stat"><div class="stat-n">${acq}</div><div class="stat-l">Adquiridas</div></div>`:''}${seg.hasDualReg?`<div class="stat"><div class="stat-n">${cmfN}</div><div class="stat-l">Con CMF</div></div><div class="stat"><div class="stat-n">${uafN}</div><div class="stat-l">Con UAF</div></div>`:''}`;
+  const tb=document.getElementById('stbody');
+  if(!tb)return;
+  if(!rows.length){tb.innerHTML=`<tr><td colspan="6" class="empty">Sin resultados para los filtros aplicados</td></tr>`;return;}
+  tb.innerHTML=rows.map(d=>{
+    const c=sc(d.sub);
+    const ob=d.o==='Local'?`<span class="badge bl">Local</span>`:`<span class="badge be">Extranjera</span>`;
+    const stb=d.st==='adquirida'?`<span class="badge ba">Adquirida</span>`:`<span style="color:#0F6E56;font-size:9px;font-weight:500">Vigente</span>`;
+    const stag=`<span class="stag" style="background:${c}18;color:${c};border:0.5px solid ${c}40">${d.sub}</span>`;
+    const hl=aQ&&(d.n.toLowerCase().includes(aQ.toLowerCase())||(d.nota&&d.nota.toLowerCase().includes(aQ.toLowerCase())))?'style="background:#FFF9C4"':'';
+    if(seg.hasDualReg){
+      const cmfb=(d.reg==='cmf'||d.reg==='both')?`<span class="reg-cmf">CMF</span>`:`<span class="reg-no">—</span>`;
+      const uafb=(d.reg==='uaf'||d.reg==='both')?`<span class="reg-uaf">UAF</span>`:`<span class="reg-no">—</span>`;
+      return`<tr><td ${hl}><span style="font-weight:600">${d.n}</span><div class="note">${d.nota||''}</div></td><td>${ob}</td><td>${stag}</td><td>${cmfb}</td><td>${uafb}</td><td>${stb}</td></tr>`;
+    }
+    if(seg.hasCmfOnly)return`<tr><td ${hl}><span style="font-weight:600">${d.n}</span><div class="note">${d.nota||''}</div></td><td>${ob}</td><td>${stag}</td><td>${stb}</td></tr>`;
+    return`<tr><td ${hl}><span style="font-weight:600">${d.n}</span><div class="note">${d.nota||''}</div></td><td>${ob}</td><td>${stag}</td><td>${stb}</td></tr>`;
+  }).join('');
+  document.querySelectorAll('th[data-col]').forEach(th=>{
+    const ci=parseInt(th.dataset.col);const si=th.querySelector('.si');
+    if(si)si.textContent=sC===ci?(sD===1?'↑':'↓'):'↕';
+    th.classList.toggle('srt',sC===ci);
+  });
+}
+function renderContent(){
+  const seg=SEGS[aS];
+  const ths=seg.cols.map((c,i)=>`<th data-col="${i}">${c}<span class="si">↕</span></th>`).join('');
+  document.getElementById('seg-content').innerHTML=`
+    <div class="nb" style="--nbc:${seg.noteC}">${seg.note}</div>
+    <div class="stats-row" id="sstats"></div>
+    <div class="leg">
+      <span><span class="ldot" style="background:#1D9E75"></span>Local</span>
+      <span><span class="ldot" style="background:#7F77DD"></span>Extranjera</span>
+      <span><span class="ldot" style="background:#E24B4A"></span>Adquirida</span>
+      ${seg.hasDualReg?`<span><span class="reg-cmf">CMF</span> = regulada CMF</span><span><span class="reg-uaf">UAF</span> = registrada UAF</span>`:''}
+      <span style="color:var(--fg3);font-size:10px">↕ Haz clic en el encabezado para ordenar</span>
+    </div>
+    <div class="tw"><table><thead><tr>${ths}</tr></thead><tbody id="stbody"></tbody></table></div>`;
+  document.querySelectorAll('th[data-col]').forEach(th=>{
+    th.addEventListener('click',()=>{const ci=parseInt(th.dataset.col);if(sC===ci)sD*=-1;else{sC=ci;sD=1;}renderTable();});
+  });
+  renderTable();
+}
+
+// ─── GLOSARIO ─────────────────────────────────────────────────────────────────
+function renderGlos(){
+  const list=document.getElementById('glos-seg-list');
+  list.innerHTML=Object.entries(GLOSARIO).map(([k,v])=>`<div class="gsl-item${k===activeGlosSeg?' active':''}" data-gseg="${k}"><span class="gsl-dot" style="background:${v.color}"></span><span>${k}</span></div>`).join('');
+  list.querySelectorAll('.gsl-item').forEach(el=>el.addEventListener('click',()=>{activeGlosSeg=el.dataset.gseg;renderGlos();}));
+  const g=GLOSARIO[activeGlosSeg];
+  document.getElementById('glos-content').innerHTML=`
+    <div style="margin-bottom:1rem"><div class="glos-seg-title"><span class="gsl-dot" style="background:${g.color};width:12px;height:12px"></span>${activeGlosSeg}</div><div class="glos-seg-desc">${g.desc}</div></div>
+    <div class="sub-grid">${g.subs.map(s=>`<div class="sub-card" style="--sc:${s.color}"><div class="sub-title" style="color:${s.color}">${s.sub}</div><div class="sub-desc">${s.desc}</div><div class="sub-diff">${s.diff}</div><div class="sub-ex">Ejemplos: ${s.ej.map(e=>`<span class="ex-tag">${e}</span>`).join('')}</div></div>`).join('')}</div>`;
+}
+
+// ─── RADAR ────────────────────────────────────────────────────────────────────
+function scoreToSize(s){if(s<=2)return 26;if(s<=4)return 36;if(s<=6)return 50;if(s<=8)return 66;return 80;}
+function buildTTHist(hist,color){
+  if(!hist.length)return '';
+  const bars=hist.map(h=>{const bH=Math.max(2,Math.round((h.score/10)*24));return`<div class="tt-hcol"><div class="tt-hval" style="color:${color}">${h.score}</div><div class="tt-hbar" style="height:${bH}px;background:${color};opacity:.75"></div><div class="tt-hdate">${h.label.substring(0,3)}</div></div>`;}).join('');
+  return`<div class="bl-tt-hist"><div class="bl-tt-hist-title">${hist.length} rastreo${hist.length>1?'s':''}</div><div class="tt-hbars">${bars}</div></div>`;
+}
+function renderRadar(){
+  const grid=document.getElementById('bubble-grid');const cs=curS(),ps=prevS();
+  grid.innerHTML=Object.entries(SEGS).map(([segName,seg])=>{
+    const col=seg.color;const cos=seg.data.map(d=>({...d,score:cs[d.n]||2}));
+    const sorted=[...cos].sort((a,b)=>b.score-a.score).slice(0,12);
+    const avg=(cos.reduce((a,c)=>a+c.score,0)/cos.length).toFixed(1);
+    const avgBg=avg>=7?'#E1F5EE':avg>=5?'#EEEDFE':'var(--color-background-secondary)';
+    const avgC=avg>=7?'#085041':avg>=5?'#3C3489':'var(--color-text-secondary)';
+    const bubbles=sorted.map(c=>{
+      const s=c.score,sz=scoreToSize(s),bc=sc(c.sub)||col;
+      const fa=s<=2?'08':s<=4?'18':s<=6?'33':s<=8?'55':'77';
+      const brd=s<=2?'22':s<=4?'44':s<=6?'88':'cc';
+      const sc2=s>=8?'#085041':s>=5?'#3C3489':'var(--color-text-tertiary)';
+      const obg=c.o==='Local'?'#E1F5EE':'#EEEDFE',oc=c.o==='Local'?'#085041':'#3C3489';
+      const news=(c.nota||'').substring(0,100);
+      const labelText=c.n.length>Math.floor(sz/5)?c.n.substring(0,Math.floor(sz/5))+'…':c.n;
+      const hist=empHist(c.n);let dHtml='';
+      if(ps){const prev=ps[c.n]||2,delta=s-prev;dHtml=delta>0?`<span class="du">▲${delta}</span>`:delta<0?`<span class="dd">▼${Math.abs(delta)}</span>`:`<span class="de">—</span>`;}
+      const url='https://www.google.com/search?q='+encodeURIComponent(c.n+' fintech Chile');
+      return`<div class="bl-wrap"><a class="bl-link" href="${url}" target="_blank" rel="noopener noreferrer"><div class="bl-circle" style="width:${sz}px;height:${sz}px;background:${bc}${fa};border:0.5px solid ${bc}${brd}">${s>=5?`<div class="bl-lbl" style="color:${bc};max-width:${sz-6}px;font-size:${sz>52?'8px':'7px'}">${labelText}</div>`:''}</div>${s<5?`<div class="bl-name">${c.n}</div>`:''}<div class="bl-sc" style="color:${sc2}">${s}/10</div>${dHtml?`<div class="bl-delta">${dHtml}</div>`:''}</a><div class="bl-tooltip"><div class="bl-tt-name">${c.n}</div><span style="font-size:9px;padding:1px 5px;border-radius:4px;background:${obg};color:${oc};display:inline-block;margin-bottom:3px">${c.o}</span><div style="font-size:10px;color:${bc};margin-bottom:4px">${c.sub}</div><div class="bl-tt-bar"><span style="font-size:9px;color:var(--fg3)">Ruido</span><div class="bl-tt-bg"><div class="bl-tt-fill" style="width:${s*10}%;background:${bc}"></div></div><span style="font-size:10px;font-weight:600;color:${sc2}">${s}/10</span></div>${news?`<div class="bl-tt-news">${news}</div>`:''}${buildTTHist(hist,bc)}<div class="bl-tt-cta">↗ Click en la burbuja para buscar en Google</div></div></div>`;
+    }).join('');
+    return`<div class="sbc" style="--sc:${col}"><div class="sbc-hdr"><div class="sbc-ttl">${segName}</div><span class="sbc-avg" style="background:${avgBg};color:${avgC}">prom ${avg}</span></div><div class="bl-list">${bubbles}</div></div>`;
+  }).join('');
+}
+
+// ─── HISTORIAL ────────────────────────────────────────────────────────────────
+function buildHist(){buildHistFilters();computeRows();setTimeout(()=>{buildChartPills();renderMultiChart();renderHistTable();},0);}
+function buildHistFilters(){
+  const rb=document.getElementById('hrastreo-btns');
+  rb.innerHTML=[{label:'Todos',val:'all'},...HIST.map(r=>({label:r.label,val:r.fecha}))].map(f=>`<button class="hfb${hRastreo===f.val?' on':''}" data-rv="${f.val}">${f.label}</button>`).join('');
+  rb.querySelectorAll('.hfb').forEach(b=>b.addEventListener('click',()=>{hRastreo=b.dataset.rv;refreshHist();}));
+  const sf=document.getElementById('hsegs');
+  sf.innerHTML=`<button class="hsb${hSeg==='all'?' on':''}" data-s="all" style="${hSeg==='all'?'border-color:#378ADD;color:#185FA5':''}">Todos los segmentos</button>`+Object.entries(SEGS).map(([k,v])=>`<button class="hsb${hSeg===k?' on':''}" data-s="${k}" style="${hSeg===k?`border-color:${v.color};color:${v.color}`:''}"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${v.color};margin-right:4px;vertical-align:middle"></span>${k}</button>`).join('');
+  sf.querySelectorAll('.hsb').forEach(b=>b.addEventListener('click',()=>{
+    hSeg=b.dataset.s;hSub='all';
+    if(hSeg!=='all'){const emps=SEGS[hSeg].data.map(d=>d.n).filter(n=>EMP_INFO[n]);selEmps=new Set(emps.slice(0,12));}
+    refreshHist();
+  }));
+  buildSubFilters();
+  document.getElementById('hsrch').value=hSrch;
+  document.getElementById('hsrch').oninput=e=>{hSrch=e.target.value;refreshHist();};
+  document.getElementById('hreset').onclick=()=>{hSrch='';hRastreo='all';hSeg='all';hSub='all';selEmps.clear();refreshHist();buildHistFilters();};
+}
+function buildSubFilters(){
+  const subRow=document.getElementById('hsubs');
+  if(hSeg==='all'){subRow.innerHTML='';return;}
+  const subs=[...new Set(SEGS[hSeg].data.map(d=>d.sub))];
+  subRow.innerHTML=`<button class="hssb${hSub==='all'?' on':''}" data-sub="all">Todas las subcategorías</button>`+subs.map(s=>`<button class="hssb${hSub===s?' on':''}" data-sub="${s}" style="${hSub===s?`border-color:${sc(s)};color:${sc(s)};font-weight:600`:''}"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${sc(s)};margin-right:3px;vertical-align:middle"></span>${s}</button>`).join('');
+  subRow.querySelectorAll('.hssb').forEach(b=>b.addEventListener('click',()=>{
+    hSub=b.dataset.sub;
+    if(hSub!=='all'&&hSeg!=='all'){const emps=SEGS[hSeg].data.filter(d=>d.sub===hSub).map(d=>d.n).filter(n=>EMP_INFO[n]);selEmps=new Set(emps);}
+    refreshHist();
+  }));
+}
+function computeRows(){
+  const sq=hSrch.toLowerCase();const rows=[];
+  HIST.forEach((r,ri)=>{
+    if(hRastreo!=='all'&&r.fecha!==hRastreo)return;
+    Object.entries(r.scores).forEach(([emp,score])=>{
+      const info=EMP_INFO[emp];if(!info)return;
+      if(hSeg!=='all'&&info.seg!==hSeg)return;
+      if(hSub!=='all'&&info.sub!==hSub)return;
+      if(sq&&!emp.toLowerCase().includes(sq))return;
+      const segColor=SEGS[info.seg]?.color||'#888';
+      let delta=0,deltaStr='—',dCls='de';
+      if(ri>0){const prev=HIST[ri-1].scores[emp]||2;delta=score-prev;if(delta>0){deltaStr='▲'+delta;dCls='du';}else if(delta<0){deltaStr='▼'+Math.abs(delta);dCls='dd';}}
+      rows.push({rastreo:r.label,fecha:r.fecha,emp,seg:info.seg,sub:info.sub,segColor,score,delta,deltaStr,dCls,ri});
+    });
+  });
+  computedRows=rows;
+}
+function refreshHist(){buildSubFilters();computeRows();buildChartPills();renderMultiChart();tblPage=0;renderHistTable();}
+function toggleEmp(emp){if(selEmps.has(emp))selEmps.delete(emp);else selEmps.add(emp);buildChartPills();renderMultiChart();renderHistTable();}
+function selectAllFiltered(){getVisibleEmps().slice(0,16).forEach(e=>selEmps.add(e));buildChartPills();renderMultiChart();renderHistTable();}
+function clearSelection(){selEmps.clear();buildChartPills();renderMultiChart();renderHistTable();}
+function getVisibleEmps(){
+  const sq=chartSrch.toLowerCase();const all=[...new Set(computedRows.map(r=>r.emp))].sort();
+  return sq?all.filter(e=>e.toLowerCase().includes(sq)):all;
+}
+function buildChartPills(){
+  const visible=getVisibleEmps();const n=selEmps.size;
+  const ce=document.getElementById('hchart-sel-count');
+  if(n>0){ce.style.display='inline';ce.textContent=n+' empresa'+(n>1?'s':'')+' seleccionada'+(n>1?'s':'');}else ce.style.display='none';
+  const empColors={};let ci=0;selEmps.forEach(e=>{empColors[e]=LINE_COLORS[ci%LINE_COLORS.length];ci++;});
+  document.getElementById('hchart-pills').innerHTML=visible.map(e=>{
+    const isSel=selEmps.has(e);const color=empColors[e]||'var(--color-text-secondary)';
+    return`<div class="hcp${isSel?' sel':''}" onclick="toggleEmp('${e.replace(/'/g,"&#39;")}')" style="${isSel?`border-color:${color};color:${color}`:''}"><span class="hcp-dot" style="background:${isSel?color:'var(--color-border-secondary)'}"></span>${e}</div>`;
+  }).join('');
+}
+document.getElementById('hchart-srch').addEventListener('input',e=>{chartSrch=e.target.value;buildChartPills();});
+
+// ─── GRÁFICO CON TOOLTIP ──────────────────────────────────────────────────────
+function renderMultiChart(){
+  const noData=document.getElementById('hnodata'),canvas=document.getElementById('hcanvas'),legend=document.getElementById('hchart-legend');
+  if(selEmps.size===0){noData.style.display='block';canvas.style.display='none';legend.innerHTML='';chartPoints=[];return;}
+  noData.style.display='none';canvas.style.display='block';
+  const empArr=[...selEmps];const empColors={};empArr.forEach((e,i)=>{empColors[e]=LINE_COLORS[i%LINE_COLORS.length];});
+  legend.innerHTML=empArr.map(e=>`<div class="hcl-item" onclick="toggleEmp('${e.replace(/'/g,"&#39;")}')" style="background:${empColors[e]}18;border-color:${empColors[e]}44"><span class="hcl-dot" style="background:${empColors[e]}"></span><span class="hcl-name" style="color:${empColors[e]};font-weight:600">${e}</span><span style="font-size:9px;color:${empColors[e]};opacity:.6">✕</span></div>`).join('');
+  requestAnimationFrame(()=>{
+    const wrap=canvas.parentElement;const W=wrap.clientWidth||600,H=280;
+    canvas.width=W;canvas.height=H;const ctx=canvas.getContext('2d');ctx.clearRect(0,0,W,H);
+    const isDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+    const gridC=isDark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.06)';
+    const textC=isDark?'rgba(255,255,255,0.4)':'rgba(0,0,0,0.4)';
+    ctx.fillStyle=isDark?'#1c1c1e':'#f5f5f7';ctx.fillRect(0,0,W,H);
+    const pad={t:20,r:20,b:36,l:36};const cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;const nPoints=HIST.length;
+    [0,2,4,6,8,10].forEach(val=>{
+      const y=pad.t+cH-(val/10)*cH;ctx.strokeStyle=gridC;ctx.lineWidth=1;ctx.setLineDash([3,3]);
+      ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+cW,y);ctx.stroke();
+      ctx.fillStyle=textC;ctx.font='10px sans-serif';ctx.textAlign='right';ctx.fillText(val,pad.l-5,y+3.5);
+    });ctx.setLineDash([]);
+    if(nPoints<1){chartPoints=[];return;}
+    const xStep=nPoints>1?cW/(nPoints-1):0;
+    HIST.forEach((r,i)=>{const x=nPoints>1?pad.l+i*xStep:pad.l+cW/2;ctx.fillStyle=textC;ctx.font='10px sans-serif';ctx.textAlign='center';const lbl=r.label.length>7?r.label.substring(0,4)+'…':r.label;ctx.fillText(lbl,x,H-14);});
+    chartPoints=[];
+    empArr.forEach(emp=>{
+      const color=empColors[emp];const hist=empHist(emp);if(!hist.length)return;
+      if(nPoints>1){ctx.beginPath();ctx.moveTo(pad.l,pad.t+cH);hist.forEach((h,i)=>{const x=pad.l+i*xStep,y=pad.t+cH-(h.score/10)*cH;ctx.lineTo(x,y);});ctx.lineTo(pad.l+(nPoints-1)*xStep,pad.t+cH);ctx.closePath();ctx.fillStyle=color+'0D';ctx.fill();}
+      ctx.strokeStyle=color;ctx.lineWidth=2;ctx.setLineDash([]);ctx.beginPath();
+      hist.forEach((h,i)=>{const x=nPoints>1?pad.l+i*xStep:pad.l+cW/2;const y=pad.t+cH-(h.score/10)*cH;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.stroke();
+      hist.forEach((h,i)=>{
+        const x=nPoints>1?pad.l+i*xStep:pad.l+cW/2;const y=pad.t+cH-(h.score/10)*cH;
+        ctx.fillStyle=color+'55';ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle=color;ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.fillText(h.score,x,y-10);
+        const info=EMP_INFO[emp];const prevScore=i>0?(HIST[i-1].scores[emp]||2):null;const delta=prevScore!==null?h.score-prevScore:null;
+        chartPoints.push({x,y,emp,score:h.score,label:h.label,color,seg:info?info.seg:'',delta});
+      });
+    });
+  });
+}
+// Tooltip hover canvas
+(function(){
+  const canvas=document.getElementById('hcanvas');const tooltip=document.getElementById('chart-tooltip');
+  canvas.addEventListener('mousemove',e=>{
+    const rect=canvas.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+    const SCALE_X=canvas.width/rect.width,SCALE_Y=canvas.height/rect.height;
+    const cx=mx*SCALE_X,cy=my*SCALE_Y;
+    let closest=null,minDist=14*SCALE_X;
+    chartPoints.forEach(p=>{const d=Math.sqrt((p.x-cx)**2+(p.y-cy)**2);if(d<minDist){minDist=d;closest=p;}});
+    if(closest){
+      canvas.style.cursor='pointer';
+      // Recolectar TODAS las empresas cercanas al mismo punto (mismo rastreo, scores superpuestos)
+      const HIT2=18*SCALE_X;
+      const allClose=chartPoints.filter(p=>Math.sqrt((p.x-cx)**2+(p.y-cy)**2)<HIT2&&p.label===closest.label);
+      // Construir tooltip multi-empresa
+      let ttHtml='';
+      if(allClose.length===1){
+        const p=allClose[0];
+        const dStr=p.delta===null?'—':p.delta>0?('▲'+p.delta):p.delta<0?('▼'+Math.abs(p.delta)):'—';
+        const dCls=p.delta>0?'du':p.delta<0?'dd':'de';
+        ttHtml=`<div class="ctt-rastreo">${p.label}</div>`+
+          `<div class="ctt-emp" style="color:${p.color};margin-bottom:4px">${p.emp}</div>`+
+          `<div class="ctt-score-row"><div class="ctt-bar-bg"><div class="ctt-bar-fill" style="width:${p.score*10}%;background:${p.color}"></div></div><span class="ctt-score-val" style="color:${p.color}">${p.score}/10</span></div>`+
+          `<div class="ctt-delta ${dCls}">Δ vs anterior: ${dStr}</div>`+
+          `<div class="ctt-seg">${p.seg}</div>`;
+      } else {
+        // Múltiples empresas superpuestas
+        ttHtml=`<div class="ctt-rastreo" style="margin-bottom:6px">${closest.label} · Score ${closest.score}/10</div>`;
+        // Agrupar por score para mostrar bien
+        const byScore={};
+        allClose.forEach(p=>{if(!byScore[p.score])byScore[p.score]=[];byScore[p.score].push(p);});
+        Object.entries(byScore).sort((a,b)=>b[0]-a[0]).forEach(([score,pts])=>{
+          ttHtml+=`<div style="margin-bottom:5px">`+
+            `<div style="display:flex;align-items:center;gap:5px;margin-bottom:3px"><div style="flex:1;height:3px;background:var(--color-border-secondary);border-radius:2px;overflow:hidden"><div style="width:${score*10}%;height:100%;background:#888;border-radius:2px"></div></div><span style="font-size:11px;font-weight:700;color:var(--fg)">${score}/10</span></div>`;
+          pts.forEach(p=>{
+            const dStr=p.delta===null?'':p.delta>0?(' ▲'+p.delta):p.delta<0?(' ▼'+Math.abs(p.delta)):'';
+            const dCls=p.delta>0?'du':p.delta<0?'dd':'de';
+            ttHtml+=`<div style="display:flex;align-items:center;gap:5px;padding:2px 0;border-bottom:0.5px solid var(--color-border-tertiary)">`+
+              `<span style="width:8px;height:8px;border-radius:50%;background:${p.color};flex-shrink:0;display:inline-block"></span>`+
+              `<span style="font-size:11px;font-weight:600;color:${p.color};flex:1">${p.emp}</span>`+
+              `<span class="${dCls}" style="font-size:10px">${dStr}</span>`+
+              `</div>`;
+          });
+          ttHtml+=`</div>`;
+        });
+      }
+      tooltip.innerHTML=ttHtml;
+      const wrapRect=canvas.parentElement.getBoundingClientRect();
+      let left=mx+14,top=my-90;
+      const ttW=allClose.length>1?240:220;
+      const ttH=allClose.length>1?Math.min(300,allClose.length*26+60):110;
+      if(left+ttW>rect.width-10)left=mx-(ttW+8);
+      if(top<5)top=my+14;
+      if(top+ttH>rect.height-10)top=rect.height-ttH-10;
+      tooltip.style.left=left+'px';tooltip.style.top=top+'px';tooltip.style.display='block';
+    }else{canvas.style.cursor='default';tooltip.style.display='none';}
+  });
+  canvas.addEventListener('mouseleave',()=>{tooltip.style.display='none';});
+})();
+
+// ─── TABLA PAGINADA ───────────────────────────────────────────────────────────
+function changePage(dir){const maxPage=Math.ceil(computedRows.length/PAGE_SIZE)-1;tblPage=Math.max(0,Math.min(maxPage,tblPage+dir));renderHistTable();}
+function sortTblBy(col){if(tblSortCol===col)tblSortDir*=-1;else{tblSortCol=col;tblSortDir=1;}tblPage=0;renderHistTable();}
+function renderHistTable(){
+  let rows=selEmps.size>0?computedRows.filter(r=>selEmps.has(r.emp)):computedRows;
+  rows=[...rows].sort((a,b)=>{let va=a[tblSortCol]??'',vb=b[tblSortCol]??'';if(typeof va==='number')return(va-vb)*tblSortDir;return String(va).localeCompare(String(vb))*tblSortDir;});
+  const total=rows.length;const maxPage=Math.max(0,Math.ceil(total/PAGE_SIZE)-1);
+  if(tblPage>maxPage)tblPage=maxPage;const start=tblPage*PAGE_SIZE;const page=rows.slice(start,start+PAGE_SIZE);
+  document.getElementById('htable-info').textContent=selEmps.size>0?`Mostrando ${selEmps.size} empresa${selEmps.size>1?'s':''} seleccionada${selEmps.size>1?'s':''} · ${total.toLocaleString()} filas`:`${total.toLocaleString()} filas totales`;
+  document.getElementById('hsum').textContent=total.toLocaleString()+' registros';
+  document.getElementById('hpag-info').textContent='Página '+(tblPage+1)+' de '+(maxPage+1);
+  document.getElementById('hpag-prev').disabled=tblPage===0;
+  document.getElementById('hpag-next').disabled=tblPage>=maxPage;
+  const cols=[{key:'rastreo',label:'Rastreo'},{key:'emp',label:'Empresa / Institución'},{key:'seg',label:'Segmento'},{key:'sub',label:'Subcategoría'},{key:'score',label:'Score'},{key:'delta',label:'Δ vs anterior'}];
+  function si(col){return tblSortCol===col?tblSortDir===1?' ↑':' ↓':' ↕';}
+  if(!page.length){document.getElementById('htable').innerHTML=`<div class="empty">Sin datos para los filtros seleccionados</div>`;return;}
+  const empColors={};let ci=0;selEmps.forEach(e=>{empColors[e]=LINE_COLORS[ci%LINE_COLORS.length];ci++;});
+  document.getElementById('htable').innerHTML=`<table><thead><tr>${cols.map(c=>`<th onclick="sortTblBy('${c.key}')" class="${tblSortCol===c.key?'srt':''}">${c.label}<span class="si">${si(c.key)}</span></th>`).join('')}</tr></thead><tbody>${page.map(r=>{
+    const isSel=selEmps.has(r.emp);const color=empColors[r.emp]||'#185FA5';
+    return`<tr style="cursor:pointer${isSel?`;background:${color}08`:''}" onclick="toggleEmp('${r.emp.replace(/'/g,"&#39;")}')" title="Click para marcar/desmarcar en el gráfico"><td><span style="font-size:10px;background:var(--bg2);padding:2px 7px;border-radius:99px;white-space:nowrap">${r.rastreo}</span></td><td><span style="font-weight:600;color:${color}">${r.emp}</span>${isSel?`<span style="font-size:9px;margin-left:4px;color:${color}">✓</span>`:''}</td><td><span style="font-size:9px;padding:1px 5px;border-radius:99px;background:${r.segColor}18;color:${r.segColor};border:0.5px solid ${r.segColor}40;white-space:nowrap">${r.seg}</span></td><td><span style="font-size:9px;padding:1px 5px;border-radius:99px;background:${sc(r.sub)}18;color:${sc(r.sub)};border:0.5px solid ${sc(r.sub)}40;white-space:nowrap">${r.sub}</span></td><td><span style="font-weight:700;color:${r.score>=8?'#085041':r.score>=5?'#3C3489':'var(--color-text-tertiary)'}">${r.score}</span><span style="font-size:9px;color:var(--fg3)">/10</span></td><td><span class="${r.dCls}">${r.deltaStr}</span></td></tr>`;
+  }).join('')}</tbody></table>`;
+}
+
+// ─── SUGERENCIAS Formspree ────────────────────────────────────────────────────
+const WEB3FORMS_KEY = 'acfd9680-a09e-4450-997c-2c5157ec56a8';
+const DEST_EMAIL = 'miguel.serin@afex.cl';
+
+async function submitSug(){
+  const tipo=document.getElementById('sug-tipo').value;
+  const empresa=document.getElementById('sug-emp').value.trim();
+  const segmento=document.getElementById('sug-seg').value;
+  const desc=document.getElementById('sug-desc').value.trim();
+  const contacto=document.getElementById('sug-contacto').value.trim();
+  if(!empresa||!desc){alert('Por favor completa al menos el nombre de la empresa y la descripción.');return;}
+  const btn=document.getElementById('sug-btn');
+  btn.disabled=true;btn.textContent='Enviando...';
+
+  const payload={
+    access_key: WEB3FORMS_KEY,
+    subject: '[Ecosistema Fintech Chile] '+tipo+': '+empresa,
+    from_name: 'Dashboard Fintech Chile',
+    to: DEST_EMAIL,
+    tipo_sugerencia: tipo,
+    empresa: empresa,
+    segmento: segmento||'Sin especificar',
+    descripcion: desc,
+    contacto: contacto||'No indicado',
+  };
+
+  try{
+    const res=await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    const data=await res.json();
+    if(data.success){
+      document.getElementById('sug-emp').value='';
+      document.getElementById('sug-desc').value='';
+      document.getElementById('sug-seg').value='';
+      document.getElementById('sug-contacto').value='';
+      const ok=document.getElementById('sug-ok');ok.style.display='block';
+      setTimeout(()=>{ok.style.display='none';},6000);
+    }else{
+      // Fallback mailto si la key es inválida
+      const body=encodeURIComponent('Tipo: '+tipo+'\nEmpresa: '+empresa+'\nDescripción: '+desc);
+      window.open('mailto:'+DEST_EMAIL+'?subject='+encodeURIComponent('[Ecosistema Fintech Chile] '+tipo+': '+empresa)+'&body='+body);
+      const err=document.getElementById('sug-err');
+      err.textContent='⚠️ Error con el servicio. Se abrió tu cliente de correo como alternativa.';
+      err.style.display='block';setTimeout(()=>{err.style.display='none';err.textContent='⚠️ Error al enviar. Por favor intenta nuevamente en unos minutos.';},7000);
+    }
+  }catch(e){
+    // Fallback mailto ante cualquier error de red
+    const body=encodeURIComponent('Tipo: '+tipo+'\nEmpresa: '+empresa+'\nDescripción: '+desc);
+    window.open('mailto:'+DEST_EMAIL+'?subject='+encodeURIComponent('[Ecosistema Fintech Chile] '+tipo+': '+empresa)+'&body='+body);
+    const err=document.getElementById('sug-err');
+    err.textContent='⚠️ Sin conexión al servidor. Se abrió tu cliente de correo como alternativa.';
+    err.style.display='block';setTimeout(()=>{err.style.display='none';err.textContent='⚠️ Error al enviar. Por favor intenta nuevamente en unos minutos.';},7000);
+  }
+  btn.disabled=false;btn.textContent='Enviar sugerencia';
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+computeTotals();buildNav();buildFilters();renderContent();loadData();renderRadar();
+</script>
+
+</body>
+</html>
