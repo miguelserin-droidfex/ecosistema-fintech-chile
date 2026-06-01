@@ -270,12 +270,12 @@ tr:hover td{background:var(--ink-50)}
 
 /* ─── BADGES ──────────────────────────────────────────────────────────────── */
 .badge{font-size:9px;padding:2px 6px;border-radius:2px;font-weight:700;white-space:nowrap;letter-spacing:.03em;font-family:var(--font-mono)}
-.bl{background:var(--green-tint);color:var(--green)}
-.be{background:#f0f0ff;color:#3a3880}
+.bl{background:rgba(45,212,168,.1);color:var(--green);border:1px solid rgba(45,212,168,.2)}
+.be{background:rgba(124,133,148,.1);color:var(--ink-500);border:1px solid var(--line)}
 .ba{background:rgba(224,92,87,.1);color:var(--down);border:1px solid rgba(224,92,87,.15)}
-.reg-cmf{font-size:9px;padding:2px 5px;border-radius:2px;font-weight:700;background:#eff6ff;color:#1e4d9c;white-space:nowrap;font-family:var(--font-mono)}
-.reg-uaf{font-size:9px;padding:2px 5px;border-radius:2px;font-weight:700;background:rgba(251,146,60,.12);color:#fb923c;white-space:nowrap;font-family:var(--font-mono)}
-.reg-no{font-size:10px;color:var(--ink-100)}
+.reg-cmf{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:700;background:rgba(99,139,219,.12);color:#7da3e0;border:1px solid rgba(99,139,219,.2);white-space:nowrap}
+.reg-uaf{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:700;background:rgba(200,160,50,.1);color:#c8a050;border:1px solid rgba(200,160,50,.2);white-space:nowrap}
+.reg-no{font-size:10px;color:var(--ink-300)}
 .stag{font-size:9px;padding:2px 6px;border-radius:2px;font-weight:600;white-space:nowrap}
 .note{font-size:10px;color:#8b949e;margin-top:2px}
 
@@ -432,8 +432,7 @@ tr:hover td{background:var(--ink-50)}
 .hssb.on{background:var(--green-tint2);border-color:var(--green);color:var(--green);font-weight:700}
 
 /* ─── GRÁFICO HISTORIAL ──────────────────────────────────────────────────── */
-.hchart-box{
-  background:var(--bg-1);border:1px solid var(--line);
+.hchart-box{background:var(--bg-1);border:1px solid var(--line);
   border-top:2px solid var(--line);
   border-radius:var(--r);padding:15px;margin-bottom:1.25rem;
   box-shadow:var(--shadow-sm);
@@ -481,9 +480,7 @@ tr:hover td{background:var(--ink-50)}
 }
 .hcp:hover{background:var(--ink-50);border-color:var(--line-strong)}.hcp.sel{font-weight:700}
 .hcp .hcp-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.hcanvas-wrap{
-  width:100%;height:280px;
-  background:transparent;
+.hcanvas-wrap{width:100%;height:280px;background:var(--bg-1);
   border-radius:var(--r);
   border:1px solid var(--line);overflow:hidden;position:relative;
 }
@@ -812,7 +809,16 @@ function buildNav(){
   }));
 }
 function buildFilters(){
-  if(aS==='__all__'){document.getElementById('mfrow').innerHTML='';renderTable();return;}
+  if(aS==='__all__'){
+    // En modo Todos: mostrar solo filtros de Origen (aplica a todos)
+    const mf=document.getElementById('mfrow');
+    const origenBtns=[['all','Todos'],['Local','Local'],['Extranjera','Extranjera']];
+    mf.innerHTML=origenBtns.map(([val,label])=>`<button class="fp${aO===val?' active':''}" data-o="${val}">${label}</button>`).join('')+
+      '<span style="color:var(--ink-300);font-size:10px;padding:0 4px">|</span>'+
+      '<button class="fp'+(aQ?'':'')+'" style="font-size:10px;opacity:.6;cursor:default">Filtros por segmento disponibles al seleccionar uno</button>';
+    mf.querySelectorAll('.fp[data-o]').forEach(b=>b.addEventListener('click',()=>{aO=b.dataset.o;buildFilters();}));
+    renderTable();return;
+  }
   const seg=SEGS[aS];let html='';
   [['all','Todos','#378ADD','#185FA5'],['Local','Local','#1D9E75','#085041'],['Extranjera','Extranjera','#7F77DD','#3C3489']].forEach(([v,l,bc,tc])=>{
     const a=aO===v;html+='<button class="fp'+(a?' active':'')+'" data-o="'+v+'" style="'+(a?'border-color:'+bc+';color:'+tc:'')+'">'+l+'</button>';
@@ -1045,7 +1051,7 @@ function renderMultiChart(){
     const isDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
     const gridC=isDark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.06)';
     const textC=isDark?'rgba(255,255,255,0.4)':'rgba(0,0,0,0.4)';
-    ctx.fillStyle=isDark?'#1c1c1e':'#f5f5f7';ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#181c24';ctx.fillRect(0,0,W,H);
     const pad={t:20,r:20,b:36,l:36};const cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;const nPoints=HIST.length;
     [0,2,4,6,8,10].forEach(val=>{
       const y=pad.t+cH-(val/10)*cH;ctx.strokeStyle=gridC;ctx.lineWidth=1;ctx.setLineDash([3,3]);
