@@ -991,7 +991,7 @@ function buildHistFilters(){
   sf.innerHTML=`<button class="hsb${hSeg==='all'?' on':''}" data-s="all">Todos los segmentos</button>`+Object.entries(SEGS).map(([k,v])=>`<button class="hsb${hSeg===k?' on':''}" data-s="${k}"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${v.color};margin-right:4px;vertical-align:middle"></span>${k}</button>`).join('');
   sf.querySelectorAll('.hsb').forEach(b=>b.addEventListener('click',()=>{
     hSeg=b.dataset.s;hSub='all';
-    if(hSeg!=='all'){const emps=SEGS[hSeg].data.map(d=>d.n).filter(n=>EMP_INFO[n]);selEmps=new Set(emps.slice(0,12));}
+    if(hSeg!=='all'){const emps=SEGS[hSeg].data.map(d=>d.n).filter(n=>EMP_INFO[n]);selEmps=new Set(emps);}
     refreshHist();
   }));
   buildSubFilters();
@@ -1006,7 +1006,7 @@ function buildSubFilters(){
   subRow.innerHTML=`<button class="hssb${hSub==='all'?' on':''}" data-sub="all">Todas las subcategorías</button>`+subs.map(s=>`<button class="hssb${hSub===s?' on':''}" data-sub="${s}" style="${hSub===s?`border-color:${sc(s)};color:${sc(s)};font-weight:600`:''}"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${sc(s)};margin-right:3px;vertical-align:middle"></span>${s}</button>`).join('');
   subRow.querySelectorAll('.hssb').forEach(b=>b.addEventListener('click',()=>{
     hSub=b.dataset.sub;
-    if(hSub!=='all'&&hSeg!=='all'){const emps=SEGS[hSeg].data.filter(d=>d.sub===hSub).map(d=>d.n).filter(n=>EMP_INFO[n]);selEmps=new Set(emps);}
+    if(hSeg!=='all'){const emps=hSub==='all'?SEGS[hSeg].data.map(d=>d.n).filter(n=>EMP_INFO[n]):SEGS[hSeg].data.filter(d=>d.sub===hSub).map(d=>d.n).filter(n=>EMP_INFO[n]);selEmps=new Set(emps);}
     refreshHist();
   }));
 }
@@ -1029,7 +1029,7 @@ function computeRows(){
 }
 function refreshHist(){buildHistFilters();computeRows();buildChartPills();renderMultiChart();tblPage=0;renderHistTable();}
 function toggleEmp(emp){if(selEmps.has(emp))selEmps.delete(emp);else selEmps.add(emp);buildChartPills();renderMultiChart();renderHistTable();}
-function selectAllFiltered(){getVisibleEmps().slice(0,16).forEach(e=>selEmps.add(e));buildChartPills();renderMultiChart();renderHistTable();}
+function selectAllFiltered(){getVisibleEmps().forEach(e=>selEmps.add(e));buildChartPills();renderMultiChart();renderHistTable();}
 function clearSelection(){selEmps.clear();buildChartPills();renderMultiChart();renderHistTable();}
 function getVisibleEmps(){
   const sq=chartSrch.toLowerCase();const all=[...new Set(computedRows.map(r=>r.emp))].sort();
