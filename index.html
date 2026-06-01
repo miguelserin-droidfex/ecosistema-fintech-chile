@@ -871,40 +871,41 @@ document.getElementById('msrch').addEventListener('input',e=>{aQ=e.target.value;
 document.getElementById('reset-all').addEventListener('click',()=>{aS='__all__';aO='all';aReg='all';aQ='';aSubs.clear();sC=-1;sD=1;buildFilters();renderNav();renderTable();});
 function matchReg(d,f){if(f==='all')return true;if(f==='cmf')return d.reg==='cmf'||d.reg==='both';if(f==='uaf')return d.reg==='uaf'||d.reg==='both';if(f==='both')return d.reg==='both';if(f==='none')return d.reg==='none';return true;}
 function renderTable(){
-  const isAll=aS==='__all__';
-  const seg=isAll?null:SEGS[aS],sq=aQ.toLowerCase();
+  var isAll=aS==='__all__';
+  var seg=isAll?null:SEGS[aS],sq=aQ.toLowerCase();
   if(!isAll&&!seg)return;
-  const rawData=isAll
-    ?Object.entries(SEGS).flatMap(([sn,sv])=>sv.data.map(d=>({...d,_sn:sn,_sv:sv})))
-    :seg.data.map(d=>({...d,_sn:aS,_sv:seg}));
-  let rows=rawData.filter(d=>{
-    const sv=d._sv;
+  var rawData=isAll
+    ?Object.entries(SEGS).flatMap(function(e){var sn=e[0],sv=e[1];return sv.data.map(function(d){return Object.assign({},d,{_sn:sn,_sv:sv});});})
+    :seg.data.map(function(d){return Object.assign({},d,{_sn:aS,_sv:seg});});
+  var rows=rawData.filter(function(d){
+    var sv=d._sv;
     return(aO==='all'||d.o===aO)&&(sv.hasDualReg?matchReg(d,aReg):true)&&(!aSubs.size||aSubs.has(d.sub))&&(!sq||d.n.toLowerCase().includes(sq)||d.sub.toLowerCase().includes(sq)||d._sn.toLowerCase().includes(sq)||(d.nota&&d.nota.toLowerCase().includes(sq)));
   });
-  if(sC>=0){const k=['n','o','_sn','sub','nota'][sC]||'n';rows=[...rows].sort((a,b)=>(a[k]||'').localeCompare(b[k]||'')*sD);}
-  const tot=rows.length,loc=rows.filter(r=>r.o==='Local').length,ext=rows.filter(r=>r.o==='Extranjera').length,acq=rows.filter(r=>r.st==='adquirida').length;
-  const se=document.getElementById('sstats');
-  if(se)se.innerHTML=`<div class="stat"><div class="stat-n">${tot}</div><div class="stat-l">${isAll?'Total':'En segmento'}</div></div><div class="stat"><div class="stat-n">${loc}</div><div class="stat-l">Locales</div></div><div class="stat"><div class="stat-n">${ext}</div><div class="stat-l">Extranjeras</div></div>${acq?`<div class="stat"><div class="stat-n">${acq}</div><div class="stat-l">Adquiridas</div></div>`:''}`;
-  const tb=document.getElementById('stbody');
+  if(sC>=0){var k=['n','o','_sn','sub','nota'][sC]||'n';rows=rows.slice().sort(function(a,b){return(a[k]||'').localeCompare(b[k]||'')*sD;});}
+  var tot=rows.length,loc=rows.filter(function(r){return r.o==='Local';}).length,ext=rows.filter(function(r){return r.o==='Extranjera';}).length,acq=rows.filter(function(r){return r.st==='adquirida';}).length;
+  var se=document.getElementById('sstats');
+  if(se)se.innerHTML='<div class="stat"><div class="stat-n">'+tot+'</div><div class="stat-l">'+(isAll?'Total':'En segmento')+'</div></div><div class="stat"><div class="stat-n">'+loc+'</div><div class="stat-l">Locales</div></div><div class="stat"><div class="stat-n">'+ext+'</div><div class="stat-l">Extranjeras</div></div>'+(acq?'<div class="stat"><div class="stat-n">'+acq+'</div><div class="stat-l">Adquiridas</div></div>':'');
+  var tb=document.getElementById('stbody');
   if(!tb)return;
-  if(!rows.length){tb.innerHTML=`<tr><td colspan="6" class="empty">Sin resultados</td></tr>`;return;}
-  tb.innerHTML=rows.map(d=>{
-    const sv=d._sv;
-    const c=sc(d.sub);
-    const segC=SEGS[d._sn]?SEGS[d._sn].color:'#888';
-    const ob=d.o==='Local'?`<span class="badge bl">Local</span>`:`<span class="badge be">Extranjera</span>`;
-    const stb=d.st==='adquirida'?`<span class="badge ba">Adquirida</span>`:`<span style="color:#0F6E56;font-size:9px;font-weight:500">Vigente</span>`;
-    const stag=`<span class="stag" style="background:${c}18;color:${c};border:0.5px solid ${c}40">${d.sub}</span>`;
-    const segtag=isAll?`<td><span style="font-size:9px;padding:1px 6px;border-radius:99px;background:${segC}18;color:${segC};border:0.5px solid ${segC}40;white-space:nowrap">${d._sn}</span></td>`:'';
-    const hl=aQ&&(d.n.toLowerCase().includes(aQ.toLowerCase())||(d.nota&&d.nota.toLowerCase().includes(aQ.toLowerCase())))?'style="background:#FFF9C4"':'';    if(!isAll&&sv.hasDualReg){
-      const cmfb=(d.reg==='cmf'||d.reg==='both')?`<span class="reg-cmf">CMF</span>`:`<span class="reg-no">—</span>`;
-      const uafb=(d.reg==='uaf'||d.reg==='both')?`<span class="reg-uaf">UAF</span>`:`<span class="reg-no">—</span>`;
-      return`<tr><td ${hl}><span style="font-weight:600">${d.n}</span><div class="note">${d.nota||''}</div></td><td>${ob}</td><td>${stag}</td><td>${cmfb}</td><td>${uafb}</td><td>${stb}</td></tr>`;
+  if(!rows.length){tb.innerHTML='<tr><td colspan="6" class="empty">Sin resultados</td></tr>';return;}
+  tb.innerHTML=rows.map(function(d){
+    var sv=d._sv;
+    var c=sc(d.sub);
+    var segC=SEGS[d._sn]?SEGS[d._sn].color:'#888';
+    var ob=d.o==='Local'?'<span class="badge bl">Local</span>':'<span class="badge be">Extranjera</span>';
+    var stb=d.st==='adquirida'?'<span class="badge ba">Adquirida</span>':'<span style="color:#0F6E56;font-size:9px;font-weight:500">Vigente</span>';
+    var stag='<span class="stag" style="background:'+c+'18;color:'+c+';border:0.5px solid '+c+'40">'+d.sub+'</span>';
+    var segtag=isAll?'<td><span style="font-size:9px;padding:1px 6px;border-radius:99px;background:'+segC+'18;color:'+segC+';border:0.5px solid '+segC+'40;white-space:nowrap">'+d._sn+'</span></td>':'';
+    var hl=aQ&&(d.n.toLowerCase().includes(aQ.toLowerCase())||(d.nota&&d.nota.toLowerCase().includes(aQ.toLowerCase())))?'style="background:#FFF9C4"':'';
+    if(!isAll&&sv.hasDualReg){
+      var cmfb=(d.reg==='cmf'||d.reg==='both')?'<span class="reg-cmf">CMF</span>':'<span class="reg-no">—</span>';
+      var uafb=(d.reg==='uaf'||d.reg==='both')?'<span class="reg-uaf">UAF</span>':'<span class="reg-no">—</span>';
+      return'<tr><td '+hl+'><span style="font-weight:600">'+d.n+'</span><div class="note">'+(d.nota||'')+'</div></td><td>'+ob+'</td><td>'+stag+'</td><td>'+cmfb+'</td><td>'+uafb+'</td><td>'+stb+'</td></tr>';
     }
-    return`<tr><td ${hl}><span style="font-weight:600">${d.n}</span><div class="note">${d.nota||''}</div></td><td>${ob}</td>${segtag}<td>${stag}</td><td>${stb}</td></tr>`;
+    return'<tr><td '+hl+'><span style="font-weight:600">'+d.n+'</span><div class="note">'+(d.nota||'')+'</div></td><td>'+ob+'</td>'+segtag+'<td>'+stag+'</td><td>'+stb+'</td></tr>';
   }).join('');
-  document.querySelectorAll('th[data-col]').forEach(th=>{
-    const ci=parseInt(th.dataset.col);const si=th.querySelector('.si');
+  document.querySelectorAll('th[data-col]').forEach(function(th){
+    var ci=parseInt(th.dataset.col);var si=th.querySelector('.si');
     if(si)si.textContent=sC===ci?(sD===1?'↑':'↓'):'↕';
     th.classList.toggle('srt',sC===ci);
   });
