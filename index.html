@@ -877,10 +877,10 @@ function renderTable(){
   });
   if(sC>=0){const k=['n','o','sub','nota'][sC]||'n';rows=[...rows].sort((a,b)=>(a[k]||'').localeCompare(b[k]||'')*sD);}
   const tot=rows.length,loc=rows.filter(r=>r.o==='Local').length,ext=rows.filter(r=>r.o==='Extranjera').length,acq=rows.filter(r=>r.st==='adquirida').length;
-  const cmfN=seg.hasDualReg?rows.filter(r=>r.reg==='cmf'||r.reg==='both').length:0;
-  const uafN=seg.hasDualReg?rows.filter(r=>r.reg==='uaf'||r.reg==='both').length:0;
+  const cmfN=(!isAll&&seg.hasDualReg)?rows.filter(r=>r.reg==='cmf'||r.reg==='both').length:0;
+  const uafN=(!isAll&&seg.hasDualReg)?rows.filter(r=>r.reg==='uaf'||r.reg==='both').length:0;
   const se=document.getElementById('sstats');
-  if(se)se.innerHTML=`<div class="stat"><div class="stat-n">${tot}</div><div class="stat-l">En segmento</div></div><div class="stat"><div class="stat-n">${loc}</div><div class="stat-l">Locales</div></div><div class="stat"><div class="stat-n">${ext}</div><div class="stat-l">Extranjeras</div></div>${acq?`<div class="stat"><div class="stat-n">${acq}</div><div class="stat-l">Adquiridas</div></div>`:''}${seg.hasDualReg?`<div class="stat"><div class="stat-n">${cmfN}</div><div class="stat-l">Con CMF</div></div><div class="stat"><div class="stat-n">${uafN}</div><div class="stat-l">Con UAF</div></div>`:''}`;
+  if(se)se.innerHTML=`<div class="stat"><div class="stat-n">${tot}</div><div class="stat-l">${isAll?'Total':'En segmento'}</div></div><div class="stat"><div class="stat-n">${loc}</div><div class="stat-l">Locales</div></div><div class="stat"><div class="stat-n">${ext}</div><div class="stat-l">Extranjeras</div></div>${acq?`<div class="stat"><div class="stat-n">${acq}</div><div class="stat-l">Adquiridas</div></div>`:''}${(!isAll&&seg.hasDualReg)?`<div class="stat"><div class="stat-n">${cmfN}</div><div class="stat-l">Con CMF</div></div><div class="stat"><div class="stat-n">${uafN}</div><div class="stat-l">Con UAF</div></div>`:''}`;
   const tb=document.getElementById('stbody');
   if(!tb)return;
   if(!rows.length){tb.innerHTML=`<tr><td colspan="6" class="empty">Sin resultados para los filtros aplicados</td></tr>`;return;}
@@ -1263,7 +1263,7 @@ function exportHistCSV(){
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-computeTotals();buildNav();buildFilters();renderContent();loadData();renderRadar();refreshHist();
+computeTotals();buildNav();buildFilters();renderContent();loadData();renderRadar();
 
 
 </script>
