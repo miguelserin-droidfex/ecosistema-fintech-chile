@@ -623,7 +623,7 @@ tr:hover td{background:var(--ink-50)}
 </div>
 <div class="section active" id="sec-eco">
   <div class="seg-nav" id="seg-nav"></div>
-  <div class="mbar"><div class="sw"><input type="text" id="msrch" placeholder="Buscar empresa en cualquier segmento..."></div><div class="frow" id="mfrow"></div><button class="rb" id="reset-all">&#8635; Resetear todo</button></div>
+  <div class="mbar"><div class="sw"><input type="text" id="msrch" placeholder="Buscar empresa en cualquier segmento..."></div><div class="frow" id="mfrow"></div><button class="rb" onclick="exportEcoCSV()" style="background:var(--green-tint2,#eaf3de);border-color:var(--green-tint,#b8dba0);color:#3B6D11;font-weight:600">&#8595; Exportar Excel</button><button class="rb" id="reset-all">&#8635; Resetear todo</button></div>
   <div id="seg-content"></div>
 </div>
 <div class="section" id="sec-glos">
@@ -675,6 +675,7 @@ tr:hover td{background:var(--ink-50)}
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
       <span class="htable-info" id="htable-info"></span>
       <div class="htable-pagination">
+        <button class="hpag-btn" onclick="exportHistCSV()" style="background:#eaf3de;border-color:#b8dba0;color:#3B6D11;font-weight:600">&#8595; Exportar Excel</button>
         <button class="hpag-btn" id="hpag-prev" onclick="changePage(-1)" disabled>&#8592; Anterior</button>
         <span class="hpag-info" id="hpag-info"></span>
         <button class="hpag-btn" id="hpag-next" onclick="changePage(1)">Siguiente &#8594;</button>
@@ -1147,7 +1148,7 @@ function renderMultiChart(){
 })();
 
 // ─── TABLA PAGINADA ───────────────────────────────────────────────────────────
-function changePage(dir){const maxPage=Math.ceil(computedRows.length/PAGE_SIZE)-1;tblPage=Math.max(0,Math.min(maxPage,tblPage+dir));renderHistTable();}
+function changePage(dir){const filteredRows=selEmps.size>0?computedRows.filter(r=>selEmps.has(r.emp)):computedRows;const maxPage=Math.max(0,Math.ceil(filteredRows.length/PAGE_SIZE)-1);tblPage=Math.max(0,Math.min(maxPage,tblPage+dir));renderHistTable();}
 function sortTblBy(col){if(tblSortCol===col)tblSortDir*=-1;else{tblSortCol=col;tblSortDir=1;}tblPage=0;renderHistTable();}
 function renderHistTable(){
   let rows=selEmps.size>0?computedRows.filter(r=>selEmps.has(r.emp)):computedRows;
@@ -1228,8 +1229,41 @@ async function submitSug(){
   btn.disabled=false;btn.textContent='Enviar sugerencia';
 }
 
+
+// ─── EXPORTAR CSV/EXCEL ───────────────────────────────────────────────────────
+function dlCSV(content,filename){
+  const blob=new Blob(['﻿'+content],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=filename;a.click();
+  URL.revokeObjectURL(url);
+}
+function escCSV(v){
+  const s=String(v==null?'':v);
+  return s.includes(',')||s.includes('"')||s.includes('\n')?'"'+s.replace(/"/g,'""')+'"':s;
+}
+function exportEcoCSV(){
+  const header=['Empresa','Origen','Segmento','Subcategoría','Estado','Notas'];
+  const lines=[header.map(escCSV).join(',')];
+  Object.entries(SEGS).forEach(function(e){
+    var seg=e[0],sv=e[1];
+    sv.data.forEach(function(d){
+      lines.push([d.n,d.o,seg,d.sub||'',d.st,d.nota||''].map(escCSV).join(','));
+    });
+  });
+  dlCSV(lines.join('\n'),'AFEX_RADAR_Ecosistema_'+new Date().toISOString().slice(0,10)+'.csv');
+}
+function exportHistCSV(){
+  const rows=selEmps.size>0?computedRows.filter(function(r){return selEmps.has(r.emp);}):computedRows;
+  const header=['Rastreo','Empresa','Segmento','Subcategoría','Score actual','Score anterior','Δ mes'];
+  const lines=[header.map(escCSV).join(',')];
+  rows.forEach(function(r){
+    lines.push([r.rastreo,r.emp,r.seg,r.sub,r.score,r.scorePrev!=null?r.scorePrev:'—',r.deltaStr].map(escCSV).join(','));
+  });
+  dlCSV(lines.join('\n'),'AFEX_RADAR_Historial_'+new Date().toISOString().slice(0,10)+'.csv');
+}
+
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-computeTotals();buildNav();buildFilters();renderContent();loadData();renderRadar();
+computeTotals();buildNav();buildFilters();renderContent();loadData();renderRadar();refreshHist();
 
 
 </script>
