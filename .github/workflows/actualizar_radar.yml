@@ -9,6 +9,7 @@ on:
 jobs:
   actualizar-radar:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     permissions:
       contents: write
 
@@ -20,11 +21,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Instalar dependencias
-        run: |
-          # Solo stdlib — no se necesita ningún paquete externo
-          python --version
 
       - name: Ejecutar actualización del radar
         run: python scripts/actualizar_radar.py
