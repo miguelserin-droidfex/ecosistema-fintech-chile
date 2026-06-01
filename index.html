@@ -385,11 +385,9 @@ tr:hover td{background:var(--ink-50)}
   border-radius:var(--r);padding:9px 11px;font-size:11px;
   min-width:220px;max-width:290px;width:max-content;
   box-shadow:0 4px 16px rgba(0,0,0,.12);white-space:normal;pointer-events:auto;
-  max-height:340px;overflow-y:auto;
+  max-height:320px;overflow-y:auto;
 }
-.bl-tooltip::after{
-  content:'';position:absolute;top:100%;left:0;width:100%;height:10px;
-}
+.bl-tooltip::after{content:'';position:absolute;top:100%;left:0;width:100%;height:10px;}
 .bl-wrap:hover .bl-tooltip,.bl-tooltip:hover{display:block}
 .bl-tt-name{font-size:12px;font-weight:700;margin-bottom:3px;letter-spacing:-.01em}
 .bl-tt-bar{display:flex;align-items:center;gap:6px;margin:4px 0}
@@ -625,7 +623,7 @@ tr:hover td{background:var(--ink-50)}
 </div>
 <div class="section active" id="sec-eco">
   <div class="seg-nav" id="seg-nav"></div>
-  <div class="mbar"><div class="sw"><input type="text" id="msrch" placeholder="Buscar empresa en cualquier segmento..."></div><div class="frow" id="mfrow"></div><button class="rb" onclick="exportEcoCSV()" style="background:var(--green-tint2);border-color:var(--green-tint);color:var(--green-dim);font-weight:600">&#8595; Exportar Excel</button><button class="rb" id="reset-all">&#8635; Resetear todo</button></div>
+  <div class="mbar"><div class="sw"><input type="text" id="msrch" placeholder="Buscar empresa en cualquier segmento..."></div><div class="frow" id="mfrow"></div><button class="rb" id="reset-all">&#8635; Resetear todo</button></div>
   <div id="seg-content"></div>
 </div>
 <div class="section" id="sec-glos">
@@ -677,7 +675,6 @@ tr:hover td{background:var(--ink-50)}
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
       <span class="htable-info" id="htable-info"></span>
       <div class="htable-pagination">
-        <button class="hpag-btn" onclick="exportHistCSV()" style="background:var(--green-tint2);border-color:var(--green-tint);color:var(--green-dim);font-weight:600">&#8595; Exportar Excel</button>
         <button class="hpag-btn" id="hpag-prev" onclick="changePage(-1)" disabled>&#8592; Anterior</button>
         <span class="hpag-info" id="hpag-info"></span>
         <button class="hpag-btn" id="hpag-next" onclick="changePage(1)">Siguiente &#8594;</button>
@@ -743,12 +740,10 @@ const BASE_HIST=[
 function loadData(){
   try{const d=localStorage.getItem(SKEY);if(d)HIST=JSON.parse(d).rastreos||[];}catch(e){HIST=[];}
   BASE_HIST.forEach(bh=>{
-    const exists=HIST.some(h=>h.fecha===bh.fecha||h.label.trim().toLowerCase()===bh.label.trim().toLowerCase());
-    if(!exists)HIST.push(bh);
+    if(!HIST.some(h=>h.fecha===bh.fecha))HIST.push(bh);
   });
   HIST.sort((a,b)=>a.fecha.localeCompare(b.fecha));
-  savH();
-  updMeta();
+  savH();updMeta();
 }
 function savH(){try{localStorage.setItem(SKEY,JSON.stringify({rastreos:HIST}));}catch(e){}}
 function updMeta(){
@@ -819,12 +814,11 @@ document.querySelectorAll('.tn').forEach(b=>{
 
 // ─── ECOSISTEMA ───────────────────────────────────────────────────────────────
 function buildNav(){
-  const nb=document.getElementById('sec-eco').querySelector('.nav-tabs');
-  const allBtn=`<button class="nav-tab${aS==='__all__'?' active':''}" onclick="aS='__all__';aO='all';aReg='all';aSubs.clear();buildFilters();renderTable()">Todos</button>`;
-  nb.innerHTML=allBtn+Object.keys(SEGS).map(s=>`<button class="nav-tab${aS===s?' active':''}" onclick="aS='${s}';aO='all';aReg='all';aSubs.clear();buildFilters();renderTable()">${s}</button>`).join('');
-}
-function renderNav(){buildNav();}" data-seg="${k}" style="${a?`border-color:${v.color};color:${v.color}`:''}">
-      ${k}<span class="cnt" style="background:${v.color}20;color:${v.color}">${v.data.length}</span></button>`;
+  var totalAll=Object.values(SEGS).reduce(function(t,v){return t+v.data.length;},0);
+  var todosHtml='<button class="sb'+(aS==='__all__'?' active':'')+'" data-seg="__all__">Todos<span class="cnt" style="background:#5F5E5A20;color:#5F5E5A">'+totalAll+'</span></button>';
+  document.getElementById('seg-nav').innerHTML=todosHtml+Object.entries(SEGS).map(function(entry){
+    var k=entry[0],v=entry[1],a=k===aS;
+    return '<button class="sb'+(a?' active':'')+'" data-seg="'+k+'" style="'+(a?'border-color:'+v.color+';color:'+v.color:'')+'">'+k+'<span class="cnt" style="background:'+v.color+'20;color:'+v.color+'">'+v.data.length+'</span></button>';
   }).join('');
   document.querySelectorAll('.sb').forEach(b=>b.addEventListener('click',()=>{
     aS=b.dataset.seg;aO='all';aReg='all';aQ='';aSubs.clear();sC=-1;sD=1;
@@ -832,7 +826,8 @@ function renderNav(){buildNav();}" data-seg="${k}" style="${a?`border-color:${v.
   }));
 }
 function buildFilters(){
-  if(aS==='__all__'){renderTable();return;}const seg=SEGS[aS];let html='';
+  if(aS==='__all__'){document.getElementById('mfrow').innerHTML='';renderTable();return;}
+  const seg=SEGS[aS];let html='';
   [['all','Todos','#378ADD','#185FA5'],['Local','Local','#1D9E75','#085041'],['Extranjera','Extranjera','#7F77DD','#3C3489']].forEach(([v,l,bc,tc])=>{
     const a=aO===v;html+='<button class="fp'+(a?' active':'')+'" data-o="'+v+'" style="'+(a?'border-color:'+bc+';color:'+tc:'')+'">'+l+'</button>';
   });
@@ -868,59 +863,50 @@ function buildFilters(){
 }
 document.addEventListener('click',e=>{const sfw=document.getElementById('sfw');if(sfw&&!sfw.contains(e.target)){const sdd=document.getElementById('sdd');if(sdd)sdd.classList.remove('open');}});
 document.getElementById('msrch').addEventListener('input',e=>{aQ=e.target.value;renderTable();});
-document.getElementById('reset-all').addEventListener('click',()=>{aS='__all__';aO='all';aReg='all';aQ='';aSubs.clear();sC=-1;sD=1;buildFilters();renderNav();renderTable();});
+document.getElementById('reset-all').addEventListener('click',()=>{aO='all';aReg='all';aQ='';aSubs.clear();sC=-1;sD=1;buildFilters();renderTable();});
 function matchReg(d,f){if(f==='all')return true;if(f==='cmf')return d.reg==='cmf'||d.reg==='both';if(f==='uaf')return d.reg==='uaf'||d.reg==='both';if(f==='both')return d.reg==='both';if(f==='none')return d.reg==='none';return true;}
 function renderTable(){
   var isAll=aS==='__all__';
   var seg=isAll?null:SEGS[aS],sq=aQ.toLowerCase();
   if(!isAll&&!seg)return;
-  var rawData=isAll
-    ?Object.entries(SEGS).flatMap(function(e){var sn=e[0],sv=e[1];return sv.data.map(function(d){return Object.assign({},d,{_sn:sn,_sv:sv});});})
-    :seg.data.map(function(d){return Object.assign({},d,{_sn:aS,_sv:seg});});
-  var rows=rawData.filter(function(d){
-    var sv=d._sv;
-    return(aO==='all'||d.o===aO)&&(sv.hasDualReg?matchReg(d,aReg):true)&&(!aSubs.size||aSubs.has(d.sub))&&(!sq||d.n.toLowerCase().includes(sq)||d.sub.toLowerCase().includes(sq)||d._sn.toLowerCase().includes(sq)||(d.nota&&d.nota.toLowerCase().includes(sq)));
+  var baseData=isAll?Object.entries(SEGS).reduce(function(arr,e){return arr.concat(e[1].data.map(function(d){var r=Object.assign({},d);r._segName=e[0];return r;}));},[]): seg.data;
+  let rows=baseData.filter(d=>{
+    var sv=isAll?SEGS[d._segName]:seg;
+    return(aO==='all'||d.o===aO)&&(sv&&sv.hasDualReg?matchReg(d,aReg):true)&&(!aSubs.size||aSubs.has(d.sub))&&(!sq||d.n.toLowerCase().includes(sq)||d.sub.toLowerCase().includes(sq)||(d.nota&&d.nota.toLowerCase().includes(sq)));
   });
-  if(sC>=0){var k=['n','o','_sn','sub','nota'][sC]||'n';rows=rows.slice().sort(function(a,b){return(a[k]||'').localeCompare(b[k]||'')*sD;});}
-  var tot=rows.length,loc=rows.filter(function(r){return r.o==='Local';}).length,ext=rows.filter(function(r){return r.o==='Extranjera';}).length,acq=rows.filter(function(r){return r.st==='adquirida';}).length;
-  var se=document.getElementById('sstats');
-  if(se)se.innerHTML='<div class="stat"><div class="stat-n">'+tot+'</div><div class="stat-l">'+(isAll?'Total':'En segmento')+'</div></div><div class="stat"><div class="stat-n">'+loc+'</div><div class="stat-l">Locales</div></div><div class="stat"><div class="stat-n">'+ext+'</div><div class="stat-l">Extranjeras</div></div>'+(acq?'<div class="stat"><div class="stat-n">'+acq+'</div><div class="stat-l">Adquiridas</div></div>':'');
-  var tb=document.getElementById('stbody');
+  if(sC>=0){const k=['n','o','sub','nota'][sC]||'n';rows=[...rows].sort((a,b)=>(a[k]||'').localeCompare(b[k]||'')*sD);}
+  const tot=rows.length,loc=rows.filter(r=>r.o==='Local').length,ext=rows.filter(r=>r.o==='Extranjera').length,acq=rows.filter(r=>r.st==='adquirida').length;
+  const cmfN=seg.hasDualReg?rows.filter(r=>r.reg==='cmf'||r.reg==='both').length:0;
+  const uafN=seg.hasDualReg?rows.filter(r=>r.reg==='uaf'||r.reg==='both').length:0;
+  const se=document.getElementById('sstats');
+  if(se)se.innerHTML=`<div class="stat"><div class="stat-n">${tot}</div><div class="stat-l">En segmento</div></div><div class="stat"><div class="stat-n">${loc}</div><div class="stat-l">Locales</div></div><div class="stat"><div class="stat-n">${ext}</div><div class="stat-l">Extranjeras</div></div>${acq?`<div class="stat"><div class="stat-n">${acq}</div><div class="stat-l">Adquiridas</div></div>`:''}${seg.hasDualReg?`<div class="stat"><div class="stat-n">${cmfN}</div><div class="stat-l">Con CMF</div></div><div class="stat"><div class="stat-n">${uafN}</div><div class="stat-l">Con UAF</div></div>`:''}`;
+  const tb=document.getElementById('stbody');
   if(!tb)return;
-  if(!rows.length){tb.innerHTML='<tr><td colspan="6" class="empty">Sin resultados</td></tr>';return;}
-  tb.innerHTML=rows.map(function(d){
-    var sv=d._sv;
-    var c=sc(d.sub);
-    var segC=SEGS[d._sn]?SEGS[d._sn].color:'#888';
-    var ob=d.o==='Local'?'<span class="badge bl">Local</span>':'<span class="badge be">Extranjera</span>';
-    var stb=d.st==='adquirida'?'<span class="badge ba">Adquirida</span>':'<span style="color:#0F6E56;font-size:9px;font-weight:500">Vigente</span>';
-    var stag='<span class="stag" style="background:'+c+'18;color:'+c+';border:0.5px solid '+c+'40">'+d.sub+'</span>';
-    var segtag=isAll?'<td><span style="font-size:9px;padding:1px 6px;border-radius:99px;background:'+segC+'18;color:'+segC+';border:0.5px solid '+segC+'40;white-space:nowrap">'+d._sn+'</span></td>':'';
-    var hl=aQ&&(d.n.toLowerCase().includes(aQ.toLowerCase())||(d.nota&&d.nota.toLowerCase().includes(aQ.toLowerCase())))?'style="background:#FFF9C4"':'';
-    if(!isAll&&sv.hasDualReg){
-      var cmfb=(d.reg==='cmf'||d.reg==='both')?'<span class="reg-cmf">CMF</span>':'<span class="reg-no">—</span>';
-      var uafb=(d.reg==='uaf'||d.reg==='both')?'<span class="reg-uaf">UAF</span>':'<span class="reg-no">—</span>';
-      return'<tr><td '+hl+'><span style="font-weight:600">'+d.n+'</span><div class="note">'+(d.nota||'')+'</div></td><td>'+ob+'</td><td>'+stag+'</td><td>'+cmfb+'</td><td>'+uafb+'</td><td>'+stb+'</td></tr>';
+  if(!rows.length){tb.innerHTML=`<tr><td colspan="6" class="empty">Sin resultados para los filtros aplicados</td></tr>`;return;}
+  tb.innerHTML=rows.map(d=>{
+    const c=sc(d.sub);
+    const ob=d.o==='Local'?`<span class="badge bl">Local</span>`:`<span class="badge be">Extranjera</span>`;
+    const stb=d.st==='adquirida'?`<span class="badge ba">Adquirida</span>`:`<span style="color:#0F6E56;font-size:9px;font-weight:500">Vigente</span>`;
+    const stag=`<span class="stag" style="background:${c}18;color:${c};border:0.5px solid ${c}40">${d.sub}</span>`;
+    const hl=aQ&&(d.n.toLowerCase().includes(aQ.toLowerCase())||(d.nota&&d.nota.toLowerCase().includes(aQ.toLowerCase())))?'style="background:#FFF9C4"':'';
+    var sv2=isAll?SEGS[d._segName]:seg;
+    if(isAll){var segC=SEGS[d._segName]?SEGS[d._segName].color:'#888';return '<tr><td '+hl+'><span style="font-weight:600">'+d.n+'</span><div class="note">'+(d.nota||'')+'</div></td><td>'+ob+'</td><td><span style="font-size:9px;padding:1px 6px;border-radius:99px;background:'+segC+'18;color:'+segC+'">'+d._segName+'</span></td><td>'+stag+'</td><td>'+stb+'</td></tr>';}
+    if(seg.hasDualReg){
+      const cmfb=(d.reg==='cmf'||d.reg==='both')?`<span class="reg-cmf">CMF</span>`:`<span class="reg-no">—</span>`;
+      const uafb=(d.reg==='uaf'||d.reg==='both')?`<span class="reg-uaf">UAF</span>`:`<span class="reg-no">—</span>`;
+      return`<tr><td ${hl}><span style="font-weight:600">${d.n}</span><div class="note">${d.nota||''}</div></td><td>${ob}</td><td>${stag}</td><td>${cmfb}</td><td>${uafb}</td><td>${stb}</td></tr>`;
     }
-    return'<tr><td '+hl+'><span style="font-weight:600">'+d.n+'</span><div class="note">'+(d.nota||'')+'</div></td><td>'+ob+'</td>'+segtag+'<td>'+stag+'</td><td>'+stb+'</td></tr>';
+    if(seg.hasCmfOnly)return`<tr><td ${hl}><span style="font-weight:600">${d.n}</span><div class="note">${d.nota||''}</div></td><td>${ob}</td><td>${stag}</td><td>${stb}</td></tr>`;
+    return`<tr><td ${hl}><span style="font-weight:600">${d.n}</span><div class="note">${d.nota||''}</div></td><td>${ob}</td><td>${stag}</td><td>${stb}</td></tr>`;
   }).join('');
-  document.querySelectorAll('th[data-col]').forEach(function(th){
-    var ci=parseInt(th.dataset.col);var si=th.querySelector('.si');
+  document.querySelectorAll('th[data-col]').forEach(th=>{
+    const ci=parseInt(th.dataset.col);const si=th.querySelector('.si');
     if(si)si.textContent=sC===ci?(sD===1?'↑':'↓'):'↕';
     th.classList.toggle('srt',sC===ci);
   });
 }
 function renderContent(){
-  if(aS==='__all__'){
-    document.getElementById('seg-content').innerHTML=`
-      <div class="nb" style="--nbc:#5F5E5A">Mostrando todas las empresas del ecosistema. Usa el buscador o los filtros para navegar.</div>
-      <div class="stats-row" id="sstats"></div>
-      <div class="tw"><table><thead><tr><th data-col="0">Empresa<span class="si">↕</span></th><th data-col="1">Origen<span class="si">↕</span></th><th data-col="2">Segmento<span class="si">↕</span></th><th data-col="3">Subcategoría<span class="si">↕</span></th><th data-col="4">Estado</th></tr></thead><tbody id="stbody"></tbody></table></div>`;
-    document.querySelectorAll('th[data-col]').forEach(th=>{
-      th.addEventListener('click',()=>{const ci=parseInt(th.dataset.col);if(sC===ci)sD*=-1;else{sC=ci;sD=1;}renderTable();});
-    });
-    renderTable();return;
-  }
+  if(aS==='__all__'){document.getElementById('seg-content').innerHTML='<div class="nb" style="--nbc:#5F5E5A">Mostrando todas las empresas del ecosistema.</div><div class="stats-row" id="sstats"></div><div class="tw"><table><thead><tr><th>Empresa</th><th>Origen</th><th>Segmento</th><th>Subcategoría</th><th>Estado</th></tr></thead><tbody id="stbody"></tbody></table></div>';renderTable();return;}
   const seg=SEGS[aS];
   const ths=seg.cols.map((c,i)=>`<th data-col="${i}">${c}<span class="si">↕</span></th>`).join('');
   document.getElementById('seg-content').innerHTML=`
@@ -1004,7 +990,7 @@ function buildHistFilters(){
   sf.innerHTML=`<button class="hsb${hSeg==='all'?' on':''}" data-s="all">Todos los segmentos</button>`+Object.entries(SEGS).map(([k,v])=>`<button class="hsb${hSeg===k?' on':''}" data-s="${k}"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${v.color};margin-right:4px;vertical-align:middle"></span>${k}</button>`).join('');
   sf.querySelectorAll('.hsb').forEach(b=>b.addEventListener('click',()=>{
     hSeg=b.dataset.s;hSub='all';
-    if(hSeg!=='all'){const emps=SEGS[hSeg].data.map(d=>d.n).filter(n=>EMP_INFO[n]);selEmps=new Set(emps);}
+    if(hSeg!=='all'){const emps=SEGS[hSeg].data.map(d=>d.n).filter(n=>EMP_INFO[n]);selEmps=new Set(emps.slice(0,12));}
     refreshHist();
   }));
   buildSubFilters();
@@ -1019,7 +1005,7 @@ function buildSubFilters(){
   subRow.innerHTML=`<button class="hssb${hSub==='all'?' on':''}" data-sub="all">Todas las subcategorías</button>`+subs.map(s=>`<button class="hssb${hSub===s?' on':''}" data-sub="${s}" style="${hSub===s?`border-color:${sc(s)};color:${sc(s)};font-weight:600`:''}"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${sc(s)};margin-right:3px;vertical-align:middle"></span>${s}</button>`).join('');
   subRow.querySelectorAll('.hssb').forEach(b=>b.addEventListener('click',()=>{
     hSub=b.dataset.sub;
-    if(hSeg!=='all'){const emps=hSub==='all'?SEGS[hSeg].data.map(d=>d.n).filter(n=>EMP_INFO[n]):SEGS[hSeg].data.filter(d=>d.sub===hSub).map(d=>d.n).filter(n=>EMP_INFO[n]);selEmps=new Set(emps);}
+    if(hSub!=='all'&&hSeg!=='all'){const emps=SEGS[hSeg].data.filter(d=>d.sub===hSub).map(d=>d.n).filter(n=>EMP_INFO[n]);selEmps=new Set(emps);}
     refreshHist();
   }));
 }
@@ -1042,7 +1028,7 @@ function computeRows(){
 }
 function refreshHist(){buildHistFilters();computeRows();buildChartPills();renderMultiChart();tblPage=0;renderHistTable();}
 function toggleEmp(emp){if(selEmps.has(emp))selEmps.delete(emp);else selEmps.add(emp);buildChartPills();renderMultiChart();renderHistTable();}
-function selectAllFiltered(){getVisibleEmps().forEach(e=>selEmps.add(e));buildChartPills();renderMultiChart();renderHistTable();}
+function selectAllFiltered(){getVisibleEmps().slice(0,16).forEach(e=>selEmps.add(e));buildChartPills();renderMultiChart();renderHistTable();}
 function clearSelection(){selEmps.clear();buildChartPills();renderMultiChart();renderHistTable();}
 function getVisibleEmps(){
   const sq=chartSrch.toLowerCase();const all=[...new Set(computedRows.map(r=>r.emp))].sort();
@@ -1161,7 +1147,7 @@ function renderMultiChart(){
 })();
 
 // ─── TABLA PAGINADA ───────────────────────────────────────────────────────────
-function changePage(dir){const filteredRows=selEmps.size>0?computedRows.filter(r=>selEmps.has(r.emp)):computedRows;const maxPage=Math.max(0,Math.ceil(filteredRows.length/PAGE_SIZE)-1);tblPage=Math.max(0,Math.min(maxPage,tblPage+dir));renderHistTable();}
+function changePage(dir){const maxPage=Math.ceil(computedRows.length/PAGE_SIZE)-1;tblPage=Math.max(0,Math.min(maxPage,tblPage+dir));renderHistTable();}
 function sortTblBy(col){if(tblSortCol===col)tblSortDir*=-1;else{tblSortCol=col;tblSortDir=1;}tblPage=0;renderHistTable();}
 function renderHistTable(){
   let rows=selEmps.size>0?computedRows.filter(r=>selEmps.has(r.emp)):computedRows;
@@ -1173,13 +1159,13 @@ function renderHistTable(){
   document.getElementById('hpag-info').textContent='Página '+(tblPage+1)+' de '+(maxPage+1);
   document.getElementById('hpag-prev').disabled=tblPage===0;
   document.getElementById('hpag-next').disabled=tblPage>=maxPage;
-  const cols=[{key:'rastreo',label:'Rastreo'},{key:'emp',label:'Empresa / Institución'},{key:'seg',label:'Segmento'},{key:'sub',label:'Subcategoría'},{key:'score',label:'Score'},{key:'delta',label:'Δ vs anterior'}];
+  const cols=[{key:'rastreo',label:'Rastreo'},{key:'emp',label:'Empresa / Institución'},{key:'seg',label:'Segmento'},{key:'sub',label:'Subcategoría'},{key:'score',label:'Score actual'},{key:'scorePrev',label:'Score anterior'},{key:'delta',label:'Δ mes'}];
   function si(col){return tblSortCol===col?tblSortDir===1?' ↑':' ↓':' ↕';}
   if(!page.length){document.getElementById('htable').innerHTML=`<div class="empty">Sin datos para los filtros seleccionados</div>`;return;}
   const empColors={};let ci=0;selEmps.forEach(e=>{empColors[e]=LINE_COLORS[ci%LINE_COLORS.length];ci++;});
   document.getElementById('htable').innerHTML=`<table><thead><tr>${cols.map(c=>`<th onclick="sortTblBy('${c.key}')" class="${tblSortCol===c.key?'srt':''}">${c.label}<span class="si">${si(c.key)}</span></th>`).join('')}</tr></thead><tbody>${page.map(r=>{
     const isSel=selEmps.has(r.emp);const color=empColors[r.emp]||'#185FA5';
-    return`<tr style="cursor:pointer${isSel?`;background:${color}08`:''}" onclick="toggleEmp('${r.emp.replace(/'/g,"&#39;")}')" title="Click para marcar/desmarcar en el gráfico"><td><span style="font-size:10px;background:var(--ink-50);padding:2px 7px;border-radius:99px;white-space:nowrap">${r.rastreo}</span></td><td><span style="font-weight:600;color:${color}">${r.emp}</span>${isSel?`<span style="font-size:9px;margin-left:4px;color:${color}">✓</span>`:''}</td><td><span style="font-size:9px;padding:1px 5px;border-radius:99px;background:${r.segColor}18;color:${r.segColor};border:0.5px solid ${r.segColor}40;white-space:nowrap">${r.seg}</span></td><td><span style="font-size:9px;padding:1px 5px;border-radius:99px;background:${sc(r.sub)}18;color:${sc(r.sub)};border:0.5px solid ${sc(r.sub)}40;white-space:nowrap">${r.sub}</span></td><td><span style="font-weight:700;color:${r.score>=8?'#085041':r.score>=5?'#3C3489':'var(--color-text-tertiary)'}">${r.score}</span><span style="font-size:9px;color:var(--ink-300)">/10</span></td><td><span style="color:var(--ink-300);font-size:12px">${r.scorePrev!==null?r.scorePrev+'<small>/10</small>':'—'}</span></td><td><span class="${r.dCls}">${r.deltaStr}</span></td></tr>`;
+    return`<tr style="cursor:pointer${isSel?`;background:${color}08`:''}" onclick="toggleEmp('${r.emp.replace(/'/g,"&#39;")}')" title="Click para marcar/desmarcar en el gráfico"><td><span style="font-size:10px;background:var(--ink-50);padding:2px 7px;border-radius:99px;white-space:nowrap">${r.rastreo}</span></td><td><span style="font-weight:600;color:${color}">${r.emp}</span>${isSel?`<span style="font-size:9px;margin-left:4px;color:${color}">✓</span>`:''}</td><td><span style="font-size:9px;padding:1px 5px;border-radius:99px;background:${r.segColor}18;color:${r.segColor};border:0.5px solid ${r.segColor}40;white-space:nowrap">${r.seg}</span></td><td><span style="font-size:9px;padding:1px 5px;border-radius:99px;background:${sc(r.sub)}18;color:${sc(r.sub)};border:0.5px solid ${sc(r.sub)}40;white-space:nowrap">${r.sub}</span></td><td><span style="font-weight:700;color:${r.score>=8?'#085041':r.score>=5?'#3C3489':'var(--color-text-tertiary)'}">${r.score}</span><span style="font-size:9px;color:var(--ink-300)">/10</span></td><td><span style="color:var(--ink-400);font-size:12px">${r.scorePrev!==null?r.scorePrev+'<small>/10</small>':"—"}</span></td><td><span class="${r.dCls}">${r.deltaStr}</span></td></tr>`;
   }).join('')}</tbody></table>`;
 }
 
@@ -1241,13 +1227,6 @@ async function submitSug(){
   }
   btn.disabled=false;btn.textContent='Enviar sugerencia';
 }
-
-
-// ─── EXPORTAR CSV/EXCEL ───────────────────────────────────────────────────────
-function dlCSV(content,filename){const BOM='\uFEFF';const blob=new Blob([BOM+content],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);}
-function escCSV(v){const s=String(v??'');return s.includes(',')||s.includes('"')||s.includes('\n')?'"'+s.replace(/"/g,'""')+'"':s;}
-function exportHistCSV(){const rows=selEmps.size>0?computedRows.filter(r=>selEmps.has(r.emp)):computedRows;const header=['Rastreo','Empresa','Segmento','Subcategoría','Score actual','Score anterior','Δ mes'];const lines=[header.map(escCSV).join(',')];rows.forEach(r=>lines.push([r.rastreo,r.emp,r.seg,r.sub,r.score,r.scorePrev!==null?r.scorePrev:'—',r.deltaStr].map(escCSV).join(',')));dlCSV(lines.join('\n'),'AFEX_RADAR_Historial_'+new Date().toISOString().slice(0,10)+'.csv');}
-function exportEcoCSV(){const header=['Empresa','Origen','Segmento','Subcategoría','CMF','UAF','Estado','Notas'];const lines=[header.map(escCSV).join(',')];Object.entries(SEGS).forEach(([seg,sv])=>{sv.data.forEach(d=>{const cmf=sv.hasDualReg?(d.reg==='cmf'||d.reg==='both'?'✓':'—'):'';const uaf=sv.hasDualReg?(d.reg==='uaf'||d.reg==='both'?'✓':'—'):'';lines.push([d.n,d.o,seg,d.sub||'',cmf,uaf,d.st,d.nota||''].map(escCSV).join(','));});});dlCSV(lines.join('\n'),'AFEX_RADAR_Ecosistema_'+new Date().toISOString().slice(0,10)+'.csv');}
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 computeTotals();buildNav();buildFilters();renderContent();loadData();renderRadar();
