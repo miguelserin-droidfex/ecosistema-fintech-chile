@@ -2,8 +2,9 @@ name: Actualizar Radar Fintech Chile
 
 on:
   schedule:
-    - cron: '0 12 15 * *'  # 15 de cada mes a las 12:00 UTC (9:00 AM Chile)
-  workflow_dispatch:        # También se puede correr manualmente
+    # Día 15 de cada mes a las 12:00 UTC (09:00 AM Chile)
+    - cron: '0 12 15 * *'
+  workflow_dispatch:  # Permite ejecución manual desde GitHub Actions
 
 jobs:
   actualizar-radar:
@@ -21,17 +22,23 @@ jobs:
           python-version: '3.11'
 
       - name: Instalar dependencias
-        run: pip install anthropic requests
+        run: |
+          # Solo stdlib — no se necesita ningún paquete externo
+          python --version
 
-      - name: Correr actualización de radar
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      - name: Ejecutar actualización del radar
         run: python scripts/actualizar_radar.py
 
-      - name: Commit y push de nuevos scores
+      - name: Commit y push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add scores.json
-          git diff --staged --quiet || git commit -m "Radar actualizado automaticamente - $(date +'%B %Y')"
+          git add scores.json index.html
+          git diff --staged --quiet || git commit -m "🤖 Radar actualizado automáticamente — $(date +'%B %Y')"
           git push
+
+      - name: Deploy a Netlify
+        if: ${{ secrets.NETLIFY_SITE_ID != '' && secrets.NETLIFY_AUTH_TOKEN != '' }}
+        run: |
+          npm install -g netlify-cli
+          netlify deploy --prod --dir=. --site=${{ secrets.NETLIFY_SITE_ID }} --auth=${{ secrets.NETLIFY_AUTH_TOKEN }}
