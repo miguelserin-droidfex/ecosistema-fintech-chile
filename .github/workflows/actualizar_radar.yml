@@ -3,7 +3,7 @@ name: Actualizar Radar Fintech Chile
 on:
   schedule:
     # Día 27 de cada mes a las XX:XX UTC (04:30 PM Chile)
-    - cron: '30 19 21 * *'
+    - cron: '0 21 21 * *'
   workflow_dispatch:  # Permite ejecución manual desde GitHub Actions
     inputs:
       mes_forzado:
