@@ -5,6 +5,11 @@ on:
     # Día 15 de cada mes a las 12:00 UTC (09:00 AM Chile)
     - cron: '0 12 15 * *'
   workflow_dispatch:  # Permite ejecución manual desde GitHub Actions
+    inputs:
+      mes_forzado:
+        description: 'Forzar mes (formato YYYY-MM, ej: 2026-06). Vacío = usa el mes actual.'
+        required: false
+        default: ''
 
 jobs:
   actualizar-radar:
@@ -23,6 +28,8 @@ jobs:
           python-version: '3.11'
 
       - name: Ejecutar actualización del radar
+        env:
+          FORZAR_MES: ${{ github.event.inputs.mes_forzado }}
         run: python scripts/actualizar_radar.py
 
       - name: Commit y push
