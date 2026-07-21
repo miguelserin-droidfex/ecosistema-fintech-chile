@@ -2,39 +2,46 @@ name: Actualizar Radar Fintech Chile
 
 on:
   schedule:
-    # Día 15 de cada mes a las 12:00 UTC (09:00 AM Chile)
-    - cron: '0 12 15 * *'
-  workflow_dispatch:  # Permite ejecución manual desde GitHub Actions
+      # Día 15 de cada mes a las 12:00 UTC (09:00 AM Chile)
+          - cron: '0 12 15 * *'
+            workflow_dispatch:  # Permite ejecución manual desde GitHub Actions
 
-jobs:
-  actualizar-radar:
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    permissions:
-      contents: write
+            jobs:
+              actualizar-radar:
+                  runs-on: ubuntu-latest
+                      timeout-minutes: 25
+                          permissions:
+                                contents: write
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+                                    steps:
+                                          - name: Checkout repo
+                                                  uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+                                                        - name: Setup Python
+                                                                uses: actions/setup-python@v5
+                                                                        with:
+                                                                                  python-version: '3.11'
 
-      - name: Ejecutar actualización del radar
-        run: python scripts/actualizar_radar.py
+                                                                                        - name: Ejecutar actualización del radar
+                                                                                                run: python scripts/actualizar_radar.py
 
-      - name: Commit y push
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add scores.json index.html
-          git diff --staged --quiet || git commit -m "🤖 Radar actualizado automáticamente — $(date +'%B %Y')"
-          git push
-
-      - name: Deploy a Netlify
-        if: ${{ secrets.NETLIFY_SITE_ID != '' && secrets.NETLIFY_AUTH_TOKEN != '' }}
-        run: |
-          npm install -g netlify-cli
-          netlify deploy --prod --dir=. --site=${{ secrets.NETLIFY_SITE_ID }} --auth=${{ secrets.NETLIFY_AUTH_TOKEN }}
+                                                                                                      - name: Commit y push
+                                                                                                              run: |
+                                                                                                                        git config user.name "github-actions[bot]"
+                                                                                                                                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                                                                                                                                            git add scores.json index.html
+                                                                                                                                                      git diff --staged --quiet || git commit -m "🤖 Radar actualizado automáticamente — $(date +'%B %Y')"
+                                                                                                                                                                git push
+                                                                                                                                                                
+                                                                                                                                                                      - name: Deploy a Netlify
+                                                                                                                                                                              env:
+                                                                                                                                                                                        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+                                                                                                                                                                                                  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+                                                                                                                                                                                                          run: |
+                                                                                                                                                                                                                    if [ -n "$NETLIFY_SITE_ID" ] && [ -n "$NETLIFY_AUTH_TOKEN" ]; then
+                                                                                                                                                                                                                                npm install -g netlify-cli
+                                                                                                                                                                                                                                            netlify deploy --prod --dir=. --site="$NETLIFY_SITE_ID" --auth="$NETLIFY_AUTH_TOKEN"
+                                                                                                                                                                                                                                                      else
+                                                                                                                                                                                                                                                                  echo "Netlify secrets no configurados, se omite deploy."
+                                                                                                                                                                                                                                                                            fi
+                                                                                                                                                                                                                                                                            
