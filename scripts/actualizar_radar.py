@@ -73,7 +73,6 @@ def fetch_url(url: str, timeout: int = 12) -> bytes | None:
 def parse_rss_date(date_str: str) -> datetime | None:
     """Parsea fecha RFC-2822 de RSS."""
     try:
-        # Ejemplo: "Mon, 15 May 2026 10:00:00 +0000"
         from email.utils import parsedate_to_datetime
         return parsedate_to_datetime(date_str).replace(tzinfo=timezone.utc)
     except Exception:
@@ -122,9 +121,8 @@ def buscar_menciones(empresa: str) -> tuple[int, float]:
             peso = peso_fuente(link)
 
             n_articulos += 1
-            # Decaimiento temporal: artículos más recientes valen más
             days_old = (datetime.now(timezone.utc) - pub_date).days
-            decay = 1.0 - (days_old / WINDOW_DAYS) * 0.4  # entre 0.6 y 1.0
+            decay = 1.0 - (days_old / WINDOW_DAYS) * 0.4
             score_ponderado += peso * decay
 
     except ET.ParseError as e:
@@ -147,7 +145,7 @@ def menciones_a_score(n: int, pond: float, score_anterior: int) -> int:
     Regla de estabilidad: máximo ±2 puntos por mes.
     """
     if pond == 0:
-        return score_anterior  # Sin noticias = sin cambio
+        return score_anterior
 
     if pond >= 12:
         raw = 9 if pond < 20 else 10
@@ -160,7 +158,6 @@ def menciones_a_score(n: int, pond: float, score_anterior: int) -> int:
     else:
         raw = score_anterior
 
-    # Estabilidad: no mover más de ±2 por mes
     delta = raw - score_anterior
     if delta > 2:
         raw = score_anterior + 2
@@ -172,17 +169,29 @@ def menciones_a_score(n: int, pond: float, score_anterior: int) -> int:
 
 # ─── MAIN ────────────────────────────────────────────────────────────────────
 
+# Permite forzar un mes específico (formato "YYYY-MM"), en vez de usar la fecha
+# real del sistema. Útil para backfill de meses que se saltaron por fallos del
+# workflow. Se pasa como variable de entorno FORZAR_MES, ej: FORZAR_MES=2026-06
+FORZAR_MES = os.environ.get("FORZAR_MES", "").strip()
+
+
 def main():
-    now = datetime.now()
-    label = f"{MESES_ES[now.month - 1]} {now.year}"
-    fecha = now.strftime("%Y-%m")
+    if FORZAR_MES:
+        anio_str, mes_str = FORZAR_MES.split("-")
+        anio, mes = int(anio_str), int(mes_str)
+        label = f"{MESES_ES[mes - 1]} {anio}"
+        fecha = FORZAR_MES
+        print(f"⚠ Modo backfill: forzando mes {label} (FORZAR_MES={FORZAR_MES})\n")
+    else:
+        now = datetime.now()
+        label = f"{MESES_ES[now.month - 1]} {now.year}"
+        fecha = now.strftime("%Y-%m")
 
     print(f"╔══════════════════════════════════════════════════╗")
     print(f"  AFEX RADAR — Actualización {label}")
     print(f"  Método: Google News RSS (sin API de pago)")
     print(f"╚══════════════════════════════════════════════════╝\n")
 
-    # 1. Cargar historial
     if not SCORES_PATH.exists():
         print("✗ scores.json no encontrado")
         sys.exit(1)
@@ -194,7 +203,6 @@ def main():
 
     print(f"📊 {len(rastreos)} rastreos existentes · {len(empresas)} empresas a evaluar\n")
 
-    # 2. Buscar menciones para cada empresa
     nuevos_scores = {}
     cambios = []
 
@@ -215,14 +223,12 @@ def main():
 
         time.sleep(DELAY_BETWEEN)
 
-    # 3. Resumen de cambios
     print(f"\n{'─'*55}")
     print(f"✅ {len(cambios)} cambio(s) detectado(s)")
     for c in cambios:
         arrow = "↑" if c["nuevo"] > c["anterior"] else "↓"
         print(f"   {arrow}  {c['empresa']}: {c['anterior']} → {c['nuevo']}  ({c['articulos']} artículos)")
 
-    # 4. Actualizar scores.json
     existing = next((r for r in rastreos if r["fecha"] == fecha), None)
     if existing:
         existing["scores"] = nuevos_scores
@@ -237,7 +243,6 @@ def main():
     )
     print(f"💾 scores.json guardado.")
 
-    # 5. Inyectar en index.html
     inyectar_en_html(data)
 
     print("\n🏁 Actualización completada.")
@@ -254,7 +259,6 @@ def inyectar_en_html(data: dict):
 
     html = HTML_PATH.read_text(encoding="utf-8")
 
-    # Construir el nuevo objeto JS
     rastreos_js = []
     for r in data["rastreos"]:
         scores_js = json.dumps(r["scores"], ensure_ascii=False)
@@ -266,7 +270,6 @@ def inyectar_en_html(data: dict):
 
     new_base_hist = "const BASE_HIST=[\n" + ",\n".join(rastreos_js) + "\n];"
 
-    # Patrón a reemplazar: desde 'const BASE_HIST=[' hasta '];'
     pattern = re.compile(r"const BASE_HIST=\[[\s\S]*?\];", re.MULTILINE)
     match = pattern.search(html)
 
@@ -276,7 +279,6 @@ def inyectar_en_html(data: dict):
 
     new_html = html[:match.start()] + new_base_hist + html[match.end():]
 
-    # Actualizar también el título y última actualización
     last_label = data["rastreos"][-1]["label"]
     new_html = re.sub(
         r"Ecosistema Financiero Chile · [A-Za-záéíóúÁÉÍÓÚñÑ]+ \d{4}",
